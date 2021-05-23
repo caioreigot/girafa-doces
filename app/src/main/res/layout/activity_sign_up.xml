@@ -45,15 +45,29 @@
             android:importantForAutofill="no"
             android:inputType="textPassword" />
 
-        <android.widget.Button
-            android:id="@+id/sign_up_btn"
-            android:layout_width="260dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="45dp"
-            android:background="@drawable/sign_up_button_bg"
-            android:text="@string/sign_up"
-            android:textColor="@color/primaryPink"
-            android:textSize="18sp" />
+        <ViewFlipper
+            android:id="@+id/sign_up_view_flipper"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="35dp">
+
+            <android.widget.Button
+                android:id="@+id/sign_up_btn"
+                android:layout_width="260dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:background="@drawable/sign_up_button_bg"
+                android:text="@string/sign_up"
+                android:textColor="@color/primaryPink"
+                android:textSize="18sp" />
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:indeterminateDrawable="@drawable/progress_bar" />
+        </ViewFlipper>
 
     </LinearLayout>
 

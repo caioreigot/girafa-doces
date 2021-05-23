@@ -3,30 +3,33 @@ package com.github.caioreigot.girafadoces.presentation.login
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.github.caioreigot.girafadoces.data.FirebaseResult
 import com.github.caioreigot.girafadoces.data.SingleLiveEvent
-import com.github.caioreigot.girafadoces.data.remote.auth.FirebaseAuthRepository
+import com.github.caioreigot.girafadoces.data.repository.FirebaseAuthRepository
 import java.lang.IllegalArgumentException
 
-class LoginViewModel(val firebaseAuthDataSource: FirebaseAuthRepository) : ViewModel() {
+class LoginViewModel(val dataSource: FirebaseAuthRepository) : ViewModel() {
+
+    val loggedInLiveData: SingleLiveEvent<Boolean> = SingleLiveEvent<Boolean>()
+    val viewFlipperLiveData: MutableLiveData<Int> = MutableLiveData()
+    val errorMessageLiveData: SingleLiveEvent<String> = SingleLiveEvent<String>()
 
     companion object {
         private const val VIEW_FLIPPER_LOGIN_BUTTON = 0
         private const val VIEW_FLIPPER_PROGRESS_BAR = 1
     }
 
-    val loginStatusLiveData: MutableLiveData<Boolean> = MutableLiveData()
-    val viewFlipperLiveData: MutableLiveData<Int> = MutableLiveData()
-    val errorMessageLiveData: SingleLiveEvent<String> = SingleLiveEvent<String>()
-
     fun loginUser(email: String, password: String) {
+        // Show Progress Bar
         viewFlipperLiveData.value = VIEW_FLIPPER_PROGRESS_BAR
 
-        firebaseAuthDataSource.loginUser(email, password) { loginStatus, errorMessage ->
-            loginStatusLiveData.value = loginStatus
+        dataSource.loginUser(email, password) { FirebaseResult ->
+
             viewFlipperLiveData.value = VIEW_FLIPPER_LOGIN_BUTTON
 
-            errorMessage?.let {
-                errorMessageLiveData.value = errorMessage
+            when (FirebaseResult) {
+                is FirebaseResult.Success -> loggedInLiveData.value = true
+                is FirebaseResult.Error -> errorMessageLiveData.value = FirebaseResult.message
             }
         }
     }

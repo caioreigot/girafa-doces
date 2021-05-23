@@ -7,7 +7,7 @@ import android.widget.EditText
 import android.widget.Toast
 import android.widget.ViewFlipper
 import com.github.caioreigot.girafadoces.R
-import com.github.caioreigot.girafadoces.data.remote.auth.FirebaseAuthSource
+import com.github.caioreigot.girafadoces.data.remote.auth.FirebaseAuthDataSource
 import com.github.caioreigot.girafadoces.presentation.base.BaseActivity
 import com.github.caioreigot.girafadoces.presentation.signup.SignUpActivity
 
@@ -31,7 +31,7 @@ class LoginActivity : BaseActivity() {
         passwordEditText = findViewById(R.id.login_password_edit_text)
 
         val mViewModel: LoginViewModel = LoginViewModel.ViewModelFactory(
-            FirebaseAuthSource()
+            FirebaseAuthDataSource()
         )
             .create(LoginViewModel::class.java)
 
@@ -50,7 +50,7 @@ class LoginActivity : BaseActivity() {
         }
 
         // Observers
-        mViewModel.loginStatusLiveData.observe(this, {
+        mViewModel.loggedInLiveData.observe(this, {
             it?.let {
 
             }
