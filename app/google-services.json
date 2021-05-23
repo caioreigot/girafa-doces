@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "574095408231",
+    "project_id": "girafa-doces",
+    "storage_bucket": "girafa-doces.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:574095408231:android:bf351ef5059a4d5d6268c2",
+        "android_client_info": {
+          "package_name": "com.github.caioreigot.girafadoces"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "574095408231-i5ge2inm7kk6m1n9bu77eau08ge6vmuj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNpMO7gooK9rhu0sjTxMgOphCrcuV8z28"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "574095408231-i5ge2inm7kk6m1n9bu77eau08ge6vmuj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

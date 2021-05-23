@@ -1,0 +1,55 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.GirafaDoces" parent="Theme.MaterialComponents.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primaryPink</item>
+        <item name="colorPrimaryVariant">@color/primaryPink</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/secondaryPink</item>
+        <item name="colorSecondaryVariant">@color/secondaryPinkVariant</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/white</item>
+        <item name="editTextStyle">@style/MyEditTextStyle</item>
+        <item name="android:textViewStyle">@style/MyTextViewStyle</item>
+    </style>
+
+    <!-- Used by Default -->
+    <style name="MyEditTextStyle" parent="android:Widget.EditText">
+        <item name="android:textColor">@color/lightBlack</item>
+    </style>
+
+    <style name="MyTextViewStyle">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- Used when passing this style to the component -->
+    <style name="LoginEditText">
+        <item name="android:layout_width">360dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">@drawable/login_edit_text_bg</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColorHint">@color/beige</item>
+    </style>
+
+    <style name="SignUpEditText">
+        <item name="android:layout_width">360dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">@drawable/sign_up_edit_text_bg</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+</resources>

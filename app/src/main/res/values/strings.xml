@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Girafa Doces</string>
+
+    <!-- Commons -->
+    <string name="email">E-mail</string>
+    <string name="password">Senha</string>
+
+    <!-- Login Activity -->
+    <string name="forgot_your_password">Esqueceu sua senha?</string>
+    <string name="login">LOGIN</string>
+    <string name="register">CADASTRE-SE</string>
+    <string name="sign_up">CADASTRAR</string>
+
+    <!-- Sign Up Activity -->
+    <string name="full_name">Nome completo</string>
+    <string name="confirm_password">Confirmar senha</string>
+</resources>

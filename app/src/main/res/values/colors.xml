@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryPink">#CD6F6F</color>
+    <color name="secondaryPink">#E3A59A</color>
+    <color name="secondaryPinkVariant">#FBD1D2</color>
+    <color name="primaryBrown">#4C382D</color>
+    <color name="black">#FF000000</color>
+    <color name="lightBlack">#252525</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="beige">#F1B8AD</color>
+    <color name="lightGray">#959595</color>
+</resources>
