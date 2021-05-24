@@ -14,4 +14,6 @@
     <!-- Sign Up Activity -->
     <string name="full_name">Nome completo</string>
     <string name="confirm_password">Confirmar senha</string>
+    <string name="delivery_adress">Endereço de entrega</string>
+    <string name="postal_number_char">Nº</string>
 </resources>

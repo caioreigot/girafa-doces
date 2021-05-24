@@ -23,6 +23,7 @@ class SignUpViewModel(val dataSource: FirebaseAuthRepository) : ViewModel() {
     fun registerUser(
         fullName: String,
         email: String,
+        deliveryAddress: String,
         password: String,
         passwordConfirm: String) {
 
@@ -32,6 +33,7 @@ class SignUpViewModel(val dataSource: FirebaseAuthRepository) : ViewModel() {
         dataSource.registerUser(
             fullName = fullName,
             email = email,
+            deliveryAddress = deliveryAddress,
             password = password,
             passwordConfirm = passwordConfirm
         ) { FirebaseResult ->

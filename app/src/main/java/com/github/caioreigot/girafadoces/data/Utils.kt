@@ -37,7 +37,7 @@ class Utils {
                 if (password.length < Global.PASSWORD_MINIMUM_LENGTH)
                     return Pair(false, "Senha não pode ser menor que 6 digitos")
 
-                if (password != passwordConfirm)
+                if (passwordConfirm != null && password != passwordConfirm)
                     return Pair(false, "Sua confirmação de senha não é igual à sua senha")
             }
 
