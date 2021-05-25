@@ -21,7 +21,7 @@
         android:layout_width="185dp"
         android:layout_height="185dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="35dp"
         android:src="@drawable/logo"
         tools:ignore="ContentDescription" />
 
@@ -36,23 +36,23 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/login_email_vector"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="35dp"
+                android:src="@drawable/ic_baseline_account_circle_24" />
 
             <EditText
                 android:id="@+id/login_email_et"
-                style="@style/LoginEditText"
+                style="@style/LoginEditTextWithPadding"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 tools:ignore="Autofill" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@id/login_email_et"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="15dp"
-                android:src="@drawable/ic_baseline_account_circle_24" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -62,7 +62,7 @@
 
             <EditText
                 android:id="@+id/login_password_et"
-                style="@style/LoginEditText"
+                style="@style/LoginEditTextWithPadding"
                 android:hint="@string/password"
                 android:imeOptions="actionSend"
                 android:importantForAutofill="no"
@@ -74,19 +74,42 @@
                 android:layout_alignStart="@id/login_password_et"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="15dp"
-                android:src="@drawable/ic_baseline_lock_24" />
+                android:src="@drawable/ic_baseline_lock_24"
+                tools:ignore="ContentDescription" />
+
         </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/checkbox_remember_my_acccount"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:buttonTint="@color/primaryPink" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Mantenha-me conectado"
+                android:textColor="@color/primaryPink"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <ViewFlipper
             android:id="@+id/login_view_flipper"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_marginTop="5dp">
+            android:layout_height="74dp"
+            android:layout_marginTop="15dp">
 
             <android.widget.Button
                 android:id="@+id/login_btn"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/EditTextHeight"
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
@@ -95,9 +118,11 @@
                 android:textSize="18sp" />
 
             <ProgressBar
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:indeterminate="true" />
         </ViewFlipper>
 
@@ -113,9 +138,9 @@
 
         <android.widget.Button
             android:id="@+id/login_sign_up_btn"
-            android:layout_width="260dp"
+            android:layout_width="200dp"
             android:layout_height="48dp"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="35dp"
             android:layout_marginBottom="15dp"
             android:background="@drawable/login_button_bg"
             android:text="@string/register"

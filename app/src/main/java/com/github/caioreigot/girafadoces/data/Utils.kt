@@ -1,7 +1,9 @@
 package com.github.caioreigot.girafadoces.data
 
 import android.text.TextUtils
+import android.util.Log
 import android.util.Patterns
+import com.github.caioreigot.girafadoces.data.model.ErrorType
 import com.github.caioreigot.girafadoces.data.model.Global
 
 class Utils {
@@ -17,31 +19,54 @@ class Utils {
             return false
         }
 
-        fun infoVerification(
+        fun isRegisterInformationValid(
             fullName: String? = null,
             email: String? = null,
+            deliveryAddress: String? = null,
+            postalNumber: String? = null,
             password: String? = null,
             passwordConfirm: String? = null,
-        ): Pair<Boolean, String> {
-
-            if (fullName != null && !isValidFullName(fullName))
-                return Pair(false, "Nome não válido")
-
-            if (email != null && !isValidEmail(email))
-                return Pair(false, "E-mail não válido")
-
-            if (password != null) {
-                if (TextUtils.isEmpty(password))
-                    return Pair(false, "Senha não pode estar vazia")
-
-                if (password.length < Global.PASSWORD_MINIMUM_LENGTH)
-                    return Pair(false, "Senha não pode ser menor que 6 digitos")
-
-                if (passwordConfirm != null && password != passwordConfirm)
-                    return Pair(false, "Sua confirmação de senha não é igual à sua senha")
+        ): Pair<Boolean, ErrorType?>
+        {
+            if (TextUtils.isEmpty(fullName) ||
+                TextUtils.isEmpty(email) ||
+                TextUtils.isEmpty(password) ||
+                TextUtils.isEmpty(deliveryAddress) ||
+                TextUtils.isEmpty(postalNumber))
+            {
+                return Pair(false, ErrorType.EMPTY_FIELD)
             }
 
-            return Pair(true, "Informações válidas")
+            if (!isValidFullName(fullName))
+                return Pair(false, ErrorType.INVALID_NAME)
+
+            if (!isValidEmail(email))
+                return Pair(false, ErrorType.INVALID_EMAIL)
+
+            if (password!!.length < Global.PASSWORD_MINIMUM_LENGTH)
+                return Pair(false, ErrorType.WEAK_PASSWORD)
+
+            if (passwordConfirm != null && password != passwordConfirm)
+                return Pair(false, ErrorType.PASSWORD_CONFIRM_DONT_MATCH)
+
+            return Pair(true, null)
+        }
+
+        fun isLoginInformationValid(
+            email: String? = null,
+            password: String? = null
+        ): Pair<Boolean, ErrorType?>
+        {
+            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password))
+                return Pair(false, ErrorType.EMPTY_FIELD)
+
+            if (!isValidEmail(email))
+                return Pair(false, ErrorType.INVALID_EMAIL)
+
+            if (password!!.length < Global.PASSWORD_MINIMUM_LENGTH)
+                return Pair(false, ErrorType.WEAK_PASSWORD)
+
+            return Pair(true, null)
         }
     }
 }

@@ -1,17 +1,21 @@
 package com.github.caioreigot.girafadoces.presentation.signup
 
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import com.github.caioreigot.girafadoces.R
+import com.github.caioreigot.girafadoces.data.ResourcesProvider
+import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.remote.auth.FirebaseAuthDataSource
 import com.github.caioreigot.girafadoces.presentation.base.BaseActivity
 
 class SignUpActivity : BaseActivity() {
 
-    lateinit var rootView: RelativeLayout
+    lateinit var rootView: LinearLayout
 
     lateinit var fullNameET: EditText
     lateinit var emailET: EditText
@@ -28,7 +32,8 @@ class SignUpActivity : BaseActivity() {
         setContentView(R.layout.activity_sign_up)
 
         val mViewModel: SignUpViewModel = SignUpViewModel.ViewModelFactory(
-            FirebaseAuthDataSource()
+            FirebaseAuthDataSource(),
+            ResourcesProvider(this)
         )
             .create(SignUpViewModel::class.java)
 
@@ -48,13 +53,17 @@ class SignUpActivity : BaseActivity() {
 
         //region Listeners
         signUpButton.setOnClickListener {
+            var deliveryAddressText = ""
+
             // Adding postal number with the address
-            val deliveryAddressText = "${deliveryAddressET.text} - nº ${postalNumberET.text}"
+            if (TextUtils.isEmpty(deliveryAddressET.text) || TextUtils.isEmpty(postalNumberET.text))
+                deliveryAddressText = "${deliveryAddressET.text} - nº ${postalNumberET.text}"
 
             mViewModel.registerUser(
-                fullName = fullNameET.text.toString(),
-                email = emailET.text.toString(),
-                deliveryAddress = deliveryAddressText,
+                fullName = fullNameET.text.toString().trimEnd(),
+                email = emailET.text.toString().trimEnd(),
+                deliveryAddress = deliveryAddressET.text.toString(),
+                postalNumber = postalNumberET.text.toString(),
                 password = passwordET.text.toString(),
                 passwordConfirm = confirmPasswordET.text.toString()
             )
@@ -80,22 +89,35 @@ class SignUpActivity : BaseActivity() {
         //endregion
 
         //region Observers
-        mViewModel.registrationMadeLiveData.observe(this, {
+        mViewModel.registrationMade.observe(this, {
             it?.let {
-                // TODO: Mostrar dialog customizado
-                // Ao dar "Ok" no dialog, já logar no aplicativo
+                createMessageDialog(
+                    this,
+                    MessageType.SUCCESSFUL,
+                    getString(R.string.dialog_successful_title),
+                    getString(R.string.signup_success_message)
+                ) {
+                    // TODO: Logar no app
+                    finish()
+                }.show()
             }
         })
 
-        mViewModel.viewFlipperLiveData.observe(this, {
+        mViewModel.registerBtnViewFlipper.observe(this, {
             it?.let { childToDisplay ->
                 viewFlipper.displayedChild = childToDisplay
             }
         })
 
-        mViewModel.errorMessageLiveData.observe(this, {
+        mViewModel.errorMessage.observe(this, {
             it?.let { errorMessage ->
-                Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+                createMessageDialog(
+                    this,
+                    MessageType.ERROR,
+                    getString(R.string.dialog_error_title),
+                    errorMessage,
+                    null
+                ).show()
             }
         })
         //endregion

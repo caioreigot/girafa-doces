@@ -3,43 +3,88 @@ package com.github.caioreigot.girafadoces.presentation.login
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.FirebaseResult
+import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.SingleLiveEvent
+import com.github.caioreigot.girafadoces.data.model.ErrorType
 import com.github.caioreigot.girafadoces.data.repository.FirebaseAuthRepository
 import java.lang.IllegalArgumentException
 
-class LoginViewModel(val dataSource: FirebaseAuthRepository) : ViewModel() {
+class LoginViewModel(
+    private val dataSource: FirebaseAuthRepository,
+    private val resProvider: ResourcesProvider
+) : ViewModel() {
 
-    val loggedInLiveData: SingleLiveEvent<Boolean> = SingleLiveEvent<Boolean>()
-    val viewFlipperLiveData: MutableLiveData<Int> = MutableLiveData()
-    val errorMessageLiveData: SingleLiveEvent<String> = SingleLiveEvent<String>()
+    val loggedIn: SingleLiveEvent<Boolean> = SingleLiveEvent<Boolean>()
+
+    val loginBtnViewFlipper: MutableLiveData<Int> = MutableLiveData()
+
+    val errorMessage: SingleLiveEvent<String> = SingleLiveEvent<String>()
+    val resetPasswordMessage: SingleLiveEvent<String> = SingleLiveEvent<String>()
 
     companion object {
-        private const val VIEW_FLIPPER_LOGIN_BUTTON = 0
+        private const val VIEW_FLIPPER_BUTTON = 0
         private const val VIEW_FLIPPER_PROGRESS_BAR = 1
     }
 
     fun loginUser(email: String, password: String) {
         // Show Progress Bar
-        viewFlipperLiveData.value = VIEW_FLIPPER_PROGRESS_BAR
+        loginBtnViewFlipper.value = VIEW_FLIPPER_PROGRESS_BAR
 
         dataSource.loginUser(email, password) { FirebaseResult ->
 
-            viewFlipperLiveData.value = VIEW_FLIPPER_LOGIN_BUTTON
+            loginBtnViewFlipper.value = VIEW_FLIPPER_BUTTON
 
             when (FirebaseResult) {
-                is FirebaseResult.Success -> loggedInLiveData.value = true
-                is FirebaseResult.Error -> errorMessageLiveData.value = FirebaseResult.message
+                is FirebaseResult.Success -> loggedIn.value = true
+
+                is FirebaseResult.Error -> {
+                    errorMessage.value = when (FirebaseResult.errorType) {
+                        ErrorType.UNEXPECTED_ERROR ->
+                            resProvider.getString(R.string.unexpected_error)
+
+                        // Information Validation
+                        ErrorType.EMPTY_FIELD ->
+                            resProvider.getString(R.string.empty_field)
+
+                        ErrorType.INVALID_EMAIL ->
+                            resProvider.getString(R.string.invalid_email_message)
+
+                        ErrorType.WEAK_PASSWORD ->
+                            resProvider.getString(R.string.weak_password_message)
+
+                        else ->
+                            resProvider.getString(R.string.login_error)
+                    }
+                }
+            }
+        }
+    }
+
+    fun sendPasswordResetEmail(email: String) {
+        dataSource.sendPasswordResetEmail(email) { FirebaseResult ->
+            when (FirebaseResult) {
+                is FirebaseResult.Success ->
+                    resetPasswordMessage.value = resProvider
+                        .getString(R.string.reset_email_task_successful)
+
+                is FirebaseResult.Error ->
+                    resetPasswordMessage.value = resProvider
+                        .getString(R.string.reset_email_task_error)
             }
         }
     }
 
     @Suppress("UNCHECKED_CAST")
-    class ViewModelFactory(val firebaseAuthDataSource: FirebaseAuthRepository) :
+    class ViewModelFactory(
+        private val dataSource: FirebaseAuthRepository,
+        private val resourceProvider: ResourcesProvider
+    ) :
         ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass : Class<T>): T {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(LoginViewModel::class.java))
-                return LoginViewModel(firebaseAuthDataSource) as T
+                return LoginViewModel(dataSource, resourceProvider) as T
 
             throw IllegalArgumentException("Unkown ViewModel class")
         }

@@ -1,9 +1,9 @@
 package com.github.caioreigot.girafadoces.data.remote.auth
 
-import android.util.Log
 import com.github.caioreigot.girafadoces.data.FirebaseResult
 import com.github.caioreigot.girafadoces.data.Singleton
 import com.github.caioreigot.girafadoces.data.Utils
+import com.github.caioreigot.girafadoces.data.model.ErrorType
 import com.github.caioreigot.girafadoces.data.model.Global
 import com.github.caioreigot.girafadoces.data.repository.FirebaseAuthRepository
 
@@ -12,23 +12,24 @@ class FirebaseAuthDataSource : FirebaseAuthRepository {
     override fun loginUser(
         email: String,
         password: String,
-        loginCallback: (result: FirebaseResult) -> Unit
+        callback: (result: FirebaseResult) -> Unit
     ) {
-        val (isValid, message) = Utils.infoVerification(
+        val (isValid, errorType) = Utils.isLoginInformationValid(
             email = email,
             password = password
         )
 
         if (!isValid) {
-            loginCallback(FirebaseResult.Error(message))
+            callback(FirebaseResult.Error(errorType!!))
             return
         }
 
         Singleton.mFirebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 when (task.isSuccessful) {
-                    true -> loginCallback(FirebaseResult.Success("Login bem sucedido!"))
-                    false -> loginCallback(FirebaseResult.Error("Erro ao logar"))
+                    true -> callback(FirebaseResult.Success)
+
+                    false -> callback(FirebaseResult.Error(ErrorType.NOT_FOUND))
                 }
             }
     }
@@ -37,19 +38,22 @@ class FirebaseAuthDataSource : FirebaseAuthRepository {
         fullName: String,
         email: String,
         deliveryAddress: String,
+        postalNumber: String,
         password: String,
         passwordConfirm: String,
-        registerCallback: (result: FirebaseResult) -> Unit
+        callback: (result: FirebaseResult) -> Unit
     ) {
-        val (isValid, message) = Utils.infoVerification(
+        val (isValid, errorType) = Utils.isRegisterInformationValid(
             fullName = fullName,
             email = email,
+            deliveryAddress = deliveryAddress,
+            postalNumber = postalNumber,
             password = password,
             passwordConfirm = passwordConfirm
         )
 
         if (!isValid) {
-            registerCallback(FirebaseResult.Error(message))
+            callback(FirebaseResult.Error(errorType!!))
             return
         }
 
@@ -69,13 +73,38 @@ class FirebaseAuthDataSource : FirebaseAuthRepository {
                             }
                         }
 
-                        registerCallback(FirebaseResult.Success("Cadastro efetuado com sucesso!"))
+                        callback(FirebaseResult.Success)
                     }
 
                     false -> {
-                        registerCallback(FirebaseResult.Success("Erro inesperado"))
+                        if (task.exception?.message == "The email address is already in use by another account.")
+                            callback(FirebaseResult.Error(ErrorType.EMAIL_ALREADY_REGISTERED))
+                        else
+                            callback(FirebaseResult.Error(ErrorType.UNEXPECTED_ERROR))
                     }
                 }
+            }
+    }
+
+    override fun sendPasswordResetEmail(
+        email: String,
+        callback: (result: FirebaseResult) -> Unit
+    ) {
+        val (isValid, errorType) = Utils.isRegisterInformationValid(
+            email = email
+        )
+
+        if (!isValid) {
+            callback(FirebaseResult.Error(errorType!!))
+            return
+        }
+
+        Singleton.mFirebaseAuth.sendPasswordResetEmail(email)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful)
+                    callback(FirebaseResult.Success)
+                else
+                    callback(FirebaseResult.Error(ErrorType.NOT_FOUND))
             }
     }
 }

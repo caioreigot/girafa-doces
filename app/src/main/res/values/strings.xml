@@ -4,6 +4,12 @@
     <!-- Commons -->
     <string name="email">E-mail</string>
     <string name="password">Senha</string>
+    <string name="send">ENVIAR</string>
+    <string name="dialog_ok_button">Ok</string>
+    <string name="dialog_successful_title">SUCESSO</string>
+    <string name="dialog_error_title">ERRO</string>
+    <string name="unexpected_error">Erro inesperado</string>
+    <string name="empty_field">Por favor, preencha todos os campos</string>
 
     <!-- Login Activity -->
     <string name="forgot_your_password">Esqueceu sua senha?</string>
@@ -11,9 +17,26 @@
     <string name="register">CADASTRE-SE</string>
     <string name="sign_up">CADASTRAR</string>
 
+    <!-- Login Activity Result Messages -->
+    <string name="login_error">Erro ao logar</string>
+    <string name="reset_email_task_successful">E-mail para redefinição de senha enviado com sucesso!</string>
+    <string name="reset_email_task_error">E-mail não encontrado</string>
+
+    <!-- Forgot Password Dialog -->
+    <string name="forgot_password_dialog_text">Insira o e-mail da conta que você esqueceu a senha:</string>
+
     <!-- Sign Up Activity -->
     <string name="full_name">Nome completo</string>
     <string name="confirm_password">Confirmar senha</string>
     <string name="delivery_adress">Endereço de entrega</string>
     <string name="postal_number_char">Nº</string>
+
+    <!-- Sign Up Activity Result Messages -->
+    <string name="signup_success_message">Cadastro realizado com sucesso!</string>
+    <string name="invalid_name_message">Formato do nome fornecido não é válido</string>
+    <string name="invalid_email_message">Formato de e-mail fornecido não é válido</string>
+    <string name="email_already_registered">E-mail já cadastrado</string>
+    <string name="weak_password_message">A senha precisa ter 6 ou mais dígitos</string>
+    <string name="password_confirm_dont_match_message">Senhas não correspondem</string>
+
 </resources>

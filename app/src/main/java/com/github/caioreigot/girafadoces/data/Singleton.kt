@@ -1,5 +1,6 @@
 package com.github.caioreigot.girafadoces.data
 
+import android.content.res.Resources
 import com.github.caioreigot.girafadoces.data.model.Global
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -15,8 +16,9 @@ object Singleton {
     val mDatabase: FirebaseDatabase = getDatabaseInstance()
 
     // Database Users Reference
-    private fun getDatabaseUsersReference(): DatabaseReference =
-        mDatabase.reference.child(Global.DatabaseNames.USERS_PARENT)
+    private fun getDatabaseUsersReference(): DatabaseReference = mDatabase
+        .reference
+        .child(Global.DatabaseNames.USERS_PARENT)
 
     val mDatabaseUsersReference: DatabaseReference = getDatabaseUsersReference()
 }

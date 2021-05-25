@@ -6,15 +6,21 @@ interface FirebaseAuthRepository {
     fun loginUser(
         email: String,
         password: String,
-        loginCallback: (result: FirebaseResult) -> Unit
+        callback: (result: FirebaseResult) -> Unit
     )
 
     fun registerUser(
         fullName: String,
         email: String,
         deliveryAddress: String,
+        postalNumber: String,
         password: String,
         passwordConfirm: String,
-        registerCallback: (result: FirebaseResult) -> Unit
+        callback: (result: FirebaseResult) -> Unit
+    )
+
+    fun sendPasswordResetEmail(
+        email: String,
+        callback: (result: FirebaseResult) -> Unit
     )
 }

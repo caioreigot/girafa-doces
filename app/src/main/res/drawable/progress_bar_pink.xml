@@ -5,7 +5,7 @@
     android:fromDegrees="0"
     android:pivotX="50%"
     android:pivotY="50%"
-    android:toDegrees="-1080">
+    android:toDegrees="1080">
 
     <!-- Shape tag is used to
         build a shape in XML-->
@@ -24,8 +24,8 @@
             of the shape-->
         <gradient
             android:angle="0"
-            android:endColor="#00FFFFFF"
-            android:startColor="@color/white"
+            android:endColor="@color/primaryPink"
+            android:startColor="#00FFFFFF"
             android:type="sweep"
             android:useLevel="false" />
     </shape>
