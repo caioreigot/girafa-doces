@@ -9,9 +9,11 @@
     <string name="dialog_successful_title">SUCESSO</string>
     <string name="dialog_error_title">ERRO</string>
     <string name="unexpected_error">Erro inesperado</string>
+    <string name="server_error_message">Erro no servidor</string>
     <string name="empty_field">Por favor, preencha todos os campos</string>
 
     <!-- Login Activity -->
+    <string name="keep_me_connected">Mantenha-me conectado</string>
     <string name="forgot_your_password">Esqueceu sua senha?</string>
     <string name="login">LOGIN</string>
     <string name="register">CADASTRE-SE</string>
@@ -27,6 +29,8 @@
 
     <!-- Sign Up Activity -->
     <string name="full_name">Nome completo</string>
+    <string name="phone_number">Celular</string>
+    <string name="phone_number_ddd">DDD</string>
     <string name="confirm_password">Confirmar senha</string>
     <string name="delivery_adress">Endereço de entrega</string>
     <string name="postal_number_char">Nº</string>
@@ -34,6 +38,7 @@
     <!-- Sign Up Activity Result Messages -->
     <string name="signup_success_message">Cadastro realizado com sucesso!</string>
     <string name="invalid_email_message">Formato de e-mail fornecido não é válido</string>
+    <string name="invalid_phone_message">Número de telefone fornecido não é valido (não há 9 dígitos)</string>
     <string name="email_already_registered">E-mail já cadastrado</string>
     <string name="weak_password_message">A senha precisa ter 6 ou mais dígitos</string>
     <string name="password_confirm_dont_match_message">Senhas não correspondem</string>

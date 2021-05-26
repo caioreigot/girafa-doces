@@ -31,10 +31,12 @@ class SignUpViewModel(
     fun registerUser(
         fullName: String,
         email: String,
+        phoneDDD: String,
+        phoneNumber: String,
         deliveryAddress: String,
         postalNumber: String,
         password: String,
-        passwordConfirm: String
+        passwordConfirm: String,
     ) {
         // Show Progress Bar
         registerBtnViewFlipper.value = VIEW_FLIPPER_PROGRESS_BAR
@@ -42,6 +44,8 @@ class SignUpViewModel(
         dataSource.registerUser(
             fullName = fullName,
             email = email,
+            phoneDDD = phoneDDD,
+            phoneNumber = phoneNumber,
             deliveryAddress = deliveryAddress,
             postalNumber = postalNumber,
             password = password,
@@ -72,6 +76,9 @@ class SignUpViewModel(
 
                         ErrorType.INVALID_EMAIL ->
                             resProvider.getString(R.string.invalid_email_message)
+
+                        ErrorType.INVALID_PHONE ->
+                            resProvider.getString(R.string.invalid_phone_message)
 
                         ErrorType.WEAK_PASSWORD ->
                             resProvider.getString(R.string.weak_password_message)

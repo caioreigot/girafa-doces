@@ -12,6 +12,8 @@ interface FirebaseAuthRepository {
     fun registerUser(
         fullName: String,
         email: String,
+        phoneDDD: String,
+        phoneNumber: String,
         deliveryAddress: String,
         postalNumber: String,
         password: String,

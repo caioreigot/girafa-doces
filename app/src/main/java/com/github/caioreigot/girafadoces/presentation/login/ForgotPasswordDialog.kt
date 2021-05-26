@@ -1,7 +1,7 @@
 package com.github.caioreigot.girafadoces.presentation.login
 
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +10,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ViewFlipper
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModel
 import com.github.caioreigot.girafadoces.R
 
 class ForgotPasswordDialog(private val loginViewModel: LoginViewModel) : DialogFragment() {
@@ -20,7 +19,7 @@ class ForgotPasswordDialog(private val loginViewModel: LoginViewModel) : DialogF
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setStyle(STYLE_NO_TITLE, R.style.full_screen_dialog)
+        setStyle(STYLE_NO_TITLE, R.style.FullScreenDialog)
     }
 
     override fun onCreateView(

@@ -1,20 +1,23 @@
 package com.github.caioreigot.girafadoces.presentation.login
 
-import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
-import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.remote.auth.FirebaseAuthDataSource
 import com.github.caioreigot.girafadoces.data.Singleton
+import com.github.caioreigot.girafadoces.data.local.Preferences
 import com.github.caioreigot.girafadoces.data.model.MessageType
+import com.github.caioreigot.girafadoces.data.model.UserSingleton
+import com.github.caioreigot.girafadoces.data.model.user
+import com.github.caioreigot.girafadoces.data.remote.database.FirebaseDatabaseDataSource
 import com.github.caioreigot.girafadoces.presentation.base.BaseActivity
+import com.github.caioreigot.girafadoces.presentation.menu.MenuActivity
 import com.github.caioreigot.girafadoces.presentation.signup.SignUpActivity
 
 class LoginActivity : BaseActivity() {
@@ -31,6 +34,9 @@ class LoginActivity : BaseActivity() {
     private lateinit var emailET: EditText
     private lateinit var passwordET: EditText
 
+    private lateinit var keepConnectedCB: CheckBox
+    private lateinit var keepConnectedTV: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_GirafaDoces)
@@ -38,9 +44,13 @@ class LoginActivity : BaseActivity() {
 
         val mViewModel: LoginViewModel = LoginViewModel.ViewModelFactory(
             FirebaseAuthDataSource(),
-            ResourcesProvider(this)
+            FirebaseDatabaseDataSource(),
+            ResourcesProvider(this),
+            Preferences(this)
         )
             .create(LoginViewModel::class.java)
+
+        mViewModel.searchRememberedAccount()
 
         //region Assignments
         rootView = findViewById(R.id.login_root_view)
@@ -53,6 +63,9 @@ class LoginActivity : BaseActivity() {
 
         emailET = findViewById(R.id.login_email_et)
         passwordET = findViewById(R.id.login_password_et)
+
+        keepConnectedCB = findViewById(R.id.login_keep_connected_cb)
+        keepConnectedTV = findViewById(R.id.login_keep_connected_tv)
         //endregion
 
         //region Listeners
@@ -63,6 +76,10 @@ class LoginActivity : BaseActivity() {
             )
 
             hideKeyboard()
+        }
+
+        keepConnectedTV.setOnClickListener {
+            keepConnectedCB.isChecked = !keepConnectedCB.isChecked
         }
 
         forgotPasswordTV.setOnClickListener {
@@ -94,9 +111,16 @@ class LoginActivity : BaseActivity() {
         //endregion
 
         //region Observers
-        mViewModel.loggedIn.observe(this, {
-            it?.let {
-                Log.d("MY_DEBUG", Singleton.mFirebaseAuth.currentUser!!.uid)
+        mViewModel.loggedUserInformation.observe(this, { (loggedUser, password) ->
+            loggedUser?.let {
+                UserSingleton.set(loggedUser)
+
+                if (keepConnectedCB.isChecked)
+                    mViewModel.rememberAccount(loggedUser.email, password)
+
+                val intent = Intent(this, MenuActivity::class.java)
+                startActivity(intent)
+                finish()
             }
         })
 

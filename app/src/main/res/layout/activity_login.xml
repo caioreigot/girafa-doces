@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_root_view"
     android:layout_width="match_parent"
@@ -86,16 +87,20 @@
             android:orientation="horizontal">
 
             <CheckBox
-                android:id="@+id/checkbox_remember_my_acccount"
+                android:id="@+id/login_keep_connected_cb"
                 android:layout_width="35dp"
                 android:layout_height="30dp"
-                android:buttonTint="@color/primaryPink" />
+                app:buttonTint="@color/primaryPink" />
 
             <TextView
+                android:id="@+id/login_keep_connected_tv"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:text="Mantenha-me conectado"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="@string/keep_me_connected"
                 android:textColor="@color/primaryPink"
                 android:textSize="16sp" />
         </LinearLayout>

@@ -37,6 +37,8 @@ class FirebaseAuthDataSource : FirebaseAuthRepository {
     override fun registerUser(
         fullName: String,
         email: String,
+        phoneDDD: String,
+        phoneNumber: String,
         deliveryAddress: String,
         postalNumber: String,
         password: String,
@@ -46,6 +48,8 @@ class FirebaseAuthDataSource : FirebaseAuthRepository {
         val (isValid, errorType) = Utils.isRegisterInformationValid(
             fullName = fullName,
             email = email,
+            phoneDDD = phoneDDD,
+            phoneNumber = phoneNumber,
             deliveryAddress = deliveryAddress,
             postalNumber = postalNumber,
             password = password,
@@ -60,6 +64,9 @@ class FirebaseAuthDataSource : FirebaseAuthRepository {
         // Adding postal number with the address
         val fullDeliveryAddress = "$deliveryAddress - nº $postalNumber"
 
+        // Adding phone DDD to phone number
+        val fullPhoneNumber = "($phoneDDD) $phoneNumber"
+
         Singleton.mFirebaseAuth
             .createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                 when (task.isSuccessful) {
@@ -73,6 +80,7 @@ class FirebaseAuthDataSource : FirebaseAuthRepository {
                                 child(Global.DatabaseNames.USER_FULL_NAME).setValue(fullName)
                                 child(Global.DatabaseNames.USER_DELIVERY_ADDRESS).setValue(fullDeliveryAddress)
                                 child(Global.DatabaseNames.USER_EMAIL).setValue(email)
+                                child(Global.DatabaseNames.USER_PHONE).setValue(fullPhoneNumber)
                             }
                         }
 

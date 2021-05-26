@@ -19,6 +19,8 @@ class SignUpActivity : BaseActivity() {
 
     lateinit var fullNameET: EditText
     lateinit var emailET: EditText
+    lateinit var phoneDDD: EditText
+    lateinit var phoneNumber: EditText
     lateinit var deliveryAddressET: EditText
     lateinit var postalNumberET: EditText
     lateinit var passwordET: EditText
@@ -43,6 +45,8 @@ class SignUpActivity : BaseActivity() {
 
         fullNameET = findViewById(R.id.sign_up_full_name_et)
         emailET = findViewById(R.id.sign_up_email_et)
+        phoneDDD = findViewById(R.id.sign_up_phone_ddd_et)
+        phoneNumber = findViewById(R.id.sign_up_phone_et)
         deliveryAddressET = findViewById(R.id.sign_up_delivery_adress_et)
         postalNumberET = findViewById(R.id.sign_up_postal_number_et)
         passwordET = findViewById(R.id.sign_up_password_et)
@@ -57,6 +61,8 @@ class SignUpActivity : BaseActivity() {
             mViewModel.registerUser(
                 fullName = fullNameET.text.toString().trimEnd(),
                 email = emailET.text.toString().trimEnd(),
+                phoneDDD = phoneDDD.text.toString(),
+                phoneNumber = phoneNumber.text.toString(),
                 deliveryAddress = deliveryAddressET.text.toString(),
                 postalNumber = postalNumberET.text.toString(),
                 password = passwordET.text.toString(),

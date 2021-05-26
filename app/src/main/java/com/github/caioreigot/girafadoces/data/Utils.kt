@@ -13,9 +13,15 @@ class Utils {
             return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target!!).matches()
         }
 
+        fun isValidPhoneNumber(target: CharSequence?): Boolean {
+            return !TextUtils.isEmpty(target) && target!!.length == 9
+        }
+
         fun isRegisterInformationValid(
             fullName: String? = null,
             email: String? = null,
+            phoneNumber: String? = null,
+            phoneDDD: String? = null,
             deliveryAddress: String? = null,
             postalNumber: String? = null,
             password: String? = null,
@@ -24,6 +30,8 @@ class Utils {
         {
             if (TextUtils.isEmpty(fullName) ||
                 TextUtils.isEmpty(email) ||
+                TextUtils.isEmpty(phoneNumber) ||
+                TextUtils.isEmpty(phoneDDD) ||
                 TextUtils.isEmpty(password) ||
                 TextUtils.isEmpty(deliveryAddress) ||
                 TextUtils.isEmpty(postalNumber))
@@ -33,6 +41,9 @@ class Utils {
 
             if (!isValidEmail(email))
                 return Pair(false, ErrorType.INVALID_EMAIL)
+
+            if (!isValidPhoneNumber(phoneNumber))
+                return Pair(false, ErrorType.INVALID_PHONE)
 
             if (password!!.length < Global.PASSWORD_MINIMUM_LENGTH)
                 return Pair(false, ErrorType.WEAK_PASSWORD)

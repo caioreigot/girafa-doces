@@ -1,5 +1,6 @@
 package com.github.caioreigot.girafadoces.presentation.login
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -7,17 +8,25 @@ import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.FirebaseResult
 import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.SingleLiveEvent
+import com.github.caioreigot.girafadoces.data.local.Preferences
 import com.github.caioreigot.girafadoces.data.model.ErrorType
 import com.github.caioreigot.girafadoces.data.model.MessageType
+import com.github.caioreigot.girafadoces.data.model.User
+import com.github.caioreigot.girafadoces.data.model.UserSingleton
 import com.github.caioreigot.girafadoces.data.repository.FirebaseAuthRepository
+import com.github.caioreigot.girafadoces.data.repository.FirebaseDatabaseRepository
+import com.google.firebase.ktx.Firebase
 import java.lang.IllegalArgumentException
 
 class LoginViewModel(
-    private val dataSource: FirebaseAuthRepository,
-    private val resProvider: ResourcesProvider
+    private val authDataSource: FirebaseAuthRepository,
+    private val databaseDataSource: FirebaseDatabaseRepository,
+    private val resProvider: ResourcesProvider,
+    private val preferences: Preferences
 ) : ViewModel() {
 
-    val loggedIn: SingleLiveEvent<Boolean> = SingleLiveEvent<Boolean>()
+    val loggedUserInformation: SingleLiveEvent<Pair<User?, String>> =
+        SingleLiveEvent<Pair<User?, String>>()
 
     val loginBtnViewFlipper: MutableLiveData<Int> = MutableLiveData()
     val forgotPasswordBtnViewFlipper: MutableLiveData<Int> = MutableLiveData()
@@ -36,15 +45,36 @@ class LoginViewModel(
         // Show Progress Bar
         loginBtnViewFlipper.value = VIEW_FLIPPER_PROGRESS_BAR
 
-        dataSource.loginUser(email, password) { FirebaseResult ->
+        authDataSource.loginUser(email, password) { FirebaseAuthResult ->
 
-            loginBtnViewFlipper.value = VIEW_FLIPPER_BUTTON
+            when (FirebaseAuthResult) {
 
-            when (FirebaseResult) {
-                is FirebaseResult.Success -> loggedIn.value = true
+                // If the user logs in, send the user information to view change activity
+                is FirebaseResult.Success -> {
+                    databaseDataSource.getLoggedUserInformation { User, FirebaseDBResult ->
+                        when (FirebaseDBResult) {
+                            is FirebaseResult.Success -> {
+                                loggedUserInformation.value = Pair(User, password)
+                            }
+
+                            is FirebaseResult.Error -> {
+                                loggedUserInformation.value = null
+
+                                errorMessage.value = when (FirebaseDBResult.errorType) {
+                                    ErrorType.SERVER_ERROR ->
+                                        resProvider.getString(R.string.server_error_message)
+                                    else ->
+                                        resProvider.getString(R.string.unexpected_error)
+                                }
+                            }
+                        }
+                    }
+
+                    loginBtnViewFlipper.value = VIEW_FLIPPER_BUTTON
+                }
 
                 is FirebaseResult.Error -> {
-                    errorMessage.value = when (FirebaseResult.errorType) {
+                    errorMessage.value = when (FirebaseAuthResult.errorType) {
                         ErrorType.UNEXPECTED_ERROR ->
                             resProvider.getString(R.string.unexpected_error)
 
@@ -61,6 +91,8 @@ class LoginViewModel(
                         else ->
                             resProvider.getString(R.string.login_error)
                     }
+
+                    loginBtnViewFlipper.value = VIEW_FLIPPER_BUTTON
                 }
             }
         }
@@ -69,11 +101,11 @@ class LoginViewModel(
     fun sendPasswordResetEmail(email: String) {
         forgotPasswordBtnViewFlipper.value = VIEW_FLIPPER_PROGRESS_BAR
 
-        dataSource.sendPasswordResetEmail(email) { FirebaseResult ->
+        authDataSource.sendPasswordResetEmail(email) { FirebaseAuthResult ->
 
             forgotPasswordBtnViewFlipper.value = VIEW_FLIPPER_BUTTON
 
-            when (FirebaseResult) {
+            when (FirebaseAuthResult) {
                 is FirebaseResult.Success ->
                     resetPasswordMessage.value = Pair(
                         MessageType.SUCCESSFUL, resProvider
@@ -81,7 +113,7 @@ class LoginViewModel(
                     )
 
                 is FirebaseResult.Error -> {
-                    resetPasswordMessage.value = when (FirebaseResult.errorType) {
+                    resetPasswordMessage.value = when (FirebaseAuthResult.errorType) {
                         ErrorType.INVALID_EMAIL -> Pair(MessageType.ERROR,
                             resProvider.getString(R.string.invalid_email_message))
 
@@ -94,15 +126,36 @@ class LoginViewModel(
         }
     }
 
+    fun rememberAccount(email: String, password: String) {
+        preferences.setEmailAndPasswordValue(email, password)
+    }
+
+    fun searchRememberedAccount() {
+        val (email, password) = preferences.getEmailAndPasswordValue()
+
+        Log.d("MY_DEBUG", email.toString())
+        Log.d("MY_DEBUG", password.toString())
+
+        if (email != null && password != null)
+            loginUser(email, password)
+    }
+
     @Suppress("UNCHECKED_CAST")
     class ViewModelFactory(
-        private val dataSource: FirebaseAuthRepository,
-        private val resourceProvider: ResourcesProvider
+        private val authDataSource: FirebaseAuthRepository,
+        private val databaseDataSource: FirebaseDatabaseRepository,
+        private val resourceProvider: ResourcesProvider,
+        private val preferences: Preferences
     ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(LoginViewModel::class.java))
-                return LoginViewModel(dataSource, resourceProvider) as T
+                return LoginViewModel(
+                    authDataSource,
+                    databaseDataSource,
+                    resourceProvider,
+                    preferences
+                ) as T
 
             throw IllegalArgumentException("Unkown ViewModel class")
         }

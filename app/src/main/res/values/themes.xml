@@ -18,7 +18,8 @@
     </style>
     
     <style name="SignUpScreen" parent="Theme.GirafaDoces">
-        <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
     <!-- Used by Default -->
@@ -42,7 +43,7 @@
         <item name="android:gravity">center</item>
         <item name="android:scrollHorizontally">true</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textColorHint">@color/beige</item>
+        <item name="android:textColorHint">@color/pinkHintColor</item>
     </style>
 
     <style name="LoginEditTextWithPadding" parent="LoginEditTextNoPadding">
@@ -62,7 +63,7 @@
 
         <item name="android:scrollHorizontally">true</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textColorHint">@color/beige</item>
+        <item name="android:textColorHint">@color/pinkHintColor</item>
     </style>
 
     <style name="SignUpEditTextWithMargin" parent="SignUpEditTextNoMargin">
@@ -70,9 +71,11 @@
         <item name="android:layout_marginEnd">20dp</item>
     </style>
 
-    <style name="full_screen_dialog">
+    <style name="FullScreenDialog">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowFullscreen">true</item>
         <item name="android:windowFrame">@null</item>
-        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsFloating">false</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
