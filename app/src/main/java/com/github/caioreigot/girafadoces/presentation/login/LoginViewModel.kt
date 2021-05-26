@@ -8,6 +8,7 @@ import com.github.caioreigot.girafadoces.data.FirebaseResult
 import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.SingleLiveEvent
 import com.github.caioreigot.girafadoces.data.model.ErrorType
+import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.repository.FirebaseAuthRepository
 import java.lang.IllegalArgumentException
 
@@ -19,9 +20,12 @@ class LoginViewModel(
     val loggedIn: SingleLiveEvent<Boolean> = SingleLiveEvent<Boolean>()
 
     val loginBtnViewFlipper: MutableLiveData<Int> = MutableLiveData()
+    val forgotPasswordBtnViewFlipper: MutableLiveData<Int> = MutableLiveData()
 
     val errorMessage: SingleLiveEvent<String> = SingleLiveEvent<String>()
-    val resetPasswordMessage: SingleLiveEvent<String> = SingleLiveEvent<String>()
+
+    val resetPasswordMessage: SingleLiveEvent<Pair<MessageType, String>> =
+        SingleLiveEvent<Pair<MessageType, String>>()
 
     companion object {
         private const val VIEW_FLIPPER_BUTTON = 0
@@ -63,15 +67,29 @@ class LoginViewModel(
     }
 
     fun sendPasswordResetEmail(email: String) {
+        forgotPasswordBtnViewFlipper.value = VIEW_FLIPPER_PROGRESS_BAR
+
         dataSource.sendPasswordResetEmail(email) { FirebaseResult ->
+
+            forgotPasswordBtnViewFlipper.value = VIEW_FLIPPER_BUTTON
+
             when (FirebaseResult) {
                 is FirebaseResult.Success ->
-                    resetPasswordMessage.value = resProvider
-                        .getString(R.string.reset_email_task_successful)
+                    resetPasswordMessage.value = Pair(
+                        MessageType.SUCCESSFUL, resProvider
+                            .getString(R.string.reset_email_task_successful)
+                    )
 
-                is FirebaseResult.Error ->
-                    resetPasswordMessage.value = resProvider
-                        .getString(R.string.reset_email_task_error)
+                is FirebaseResult.Error -> {
+                    resetPasswordMessage.value = when (FirebaseResult.errorType) {
+                        ErrorType.INVALID_EMAIL -> Pair(MessageType.ERROR,
+                            resProvider.getString(R.string.invalid_email_message))
+
+                        else ->
+                            Pair(MessageType.ERROR,
+                                resProvider.getString(R.string.reset_email_task_error))
+                    }
+                }
             }
         }
     }

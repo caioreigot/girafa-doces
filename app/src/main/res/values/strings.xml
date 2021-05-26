@@ -33,7 +33,6 @@
 
     <!-- Sign Up Activity Result Messages -->
     <string name="signup_success_message">Cadastro realizado com sucesso!</string>
-    <string name="invalid_name_message">Formato do nome fornecido não é válido</string>
     <string name="invalid_email_message">Formato de e-mail fornecido não é válido</string>
     <string name="email_already_registered">E-mail já cadastrado</string>
     <string name="weak_password_message">A senha precisa ter 6 ou mais dígitos</string>

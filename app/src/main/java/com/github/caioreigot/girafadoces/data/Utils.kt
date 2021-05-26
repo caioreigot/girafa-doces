@@ -9,14 +9,8 @@ import com.github.caioreigot.girafadoces.data.model.Global
 class Utils {
 
     companion object {
-        private fun isValidEmail(target: CharSequence?): Boolean {
+        fun isValidEmail(target: CharSequence?): Boolean {
             return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target!!).matches()
-        }
-
-        private fun isValidFullName(target: CharSequence?): Boolean {
-            val regex = Regex("^[a-zA-Z]{4,}(?: [a-zA-Z]+){0,2}$")
-            target?.let { return target.matches(regex) }
-            return false
         }
 
         fun isRegisterInformationValid(
@@ -36,9 +30,6 @@ class Utils {
             {
                 return Pair(false, ErrorType.EMPTY_FIELD)
             }
-
-            if (!isValidFullName(fullName))
-                return Pair(false, ErrorType.INVALID_NAME)
 
             if (!isValidEmail(email))
                 return Pair(false, ErrorType.INVALID_EMAIL)

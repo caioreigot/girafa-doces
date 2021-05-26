@@ -2,13 +2,11 @@ package com.github.caioreigot.girafadoces.presentation.login
 
 import android.app.Dialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import com.github.caioreigot.girafadoces.R
@@ -16,7 +14,6 @@ import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.remote.auth.FirebaseAuthDataSource
 import com.github.caioreigot.girafadoces.data.Singleton
 import com.github.caioreigot.girafadoces.data.model.MessageType
-import com.github.caioreigot.girafadoces.data.model.User
 import com.github.caioreigot.girafadoces.presentation.base.BaseActivity
 import com.github.caioreigot.girafadoces.presentation.signup.SignUpActivity
 
@@ -36,6 +33,7 @@ class LoginActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_GirafaDoces)
         setContentView(R.layout.activity_login)
 
         val mViewModel: LoginViewModel = LoginViewModel.ViewModelFactory(
@@ -68,19 +66,9 @@ class LoginActivity : BaseActivity() {
         }
 
         forgotPasswordTV.setOnClickListener {
-            val forgotPasswordDialog = Dialog(this)
-            forgotPasswordDialog.setContentView(R.layout.forgot_password_dialog)
-
-            forgotPasswordDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-            val emailET = forgotPasswordDialog.findViewById<EditText>(R.id.forgot_password_dialog_email_et)
-            val sendBtn = forgotPasswordDialog.findViewById<Button>(R.id.forgot_password_send_btn)
-
-            sendBtn.setOnClickListener {
-                mViewModel.sendPasswordResetEmail(emailET.text.toString())
-            }
-
-            forgotPasswordDialog.show()
+            //val forgotPasswordDialog = Dialog(this, R.style.full_screen_dialog)
+            val forgotPasswordDialog = ForgotPasswordDialog(mViewModel)
+            forgotPasswordDialog.show(supportFragmentManager, forgotPasswordDialog.tag)
         }
 
         signUpBtn.setOnClickListener {
@@ -128,8 +116,15 @@ class LoginActivity : BaseActivity() {
             ).show()
         })
 
-        mViewModel.resetPasswordMessage.observe(this, { message ->
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        mViewModel.resetPasswordMessage.observe(this, { (messageType, message) ->
+            createMessageDialog(
+                this,
+                messageType,
+                if (messageType == MessageType.ERROR) getString(R.string.dialog_error_title)
+                else getString(R.string.dialog_successful_title),
+                message,
+                null
+            ).show()
         })
         //endregion
     }

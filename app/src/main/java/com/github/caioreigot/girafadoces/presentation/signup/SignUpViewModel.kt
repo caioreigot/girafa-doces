@@ -67,9 +67,6 @@ class SignUpViewModel(
                         ErrorType.EMPTY_FIELD ->
                             resProvider.getString(R.string.empty_field)
 
-                        ErrorType.INVALID_NAME ->
-                            resProvider.getString(R.string.invalid_name_message)
-
                         ErrorType.EMAIL_ALREADY_REGISTERED ->
                             resProvider.getString(R.string.email_already_registered)
 

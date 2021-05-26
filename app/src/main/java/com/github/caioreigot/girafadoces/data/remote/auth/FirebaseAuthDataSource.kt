@@ -57,6 +57,9 @@ class FirebaseAuthDataSource : FirebaseAuthRepository {
             return
         }
 
+        // Adding postal number with the address
+        val fullDeliveryAddress = "$deliveryAddress - nº $postalNumber"
+
         Singleton.mFirebaseAuth
             .createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                 when (task.isSuccessful) {
@@ -68,7 +71,7 @@ class FirebaseAuthDataSource : FirebaseAuthRepository {
 
                             with (currentUserDB) {
                                 child(Global.DatabaseNames.USER_FULL_NAME).setValue(fullName)
-                                child(Global.DatabaseNames.USER_DELIVERY_ADDRESS).setValue(deliveryAddress)
+                                child(Global.DatabaseNames.USER_DELIVERY_ADDRESS).setValue(fullDeliveryAddress)
                                 child(Global.DatabaseNames.USER_EMAIL).setValue(email)
                             }
                         }
@@ -90,12 +93,8 @@ class FirebaseAuthDataSource : FirebaseAuthRepository {
         email: String,
         callback: (result: FirebaseResult) -> Unit
     ) {
-        val (isValid, errorType) = Utils.isRegisterInformationValid(
-            email = email
-        )
-
-        if (!isValid) {
-            callback(FirebaseResult.Error(errorType!!))
+        if (!Utils.isValidEmail(email)) {
+            callback(FirebaseResult.Error(ErrorType.INVALID_EMAIL))
             return
         }
 

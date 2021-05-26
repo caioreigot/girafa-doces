@@ -29,6 +29,7 @@ class SignUpActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.SignUpScreen)
         setContentView(R.layout.activity_sign_up)
 
         val mViewModel: SignUpViewModel = SignUpViewModel.ViewModelFactory(
@@ -53,12 +54,6 @@ class SignUpActivity : BaseActivity() {
 
         //region Listeners
         signUpButton.setOnClickListener {
-            var deliveryAddressText = ""
-
-            // Adding postal number with the address
-            if (TextUtils.isEmpty(deliveryAddressET.text) || TextUtils.isEmpty(postalNumberET.text))
-                deliveryAddressText = "${deliveryAddressET.text} - nº ${postalNumberET.text}"
-
             mViewModel.registerUser(
                 fullName = fullNameET.text.toString().trimEnd(),
                 email = emailET.text.toString().trimEnd(),
