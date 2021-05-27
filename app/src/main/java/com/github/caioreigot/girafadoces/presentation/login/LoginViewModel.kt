@@ -68,9 +68,9 @@ class LoginViewModel(
                                 }
                             }
                         }
-                    }
 
-                    loginBtnViewFlipper.value = VIEW_FLIPPER_BUTTON
+                        loginBtnViewFlipper.value = VIEW_FLIPPER_BUTTON
+                    }
                 }
 
                 is FirebaseResult.Error -> {
@@ -132,9 +132,6 @@ class LoginViewModel(
 
     fun searchRememberedAccount() {
         val (email, password) = preferences.getEmailAndPasswordValue()
-
-        Log.d("MY_DEBUG", email.toString())
-        Log.d("MY_DEBUG", password.toString())
 
         if (email != null && password != null)
             loginUser(email, password)

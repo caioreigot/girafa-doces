@@ -65,7 +65,8 @@ class FirebaseAuthDataSource : FirebaseAuthRepository {
         val fullDeliveryAddress = "$deliveryAddress - nº $postalNumber"
 
         // Adding phone DDD to phone number
-        val fullPhoneNumber = "($phoneDDD) $phoneNumber"
+        val dashedPhoneNumber = StringBuilder(phoneNumber).insert(5, "-").toString()
+        val fullPhoneNumber = "($phoneDDD) $dashedPhoneNumber"
 
         Singleton.mFirebaseAuth
             .createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->

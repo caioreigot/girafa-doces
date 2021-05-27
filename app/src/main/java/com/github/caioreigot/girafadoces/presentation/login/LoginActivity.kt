@@ -10,11 +10,9 @@ import android.widget.*
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.remote.auth.FirebaseAuthDataSource
-import com.github.caioreigot.girafadoces.data.Singleton
 import com.github.caioreigot.girafadoces.data.local.Preferences
 import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.model.UserSingleton
-import com.github.caioreigot.girafadoces.data.model.user
 import com.github.caioreigot.girafadoces.data.remote.database.FirebaseDatabaseDataSource
 import com.github.caioreigot.girafadoces.presentation.base.BaseActivity
 import com.github.caioreigot.girafadoces.presentation.menu.MenuActivity

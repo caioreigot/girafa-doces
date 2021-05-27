@@ -1,6 +1,7 @@
 package com.github.caioreigot.girafadoces.presentation.signup
 
 import android.os.Bundle
+import android.telephony.PhoneNumberFormattingTextWatcher
 import android.text.TextUtils
 import android.util.Log
 import android.view.KeyEvent
@@ -97,10 +98,7 @@ class SignUpActivity : BaseActivity() {
                     MessageType.SUCCESSFUL,
                     getString(R.string.dialog_successful_title),
                     getString(R.string.signup_success_message)
-                ) {
-                    // TODO: Logar no app
-                    finish()
-                }.show()
+                ) { finish() }.show()
             }
         })
 
