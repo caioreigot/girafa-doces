@@ -15,6 +15,7 @@ import com.github.caioreigot.girafadoces.R
 class ForgotPasswordDialog(private val loginViewModel: LoginViewModel) : DialogFragment() {
 
     lateinit var forgotPasswordViewFlipper: ViewFlipper
+    lateinit var forgotPasswordBackBtn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +35,7 @@ class ForgotPasswordDialog(private val loginViewModel: LoginViewModel) : DialogF
         super.onViewCreated(view, savedInstanceState)
 
         forgotPasswordViewFlipper = dialog!!.findViewById(R.id.forgot_password_dialog_view_flipper)
+        forgotPasswordBackBtn = dialog!!.findViewById(R.id.forgot_password_dialog_back_btn)
 
         dialog?.window?.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
@@ -46,6 +48,10 @@ class ForgotPasswordDialog(private val loginViewModel: LoginViewModel) : DialogF
 
         sendBtn.setOnClickListener {
             loginViewModel.sendPasswordResetEmail(emailET.text.toString())
+        }
+
+        forgotPasswordBackBtn.setOnClickListener {
+            dialog?.dismiss()
         }
 
         loginViewModel.forgotPasswordBtnViewFlipper.observe(this, {

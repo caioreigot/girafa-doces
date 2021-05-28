@@ -1,147 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sign_up_root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
     android:background="@color/white"
     android:clickable="true"
     android:descendantFocusability="beforeDescendants"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:gravity="center"
-    android:orientation="vertical"
     tools:context=".presentation.login.LoginActivity">
 
-    <EditText
-        android:id="@+id/sign_up_full_name_et"
-        style="@style/SignUpEditTextWithMargin"
-        android:layout_marginTop="20dp"
-        android:hint="@string/full_name"
-        android:inputType="textCapSentences"
-        android:nextFocusDown="@+id/sign_up_email_et"
-        tools:ignore="Autofill" />
-
-    <EditText
-        android:id="@+id/sign_up_email_et"
-        style="@style/SignUpEditTextWithMargin"
-        android:layout_marginTop="20dp"
-        android:hint="@string/email"
-        android:inputType="textEmailAddress"
-        android:nextFocusDown="@+id/sign_up_phone_ddd_et"
-        tools:ignore="Autofill" />
-
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:weightSum="1">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <EditText
-            android:id="@+id/sign_up_phone_ddd_et"
-            style="@style/SignUpEditTextNoMargin"
-            android:layout_width="0dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="7dp"
-            android:layout_weight="0.25"
-            android:hint="@string/phone_number_ddd"
-            android:inputType="number"
-            android:nextFocusDown="@+id/sign_up_phone_et"
-            tools:ignore="Autofill,TextFields" />
-
-        <EditText
-            android:id="@+id/sign_up_phone_et"
-            style="@style/SignUpEditTextNoMargin"
-            android:layout_width="0dp"
-            android:layout_marginStart="7dp"
-            android:layout_marginEnd="20dp"
-            android:layout_weight="0.75"
-            android:hint="@string/phone_number"
-            android:inputType="number"
-            android:nextFocusDown="@+id/sign_up_delivery_adress_et"
+            android:id="@+id/sign_up_full_name_et"
+            style="@style/SignUpEditText"
+            android:hint="@string/full_name"
+            android:inputType="textCapSentences"
+            android:nextFocusDown="@+id/sign_up_email_et"
             tools:ignore="Autofill" />
+
+        <EditText
+            android:id="@+id/sign_up_email_et"
+            style="@style/SignUpEditText"
+            android:layout_marginTop="20dp"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:nextFocusDown="@+id/sign_up_phone_ddd_et"
+            tools:ignore="Autofill" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/sign_up_phone_ddd_et"
+                style="@style/SignUpEditText"
+                android:layout_marginEnd="8dp"
+                android:ems="4"
+                android:hint="@string/phone_number_ddd"
+                android:inputType="number"
+                android:nextFocusDown="@+id/sign_up_phone_et"
+                tools:ignore="Autofill,TextFields" />
+
+            <EditText
+                android:id="@+id/sign_up_phone_et"
+                style="@style/SignUpEditText"
+                android:layout_marginStart="8dp"
+                android:ems="10"
+                android:hint="@string/phone_number"
+                android:inputType="number"
+                android:nextFocusDown="@+id/sign_up_delivery_adress_et"
+                tools:ignore="Autofill,TextFields" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/sign_up_delivery_adress_et"
+                style="@style/SignUpEditText"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:hint="@string/delivery_adress"
+                android:inputType="textPostalAddress"
+                android:nextFocusDown="@+id/sign_up_postal_number_et"
+                tools:ignore="Autofill" />
+
+            <EditText
+                android:id="@+id/sign_up_postal_number_et"
+                style="@style/SignUpEditText"
+                android:layout_marginStart="8dp"
+                android:ems="4"
+                android:hint="@string/postal_number_char"
+                android:inputType="number"
+                android:nextFocusDown="@+id/sign_up_password_et"
+                tools:ignore="Autofill" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <EditText
+                android:id="@+id/sign_up_password_et"
+                style="@style/SignUpEditText"
+                android:hint="@string/password"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:nextFocusDown="@+id/sign_up_confirm_password_et" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/sign_up_password_visibility_button"
+                style="@style/PinkButton"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:layout_alignEnd="@id/sign_up_password_et"
+                android:background="@drawable/ic_baseline_visibility_off_24"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <EditText
+                android:id="@+id/sign_up_confirm_password_et"
+                style="@style/SignUpEditText"
+                android:hint="@string/confirm_password"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:nextFocusDown="@+id/sign_up_confirm_password_et" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/sign_up_confirm_password_visibility_button"
+                style="@style/PinkButton"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:layout_alignEnd="@id/sign_up_confirm_password_et"
+                android:background="@drawable/ic_baseline_visibility_off_24"/>
+        </RelativeLayout>
+
+        <ViewFlipper
+            android:id="@+id/sign_up_vf"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="15dp">
+
+            <android.widget.Button
+                android:id="@+id/sign_up_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="55dp"
+                android:layout_marginEnd="55dp"
+                android:background="@drawable/sign_up_button_bg"
+                android:ems="9"
+                android:text="@string/sign_up"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:indeterminateDrawable="@drawable/progress_bar_pink" />
+
+        </ViewFlipper>
+
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:weightSum="1">
-
-        <EditText
-            android:id="@+id/sign_up_delivery_adress_et"
-            style="@style/SignUpEditTextNoMargin"
-            android:layout_width="0dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="7dp"
-            android:layout_weight="0.75"
-            android:hint="@string/delivery_adress"
-            android:inputType="textPostalAddress"
-            android:nextFocusDown="@+id/sign_up_postal_number_et"
-            tools:ignore="Autofill" />
-
-        <EditText
-            android:id="@+id/sign_up_postal_number_et"
-            style="@style/SignUpEditTextNoMargin"
-            android:layout_width="0dp"
-            android:layout_marginStart="7dp"
-            android:layout_marginEnd="20dp"
-            android:layout_weight="0.25"
-            android:hint="@string/postal_number_char"
-            android:inputType="number"
-            android:nextFocusDown="@+id/sign_up_password_et"
-            tools:ignore="Autofill" />
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/sign_up_password_et"
-        style="@style/SignUpEditTextWithMargin"
-        android:layout_marginTop="20dp"
-        android:hint="@string/password"
-        android:importantForAutofill="no"
-        android:inputType="textPassword"
-        android:nextFocusDown="@+id/sign_up_confirm_password_et" />
-
-    <EditText
-        android:id="@+id/sign_up_confirm_password_et"
-        style="@style/SignUpEditTextWithMargin"
-        android:layout_marginTop="20dp"
-        android:hint="@string/confirm_password"
-        android:imeOptions="actionSend"
-        android:importantForAutofill="no"
-        android:inputType="textPassword" />
-
-    <ViewFlipper
-        android:id="@+id/sign_up_vf"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginTop="25dp">
-
-        <android.widget.Button
-            android:id="@+id/sign_up_btn"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="55dp"
-            android:layout_marginEnd="55dp"
-            android:background="@drawable/sign_up_button_bg"
-            android:text="@string/sign_up"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
-
-        <ProgressBar
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:indeterminate="true"
-            android:indeterminateDrawable="@drawable/progress_bar_pink" />
-
-    </ViewFlipper>
-
-</LinearLayout>
+</RelativeLayout>
 
 

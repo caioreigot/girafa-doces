@@ -1,8 +1,9 @@
 package com.github.caioreigot.girafadoces.presentation.signup
 
 import android.os.Bundle
-import android.telephony.PhoneNumberFormattingTextWatcher
-import android.text.TextUtils
+import android.text.InputType
+import android.text.InputType.*
+import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
@@ -14,9 +15,10 @@ import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.remote.auth.FirebaseAuthDataSource
 import com.github.caioreigot.girafadoces.presentation.base.BaseActivity
 
+
 class SignUpActivity : BaseActivity() {
 
-    lateinit var rootView: LinearLayout
+    lateinit var rootView: RelativeLayout
 
     lateinit var fullNameET: EditText
     lateinit var emailET: EditText
@@ -25,7 +27,9 @@ class SignUpActivity : BaseActivity() {
     lateinit var deliveryAddressET: EditText
     lateinit var postalNumberET: EditText
     lateinit var passwordET: EditText
+    lateinit var passwordVisibilityBtn: Button
     lateinit var confirmPasswordET: EditText
+    lateinit var confirmPasswordVisibilityBtn: Button
 
     lateinit var viewFlipper: ViewFlipper
     lateinit var signUpButton: Button
@@ -51,7 +55,9 @@ class SignUpActivity : BaseActivity() {
         deliveryAddressET = findViewById(R.id.sign_up_delivery_adress_et)
         postalNumberET = findViewById(R.id.sign_up_postal_number_et)
         passwordET = findViewById(R.id.sign_up_password_et)
+        passwordVisibilityBtn = findViewById(R.id.sign_up_password_visibility_button)
         confirmPasswordET = findViewById(R.id.sign_up_confirm_password_et)
+        confirmPasswordVisibilityBtn = findViewById(R.id.sign_up_confirm_password_visibility_button)
 
         viewFlipper = findViewById(R.id.sign_up_vf)
         signUpButton = findViewById(R.id.sign_up_btn)
@@ -71,6 +77,26 @@ class SignUpActivity : BaseActivity() {
             )
 
             hideKeyboard()
+        }
+
+        passwordVisibilityBtn.setOnClickListener {
+            //passwordET.inputType == TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_PASSWORD
+            //passwordET.inputType == TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            if (passwordET.inputType == TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_PASSWORD) {
+                val cursorPosition = passwordET.selectionStart
+
+                passwordET.inputType = (TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)
+                passwordET.setSelection(cursorPosition)
+
+                //TODO: Trocar background do button
+            } else {
+                val cursorPosition = passwordET.selectionStart
+
+                passwordET.inputType = (TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_PASSWORD)
+                passwordET.setSelection(cursorPosition)
+
+                //TODO: Trocar background do button
+            }
         }
 
         confirmPasswordET.setOnEditorActionListener(object : TextView.OnEditorActionListener {

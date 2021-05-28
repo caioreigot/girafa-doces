@@ -51,9 +51,11 @@
         <item name="android:paddingEnd">50dp</item>
     </style>
 
-    <style name="SignUpEditTextNoMargin">
-        <item name="android:layout_width">match_parent</item>
+    <style name="SignUpEditText">
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/EditTextHeight</item>
+
+        <item name="android:ems">15</item>
 
         <item name="android:paddingStart">12dp</item>
         <item name="android:paddingEnd">12dp</item>
@@ -64,11 +66,7 @@
         <item name="android:scrollHorizontally">true</item>
         <item name="android:singleLine">true</item>
         <item name="android:textColorHint">@color/pinkHintColor</item>
-    </style>
-
-    <style name="SignUpEditTextWithMargin" parent="SignUpEditTextNoMargin">
-        <item name="android:layout_marginStart">20dp</item>
-        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="FullScreenDialog">
@@ -79,6 +77,10 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+    </style>
+
+    <style name="PinkButton" parent="Base.TextAppearance.AppCompat.Button" >
+        <item name="backgroundTint">@color/primaryPink</item>
     </style>
 
 </resources>
