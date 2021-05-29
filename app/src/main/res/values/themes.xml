@@ -33,12 +33,8 @@
 
     <!-- Used when passing this style to the component -->
     <style name="LoginEditTextNoPadding">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/EditTextHeight</item>
-
-        <item name="android:layout_marginStart">20dp</item>
-        <item name="android:layout_marginEnd">20dp</item>
-
         <item name="android:background">@drawable/login_edit_text_bg</item>
         <item name="android:gravity">center</item>
         <item name="android:scrollHorizontally">true</item>
@@ -47,22 +43,18 @@
     </style>
 
     <style name="LoginEditTextWithPadding" parent="LoginEditTextNoPadding">
-        <item name="android:paddingStart">50dp</item>
-        <item name="android:paddingEnd">50dp</item>
+        <item name="android:paddingStart">45dp</item>
+        <item name="android:paddingEnd">45dp</item>
     </style>
 
     <style name="SignUpEditText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/EditTextHeight</item>
-
         <item name="android:ems">15</item>
-
         <item name="android:paddingStart">12dp</item>
         <item name="android:paddingEnd">12dp</item>
-
         <item name="android:background">@drawable/sign_up_edit_text_bg</item>
         <item name="android:gravity">center</item>
-
         <item name="android:scrollHorizontally">true</item>
         <item name="android:singleLine">true</item>
         <item name="android:textColorHint">@color/pinkHintColor</item>

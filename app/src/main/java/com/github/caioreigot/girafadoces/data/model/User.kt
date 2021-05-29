@@ -7,6 +7,7 @@ object UserSingleton {
     var email: String = ""
     var phoneNumber: String = ""
     var deliveryAddress: String = ""
+    var isAdministrator: Boolean = false
 
     fun set(user: User) {
         apply {
@@ -14,6 +15,7 @@ object UserSingleton {
             email = user.email
             phoneNumber = user.phoneNumber
             deliveryAddress = user.deliveryAddress
+            isAdministrator = user.isAdministrator
         }
     }
 }
@@ -33,7 +35,11 @@ data class User (
 
     @get:PropertyName(Global.DatabaseNames.USER_DELIVERY_ADDRESS)
     @set:PropertyName(Global.DatabaseNames.USER_DELIVERY_ADDRESS)
-    var deliveryAddress: String = ""
+    var deliveryAddress: String = "",
+
+    @get:PropertyName(Global.DatabaseNames.USER_IS_ADMINISTRATOR)
+    @set:PropertyName(Global.DatabaseNames.USER_IS_ADMINISTRATOR)
+    var isAdministrator: Boolean = false
 )
 
 class Builder {
@@ -41,9 +47,10 @@ class Builder {
     var email: String = ""
     var phoneNumber: String = ""
     var deliveryAddress: String = ""
+    var isAdministrator: Boolean = false
 
     fun build(): User {
-        return User(fullName, email, phoneNumber, deliveryAddress)
+        return User(fullName, email, phoneNumber, deliveryAddress, isAdministrator)
     }
 }
 

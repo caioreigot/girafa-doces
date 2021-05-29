@@ -1,10 +1,7 @@
 package com.github.caioreigot.girafadoces.presentation.signup
 
 import android.os.Bundle
-import android.text.InputType
 import android.text.InputType.*
-import android.text.method.PasswordTransformationMethod
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -26,6 +23,7 @@ class SignUpActivity : BaseActivity() {
     lateinit var phoneNumber: EditText
     lateinit var deliveryAddressET: EditText
     lateinit var postalNumberET: EditText
+
     lateinit var passwordET: EditText
     lateinit var passwordVisibilityBtn: Button
     lateinit var confirmPasswordET: EditText
@@ -79,25 +77,15 @@ class SignUpActivity : BaseActivity() {
             hideKeyboard()
         }
 
-        passwordVisibilityBtn.setOnClickListener {
-            //passwordET.inputType == TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_PASSWORD
-            //passwordET.inputType == TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            if (passwordET.inputType == TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_PASSWORD) {
-                val cursorPosition = passwordET.selectionStart
+        passwordVisibilityBtn
+            .setOnClickListener(PasswordVisibilityButtonListener(passwordET))
+        (passwordVisibilityBtn.parent as LinearLayout)
+            .setOnClickListener { passwordVisibilityBtn.callOnClick() }
 
-                passwordET.inputType = (TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)
-                passwordET.setSelection(cursorPosition)
-
-                //TODO: Trocar background do button
-            } else {
-                val cursorPosition = passwordET.selectionStart
-
-                passwordET.inputType = (TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_PASSWORD)
-                passwordET.setSelection(cursorPosition)
-
-                //TODO: Trocar background do button
-            }
-        }
+        confirmPasswordVisibilityBtn
+            .setOnClickListener(PasswordVisibilityButtonListener(confirmPasswordET))
+        (confirmPasswordVisibilityBtn.parent as LinearLayout)
+            .setOnClickListener { confirmPasswordVisibilityBtn.callOnClick() }
 
         confirmPasswordET.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
@@ -146,5 +134,25 @@ class SignUpActivity : BaseActivity() {
             }
         })
         //endregion
+    }
+
+    class PasswordVisibilityButtonListener(var editText: EditText) : View.OnClickListener {
+        override fun onClick(v: View?) {
+            if (editText.inputType == TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_PASSWORD) {
+                val cursorPosition = editText.selectionStart
+
+                editText.inputType = (TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)
+                editText.setSelection(cursorPosition)
+
+                v?.setBackgroundResource(R.drawable.ic_baseline_visibility_24)
+            } else { // Not visible
+                val cursorPosition = editText.selectionStart
+
+                editText.inputType = (TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_PASSWORD)
+                editText.setSelection(cursorPosition)
+
+                v?.setBackgroundResource(R.drawable.ic_baseline_visibility_off_24)
+            }
+        }
     }
 }

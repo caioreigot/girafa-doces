@@ -2,9 +2,13 @@ package com.github.caioreigot.girafadoces.presentation.base
 
 import android.app.Dialog
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Color
+import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.os.Message
+import android.util.TypedValue
+import android.view.TouchDelegate
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -65,4 +69,5 @@ open class BaseActivity : AppCompatActivity() {
 
         return dialog
     }
+
 }

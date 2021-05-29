@@ -2,7 +2,6 @@ package com.github.caioreigot.girafadoces.presentation.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -15,7 +14,7 @@ import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.model.UserSingleton
 import com.github.caioreigot.girafadoces.data.remote.database.FirebaseDatabaseDataSource
 import com.github.caioreigot.girafadoces.presentation.base.BaseActivity
-import com.github.caioreigot.girafadoces.presentation.menu.MenuActivity
+import com.github.caioreigot.girafadoces.presentation.main.MainActivity
 import com.github.caioreigot.girafadoces.presentation.signup.SignUpActivity
 
 class LoginActivity : BaseActivity() {
@@ -116,7 +115,7 @@ class LoginActivity : BaseActivity() {
                 if (keepConnectedCB.isChecked)
                     mViewModel.rememberAccount(loggedUser.email, password)
 
-                val intent = Intent(this, MenuActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             }

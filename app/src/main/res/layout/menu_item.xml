@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:fontFamily="@font/bebasneue"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="45sp"
+        tools:text="BOLO DE POTE" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:fontFamily="@font/bebasneue"
+        android:padding="20dp"
+        android:textAlignment="textStart"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        tools:text="NINHO/ R$ 7,00\nBRIGADEIRO/ R$ 7,00\nPRESTÍGIO/ R$ 7,00" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:maxHeight="350dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bolo" />
+
+        <Button
+            android:background="@color/primaryPink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="ENCOMENDAR"
+            android:textSize="25sp"/>
+        
+    </LinearLayout>
+
+</LinearLayout>

@@ -82,6 +82,7 @@ class FirebaseAuthDataSource : FirebaseAuthRepository {
                                 child(Global.DatabaseNames.USER_DELIVERY_ADDRESS).setValue(fullDeliveryAddress)
                                 child(Global.DatabaseNames.USER_EMAIL).setValue(email)
                                 child(Global.DatabaseNames.USER_PHONE).setValue(fullPhoneNumber)
+                                child(Global.DatabaseNames.USER_IS_ADMINISTRATOR).setValue(false)
                             }
                         }
 

@@ -101,17 +101,28 @@
                 android:hint="@string/password"
                 android:importantForAutofill="no"
                 android:inputType="textPassword"
-                android:nextFocusDown="@+id/sign_up_confirm_password_et" />
+                android:nextFocusDown="@+id/sign_up_confirm_password_et"
+                android:paddingEnd="50dp"
+                tools:ignore="RtlSymmetry" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/sign_up_password_visibility_button"
-                style="@style/PinkButton"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"
+            <LinearLayout
+                android:layout_width="50dp"
+                android:layout_height="40dp"
                 android:layout_alignEnd="@id/sign_up_password_et"
-                android:background="@drawable/ic_baseline_visibility_off_24"/>
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/sign_up_password_visibility_button"
+                    style="@style/PinkButton"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/ic_baseline_visibility_off_24" />
+            </LinearLayout>
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -123,26 +134,38 @@
                 android:id="@+id/sign_up_confirm_password_et"
                 style="@style/SignUpEditText"
                 android:hint="@string/confirm_password"
+                android:imeOptions="actionSend"
                 android:importantForAutofill="no"
                 android:inputType="textPassword"
-                android:nextFocusDown="@+id/sign_up_confirm_password_et" />
+                android:nextFocusDown="@+id/sign_up_confirm_password_et"
+                android:paddingEnd="50dp"
+                tools:ignore="RtlSymmetry" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/sign_up_confirm_password_visibility_button"
-                style="@style/PinkButton"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"
+            <LinearLayout
+                android:layout_width="50dp"
+                android:layout_height="40dp"
                 android:layout_alignEnd="@id/sign_up_confirm_password_et"
-                android:background="@drawable/ic_baseline_visibility_off_24"/>
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/sign_up_confirm_password_visibility_button"
+                    style="@style/PinkButton"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/ic_baseline_visibility_off_24" />
+            </LinearLayout>
+
         </RelativeLayout>
 
         <ViewFlipper
             android:id="@+id/sign_up_vf"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="18dp">
 
             <android.widget.Button
                 android:id="@+id/sign_up_btn"

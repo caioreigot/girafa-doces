@@ -5,10 +5,10 @@ object Global {
 
     object DatabaseNames {
         const val USERS_PARENT = "users"
-
         const val USER_FULL_NAME = "fullName"
         const val USER_EMAIL = "emailAddress"
         const val USER_PHONE = "phoneNumber"
         const val USER_DELIVERY_ADDRESS = "deliveryAddress"
+        const val USER_IS_ADMINISTRATOR = "isAdministrator"
     }
 }
