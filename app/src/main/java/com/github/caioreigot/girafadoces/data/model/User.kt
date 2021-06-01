@@ -2,24 +2,6 @@ package com.github.caioreigot.girafadoces.data.model
 
 import com.google.firebase.database.PropertyName
 
-object UserSingleton {
-    var fullName: String = ""
-    var email: String = ""
-    var phoneNumber: String = ""
-    var deliveryAddress: String = ""
-    var isAdministrator: Boolean = false
-
-    fun set(user: User) {
-        apply {
-            fullName = user.fullName
-            email = user.email
-            phoneNumber = user.phoneNumber
-            deliveryAddress = user.deliveryAddress
-            isAdministrator = user.isAdministrator
-        }
-    }
-}
-
 data class User (
     @get:PropertyName(Global.DatabaseNames.USER_FULL_NAME)
     @set:PropertyName(Global.DatabaseNames.USER_FULL_NAME)

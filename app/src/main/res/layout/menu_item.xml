@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:paddingStart="25dp"
+    android:paddingEnd="25dp"
+    android:paddingTop="25dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/menu_item_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/black"
+        android:background="@color/primaryPink"
         android:fontFamily="@font/bebasneue"
         android:gravity="center"
         android:padding="10dp"
@@ -18,6 +23,7 @@
         tools:text="BOLO DE POTE" />
 
     <TextView
+        android:id="@+id/menu_item_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -25,17 +31,18 @@
         android:padding="20dp"
         android:textAlignment="textStart"
         android:textAllCaps="true"
-        android:textColor="@color/black"
+        android:textColor="@color/primaryBrown"
         android:textSize="25sp"
         tools:text="NINHO/ R$ 7,00\nBRIGADEIRO/ R$ 7,00\nPRESTÍGIO/ R$ 7,00" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/menu_item_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -45,12 +52,18 @@
             android:src="@drawable/bolo" />
 
         <Button
-            android:background="@color/primaryPink"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="ENCOMENDAR"
-            android:textSize="25sp"/>
-        
+            android:layout_width="wrap_content"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
+            android:ems="10"
+            android:text="@string/order"
+            android:layout_marginTop="10dp"
+            android:textAllCaps="true"
+            android:textColor="@color/primaryPink"
+            android:textSize="25sp"
+            app:backgroundTint="@color/white"
+            android:layout_marginBottom="15dp"/>
+
     </LinearLayout>
 
 </LinearLayout>

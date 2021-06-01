@@ -3,10 +3,10 @@
 
     <item android:id="@+id/menu"
         android:icon="@drawable/ic_baseline_menu_24"
-        android:title="Menu"/>
+        android:title="@string/menu"/>
 
     <item android:id="@+id/user_profile"
         android:icon="@drawable/ic_baseline_profile_outline_24"
-        android:title="Perfil"/>
+        android:title="@string/account"/>
 
 </menu>

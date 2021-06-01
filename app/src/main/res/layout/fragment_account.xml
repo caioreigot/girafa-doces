@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/account_icon"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_baseline_account_circle_24"
+            app:tint="@color/primaryPink"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/account_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/account_icon"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="@string/account_screen_title"
+            android:textColor="@color/primaryPink"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/account_informations_view_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/account_label"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="40dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/account_name_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/account_name_header"
+                    android:textColor="@color/primaryPink"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/account_name_edit_button"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@id/account_name_title"
+                    android:background="@drawable/ic_baseline_edit_24" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/account_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:textAlignment="textStart"
+                android:textColor="@color/primaryBrown"
+                android:textSize="18sp"
+                tools:text="Caio Costa Reigota Rodrigues" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:id="@+id/account_email_address_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/account_email_header"
+                    android:textColor="@color/primaryPink"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/account_user_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAlignment="textStart"
+                android:textColor="@color/primaryBrown"
+                android:textSize="18sp"
+                tools:text="my.random.email@gmail.com" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:id="@+id/account_address_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/account_address_header"
+                    android:textColor="@color/primaryPink"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/account_address_edit_button"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@id/account_address_title"
+                    android:background="@drawable/ic_baseline_edit_24" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/account_user_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:ellipsize="middle"
+                android:singleLine="true"
+                android:textAlignment="textStart"
+                android:textColor="@color/primaryBrown"
+                android:textSize="18sp"
+                tools:text="R. Aleatoria - nº 1024" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:id="@+id/account_phone_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/account_phone_header"
+                    android:textColor="@color/primaryPink"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/account_phone_edit_button"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@id/account_phone_title"
+                    android:background="@drawable/ic_baseline_edit_24" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/account_user_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAlignment="textStart"
+                android:textColor="@color/primaryBrown"
+                android:textSize="18sp"
+                tools:text="(11) 90000-0000" />
+
+        </LinearLayout>
+
+        <ViewFlipper
+            android:layout_width="180dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/account_informations_view_group"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="18dp">
+
+            <Button
+                android:id="@+id/account_sign_out"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:text="@string/account_sign_out"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/primaryPink" />
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:indeterminateDrawable="@drawable/progress_bar_pink"/>
+
+        </ViewFlipper>
+
+    </RelativeLayout>
+
+</ScrollView>

@@ -1,4 +1,4 @@
-package com.github.caioreigot.girafadoces.presentation.main
+package com.github.caioreigot.girafadoces.presentation.main.add
 
 import android.os.Bundle
 import android.view.LayoutInflater

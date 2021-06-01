@@ -5,11 +5,15 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import com.github.caioreigot.girafadoces.R
-import com.github.caioreigot.girafadoces.data.Singleton
+import com.github.caioreigot.girafadoces.data.model.Singleton
 import com.github.caioreigot.girafadoces.data.model.UserSingleton
+import com.github.caioreigot.girafadoces.presentation.base.BaseActivity
+import com.github.caioreigot.girafadoces.presentation.main.add.AddFragment
+import com.github.caioreigot.girafadoces.presentation.main.menu.MenuFragment
+import com.github.caioreigot.girafadoces.presentation.main.account.AccountFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     lateinit var bottomNavigation: BottomNavigationView
 
@@ -31,10 +35,17 @@ class MainActivity : AppCompatActivity() {
                 R.menu.user_menu_items
         )
 
-        // Default Fragment
+        val selectedFragment: Fragment = when (bottomNavigation.selectedItemId) {
+            R.id.menu -> MenuFragment()
+            R.id.user_profile -> AccountFragment()
+            R.id.add_menu_item -> AddFragment()
+
+            else -> MenuFragment()
+        }
+
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fragment_container, MenuFragment())
+            .replace(R.id.fragment_container, selectedFragment)
             .commit()
 
         // Listeners
@@ -42,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
             val selectedFragment: Fragment = when (selectedItem.itemId) {
                 R.id.menu -> MenuFragment()
-                R.id.user_profile -> ProfileFragment()
+                R.id.user_profile -> AccountFragment()
                 R.id.add_menu_item -> AddFragment()
 
                 else -> MenuFragment()
@@ -55,7 +66,6 @@ class MainActivity : AppCompatActivity() {
 
             return@setOnNavigationItemSelectedListener true
         }
-
     }
 
     fun showDebug() {

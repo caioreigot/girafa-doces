@@ -5,6 +5,7 @@
     <color name="secondaryPinkVariant">#FBD1D2</color>
     <color name="pinkHintColor">#E37B7B</color>
     <color name="primaryBrown">#6C5041</color>
+    <color name="primaryBrownLight">#9A7560</color>
     <color name="black">#FF000000</color>
     <color name="lightBlack">#252525</color>
     <color name="white">#FFFFFFFF</color>

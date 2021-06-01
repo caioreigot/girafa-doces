@@ -1,7 +1,5 @@
-package com.github.caioreigot.girafadoces.data
+package com.github.caioreigot.girafadoces.data.model
 
-import android.content.res.Resources
-import com.github.caioreigot.girafadoces.data.model.Global
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase

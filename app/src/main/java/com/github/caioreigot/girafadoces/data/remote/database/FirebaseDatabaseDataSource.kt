@@ -1,7 +1,7 @@
 package com.github.caioreigot.girafadoces.data.remote.database
 
 import com.github.caioreigot.girafadoces.data.FirebaseResult
-import com.github.caioreigot.girafadoces.data.Singleton
+import com.github.caioreigot.girafadoces.data.model.Singleton
 import com.github.caioreigot.girafadoces.data.model.*
 import com.github.caioreigot.girafadoces.data.repository.FirebaseDatabaseRepository
 import com.google.firebase.database.DataSnapshot

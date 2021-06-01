@@ -43,4 +43,20 @@
     <string name="weak_password_message">A senha precisa ter 6 ou mais dígitos</string>
     <string name="password_confirm_dont_match_message">Senhas não correspondem</string>
 
+    <!-- Bottom Navigation Titles -->
+    <string name="menu">Menu</string>
+    <string name="account">Conta</string>
+
+    <!-- Menu Fragment -->
+    <string name="order">ENCOMENDAR</string>
+    <string name="drag_sideways">&lt; ARRASTE PARA OS LADOS &gt;</string>
+
+    <!-- Account Fragment -->
+    <string name="account_screen_title">SUA CONTA</string>
+    <string name="account_address_header">Endereço:</string>
+    <string name="account_name_header">Nome:</string>
+    <string name="account_email_header">E-mail:</string>
+    <string name="account_phone_header">Celular</string>
+    <string name="account_sign_out">SAIR DA CONTA</string>
+
 </resources>

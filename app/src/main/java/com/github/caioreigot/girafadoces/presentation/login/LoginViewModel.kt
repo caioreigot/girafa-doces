@@ -12,10 +12,8 @@ import com.github.caioreigot.girafadoces.data.local.Preferences
 import com.github.caioreigot.girafadoces.data.model.ErrorType
 import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.model.User
-import com.github.caioreigot.girafadoces.data.model.UserSingleton
 import com.github.caioreigot.girafadoces.data.repository.FirebaseAuthRepository
 import com.github.caioreigot.girafadoces.data.repository.FirebaseDatabaseRepository
-import com.google.firebase.ktx.Firebase
 import java.lang.IllegalArgumentException
 
 class LoginViewModel(

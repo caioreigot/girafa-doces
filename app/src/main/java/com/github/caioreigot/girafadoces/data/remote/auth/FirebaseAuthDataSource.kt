@@ -1,7 +1,7 @@
 package com.github.caioreigot.girafadoces.data.remote.auth
 
 import com.github.caioreigot.girafadoces.data.FirebaseResult
-import com.github.caioreigot.girafadoces.data.Singleton
+import com.github.caioreigot.girafadoces.data.model.Singleton
 import com.github.caioreigot.girafadoces.data.Utils
 import com.github.caioreigot.girafadoces.data.model.ErrorType
 import com.github.caioreigot.girafadoces.data.model.Global

@@ -45,12 +45,13 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="15dp"
-                android:src="@drawable/ic_baseline_account_circle_24" />
+                android:src="@drawable/ic_baseline_account_circle_24"
+                app:tint="@color/primaryPink" />
 
             <EditText
                 android:id="@+id/login_email_et"
                 style="@style/LoginEditTextWithPadding"
-                android:ems="16"
+                android:ems="15"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 tools:ignore="Autofill" />
@@ -66,7 +67,7 @@
             <EditText
                 android:id="@+id/login_password_et"
                 style="@style/LoginEditTextWithPadding"
-                android:ems="16"
+                android:ems="15"
                 android:hint="@string/password"
                 android:imeOptions="actionSend"
                 android:importantForAutofill="no"
@@ -79,6 +80,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="15dp"
                 android:src="@drawable/ic_baseline_lock_24"
+                app:tint="@color/primaryPink"
                 tools:ignore="ContentDescription" />
 
         </RelativeLayout>
@@ -118,7 +120,7 @@
                 android:id="@+id/login_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/EditTextHeight"
-                android:ems="16"
+                android:ems="15"
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
