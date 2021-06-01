@@ -72,6 +72,7 @@ class AccountFragment : Fragment() {
             if (firebaseAuth.currentUser == null) {
                 val intent = Intent(requireContext(), LoginActivity::class.java)
                 Preferences(requireContext()).clearPreferences()
+                UserSingleton.clear()
                 startActivity(intent)
                 activity?.finish()
             }

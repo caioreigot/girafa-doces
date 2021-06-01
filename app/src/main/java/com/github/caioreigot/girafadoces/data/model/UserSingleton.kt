@@ -1,6 +1,7 @@
 package com.github.caioreigot.girafadoces.data.model
 
 object UserSingleton {
+
     var fullName: String = ""
     var email: String = ""
     var phoneNumber: String = ""
@@ -15,5 +16,13 @@ object UserSingleton {
             deliveryAddress = user.deliveryAddress
             isAdministrator = user.isAdministrator
         }
+    }
+
+    fun clear() {
+        fullName = ""
+        email = ""
+        phoneNumber = ""
+        deliveryAddress = ""
+        isAdministrator = false
     }
 }
