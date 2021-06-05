@@ -2,7 +2,7 @@ package com.github.caioreigot.girafadoces.data.repository
 
 import com.github.caioreigot.girafadoces.data.FirebaseResult
 
-interface FirebaseAuthRepository {
+interface AuthRepository {
     fun loginUser(
         email: String,
         password: String,

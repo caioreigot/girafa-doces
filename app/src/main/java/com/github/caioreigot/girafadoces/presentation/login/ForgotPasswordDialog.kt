@@ -1,6 +1,5 @@
 package com.github.caioreigot.girafadoces.presentation.login
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -44,7 +43,7 @@ class ForgotPasswordDialog(private val loginViewModel: LoginViewModel) : DialogF
         val emailET = view.findViewById<EditText>(R.id.forgot_password_dialog_email_et)
         val sendBtn = view.findViewById<Button>(R.id.forgot_password_send_btn)
 
-        //forgotPasswordDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        //dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         sendBtn.setOnClickListener {
             loginViewModel.sendPasswordResetEmail(emailET.text.toString())
@@ -54,7 +53,7 @@ class ForgotPasswordDialog(private val loginViewModel: LoginViewModel) : DialogF
             dialog?.dismiss()
         }
 
-        loginViewModel.forgotPasswordBtnViewFlipper.observe(this, {
+        loginViewModel.forgotPasswordBtnViewFlipperLD.observe(this, {
             it?.let { childToDisplay ->
                 forgotPasswordViewFlipper.displayedChild = childToDisplay
             }

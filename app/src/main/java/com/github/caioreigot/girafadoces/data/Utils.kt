@@ -1,5 +1,7 @@
 package com.github.caioreigot.girafadoces.data
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
@@ -69,6 +71,10 @@ class Utils {
                 return Pair(false, ErrorType.WEAK_PASSWORD)
 
             return Pair(true, null)
+        }
+
+        fun ByteArray.toBitmap(): Bitmap {
+            return BitmapFactory.decodeByteArray(this, 0, this.size)
         }
     }
 }

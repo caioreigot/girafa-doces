@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:paddingStart="25dp"
-    android:paddingEnd="25dp"
-    android:paddingTop="25dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingStart="25dp"
+    android:paddingTop="25dp"
+    android:paddingEnd="25dp">
 
     <TextView
         android:id="@+id/menu_item_header"
@@ -35,35 +35,27 @@
         android:textSize="25sp"
         tools:text="NINHO/ R$ 7,00\nBRIGADEIRO/ R$ 7,00\nPRESTÍGIO/ R$ 7,00" />
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/menu_item_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical">
+        android:adjustViewBounds="true"
+        android:maxHeight="350dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bolo" />
 
-        <ImageView
-            android:id="@+id/menu_item_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:adjustViewBounds="true"
-            android:maxHeight="350dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/bolo" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="75dp"
-            android:layout_gravity="center"
-            android:ems="10"
-            android:text="@string/order"
-            android:layout_marginTop="10dp"
-            android:textAllCaps="true"
-            android:textColor="@color/primaryPink"
-            android:textSize="25sp"
-            app:backgroundTint="@color/white"
-            android:layout_marginBottom="15dp"/>
-
-    </LinearLayout>
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="75dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:ems="10"
+        android:text="@string/order"
+        android:textAllCaps="true"
+        android:textColor="@color/primaryPink"
+        android:textSize="25sp"
+        app:backgroundTint="@color/white" />
 
 </LinearLayout>

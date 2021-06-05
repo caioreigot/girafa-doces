@@ -9,7 +9,7 @@ import android.widget.*
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.model.MessageType
-import com.github.caioreigot.girafadoces.data.remote.auth.FirebaseAuthDataSource
+import com.github.caioreigot.girafadoces.data.remote.auth.AuthDataSource
 import com.github.caioreigot.girafadoces.presentation.base.BaseActivity
 
 
@@ -38,7 +38,7 @@ class SignUpActivity : BaseActivity() {
         setContentView(R.layout.activity_sign_up)
 
         val mViewModel: SignUpViewModel = SignUpViewModel.ViewModelFactory(
-            FirebaseAuthDataSource(),
+            AuthDataSource(),
             ResourcesProvider(this)
         )
             .create(SignUpViewModel::class.java)
@@ -105,7 +105,7 @@ class SignUpActivity : BaseActivity() {
         //endregion
 
         //region Observers
-        mViewModel.registrationMade.observe(this, {
+        mViewModel.registrationMadeLD.observe(this, {
             it?.let {
                 createMessageDialog(
                     this,
@@ -116,13 +116,13 @@ class SignUpActivity : BaseActivity() {
             }
         })
 
-        mViewModel.registerBtnViewFlipper.observe(this, {
+        mViewModel.registerBtnViewFlipperLD.observe(this, {
             it?.let { childToDisplay ->
                 viewFlipper.displayedChild = childToDisplay
             }
         })
 
-        mViewModel.errorMessage.observe(this, {
+        mViewModel.errorMessageLD.observe(this, {
             it?.let { errorMessage ->
                 createMessageDialog(
                     this,

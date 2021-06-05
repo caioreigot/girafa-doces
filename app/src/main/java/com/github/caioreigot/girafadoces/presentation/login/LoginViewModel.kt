@@ -1,6 +1,5 @@
 package com.github.caioreigot.girafadoces.presentation.login
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -12,26 +11,26 @@ import com.github.caioreigot.girafadoces.data.local.Preferences
 import com.github.caioreigot.girafadoces.data.model.ErrorType
 import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.model.User
-import com.github.caioreigot.girafadoces.data.repository.FirebaseAuthRepository
-import com.github.caioreigot.girafadoces.data.repository.FirebaseDatabaseRepository
+import com.github.caioreigot.girafadoces.data.repository.AuthRepository
+import com.github.caioreigot.girafadoces.data.repository.DatabaseRepository
 import java.lang.IllegalArgumentException
 
 class LoginViewModel(
-    private val authDataSource: FirebaseAuthRepository,
-    private val databaseDataSource: FirebaseDatabaseRepository,
+    private val authDataSource: AuthRepository,
+    private val databaseDataSource: DatabaseRepository,
     private val resProvider: ResourcesProvider,
     private val preferences: Preferences
 ) : ViewModel() {
 
-    val loggedUserInformation: SingleLiveEvent<Pair<User?, String>> =
+    val loggedUserInformationLD: SingleLiveEvent<Pair<User?, String>> =
         SingleLiveEvent<Pair<User?, String>>()
 
-    val loginBtnViewFlipper: MutableLiveData<Int> = MutableLiveData()
-    val forgotPasswordBtnViewFlipper: MutableLiveData<Int> = MutableLiveData()
+    val loginBtnViewFlipperLD: MutableLiveData<Int> = MutableLiveData()
+    val forgotPasswordBtnViewFlipperLD: MutableLiveData<Int> = MutableLiveData()
 
-    val errorMessage: SingleLiveEvent<String> = SingleLiveEvent<String>()
+    val errorMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
 
-    val resetPasswordMessage: SingleLiveEvent<Pair<MessageType, String>> =
+    val resetPasswordMessageLD: SingleLiveEvent<Pair<MessageType, String>> =
         SingleLiveEvent<Pair<MessageType, String>>()
 
     companion object {
@@ -41,7 +40,7 @@ class LoginViewModel(
 
     fun loginUser(email: String, password: String) {
         // Show Progress Bar
-        loginBtnViewFlipper.value = VIEW_FLIPPER_PROGRESS_BAR
+        loginBtnViewFlipperLD.value = VIEW_FLIPPER_PROGRESS_BAR
 
         authDataSource.loginUser(email, password) { FirebaseAuthResult ->
 
@@ -52,13 +51,13 @@ class LoginViewModel(
                     databaseDataSource.getLoggedUserInformation { User, FirebaseDBResult ->
                         when (FirebaseDBResult) {
                             is FirebaseResult.Success -> {
-                                loggedUserInformation.value = Pair(User, password)
+                                loggedUserInformationLD.value = Pair(User, password)
                             }
 
                             is FirebaseResult.Error -> {
-                                loggedUserInformation.value = null
+                                loggedUserInformationLD.value = null
 
-                                errorMessage.value = when (FirebaseDBResult.errorType) {
+                                errorMessageLD.value = when (FirebaseDBResult.errorType) {
                                     ErrorType.SERVER_ERROR ->
                                         resProvider.getString(R.string.server_error_message)
                                     else ->
@@ -67,12 +66,12 @@ class LoginViewModel(
                             }
                         }
 
-                        loginBtnViewFlipper.value = VIEW_FLIPPER_BUTTON
+                        loginBtnViewFlipperLD.value = VIEW_FLIPPER_BUTTON
                     }
                 }
 
                 is FirebaseResult.Error -> {
-                    errorMessage.value = when (FirebaseAuthResult.errorType) {
+                    errorMessageLD.value = when (FirebaseAuthResult.errorType) {
                         ErrorType.UNEXPECTED_ERROR ->
                             resProvider.getString(R.string.unexpected_error)
 
@@ -90,28 +89,28 @@ class LoginViewModel(
                             resProvider.getString(R.string.login_error)
                     }
 
-                    loginBtnViewFlipper.value = VIEW_FLIPPER_BUTTON
+                    loginBtnViewFlipperLD.value = VIEW_FLIPPER_BUTTON
                 }
             }
         }
     }
 
     fun sendPasswordResetEmail(email: String) {
-        forgotPasswordBtnViewFlipper.value = VIEW_FLIPPER_PROGRESS_BAR
+        forgotPasswordBtnViewFlipperLD.value = VIEW_FLIPPER_PROGRESS_BAR
 
         authDataSource.sendPasswordResetEmail(email) { FirebaseAuthResult ->
 
-            forgotPasswordBtnViewFlipper.value = VIEW_FLIPPER_BUTTON
+            forgotPasswordBtnViewFlipperLD.value = VIEW_FLIPPER_BUTTON
 
             when (FirebaseAuthResult) {
                 is FirebaseResult.Success ->
-                    resetPasswordMessage.value = Pair(
+                    resetPasswordMessageLD.value = Pair(
                         MessageType.SUCCESSFUL, resProvider
                             .getString(R.string.reset_email_task_successful)
                     )
 
                 is FirebaseResult.Error -> {
-                    resetPasswordMessage.value = when (FirebaseAuthResult.errorType) {
+                    resetPasswordMessageLD.value = when (FirebaseAuthResult.errorType) {
                         ErrorType.INVALID_EMAIL -> Pair(MessageType.ERROR,
                             resProvider.getString(R.string.invalid_email_message))
 
@@ -137,8 +136,8 @@ class LoginViewModel(
 
     @Suppress("UNCHECKED_CAST")
     class ViewModelFactory(
-        private val authDataSource: FirebaseAuthRepository,
-        private val databaseDataSource: FirebaseDatabaseRepository,
+        private val authDataSource: AuthRepository,
+        private val databaseDataSource: DatabaseRepository,
         private val resourceProvider: ResourcesProvider,
         private val preferences: Preferences
     ) :

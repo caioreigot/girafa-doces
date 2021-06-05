@@ -2,7 +2,6 @@ package com.github.caioreigot.girafadoces.presentation.main.account
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,14 +9,10 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.github.caioreigot.girafadoces.R
-import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.model.Singleton
 import com.github.caioreigot.girafadoces.data.local.Preferences
 import com.github.caioreigot.girafadoces.data.model.UserSingleton
-import com.github.caioreigot.girafadoces.data.remote.auth.FirebaseAuthDataSource
-import com.github.caioreigot.girafadoces.data.remote.database.FirebaseDatabaseDataSource
 import com.github.caioreigot.girafadoces.presentation.login.LoginActivity
-import com.github.caioreigot.girafadoces.presentation.login.LoginViewModel
 
 class AccountFragment : Fragment() {
 
@@ -65,10 +60,10 @@ class AccountFragment : Fragment() {
 
         //region Listeners
         signOutBtn.setOnClickListener {
-            Singleton.mFirebaseAuth.signOut()
+            Singleton.mAuth.signOut()
         }
 
-        Singleton.mFirebaseAuth.addAuthStateListener { firebaseAuth ->
+        Singleton.mAuth.addAuthStateListener { firebaseAuth ->
             if (firebaseAuth.currentUser == null) {
                 val intent = Intent(requireContext(), LoginActivity::class.java)
                 Preferences(requireContext()).clearPreferences()

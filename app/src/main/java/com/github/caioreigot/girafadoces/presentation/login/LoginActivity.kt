@@ -8,11 +8,11 @@ import android.view.inputmethod.EditorInfo
 import android.widget.*
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.ResourcesProvider
-import com.github.caioreigot.girafadoces.data.remote.auth.FirebaseAuthDataSource
+import com.github.caioreigot.girafadoces.data.remote.auth.AuthDataSource
 import com.github.caioreigot.girafadoces.data.local.Preferences
 import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.model.UserSingleton
-import com.github.caioreigot.girafadoces.data.remote.database.FirebaseDatabaseDataSource
+import com.github.caioreigot.girafadoces.data.remote.database.DatabaseDataSource
 import com.github.caioreigot.girafadoces.presentation.base.BaseActivity
 import com.github.caioreigot.girafadoces.presentation.main.MainActivity
 import com.github.caioreigot.girafadoces.presentation.signup.SignUpActivity
@@ -40,8 +40,8 @@ class LoginActivity : BaseActivity() {
         setContentView(R.layout.activity_login)
 
         val mViewModel: LoginViewModel = LoginViewModel.ViewModelFactory(
-            FirebaseAuthDataSource(),
-            FirebaseDatabaseDataSource(),
+            AuthDataSource(),
+            DatabaseDataSource(),
             ResourcesProvider(this),
             Preferences(this)
         )
@@ -108,7 +108,7 @@ class LoginActivity : BaseActivity() {
         //endregion
 
         //region Observers
-        mViewModel.loggedUserInformation.observe(this, { (loggedUser, password) ->
+        mViewModel.loggedUserInformationLD.observe(this, { (loggedUser, password) ->
             loggedUser?.let {
                 UserSingleton.set(loggedUser)
 
@@ -121,13 +121,13 @@ class LoginActivity : BaseActivity() {
             }
         })
 
-        mViewModel.loginBtnViewFlipper.observe(this, {
+        mViewModel.loginBtnViewFlipperLD.observe(this, {
             it?.let { childToDisplay ->
                 viewFlipper.displayedChild = childToDisplay
             }
         })
 
-        mViewModel.errorMessage.observe(this, { errorMessage ->
+        mViewModel.errorMessageLD.observe(this, { errorMessage ->
             createMessageDialog(
                 this,
                 MessageType.ERROR,
@@ -137,7 +137,7 @@ class LoginActivity : BaseActivity() {
             ).show()
         })
 
-        mViewModel.resetPasswordMessage.observe(this, { (messageType, message) ->
+        mViewModel.resetPasswordMessageLD.observe(this, { (messageType, message) ->
             createMessageDialog(
                 this,
                 messageType,

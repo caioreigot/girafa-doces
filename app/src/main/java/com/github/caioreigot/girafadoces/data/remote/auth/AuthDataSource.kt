@@ -5,9 +5,9 @@ import com.github.caioreigot.girafadoces.data.model.Singleton
 import com.github.caioreigot.girafadoces.data.Utils
 import com.github.caioreigot.girafadoces.data.model.ErrorType
 import com.github.caioreigot.girafadoces.data.model.Global
-import com.github.caioreigot.girafadoces.data.repository.FirebaseAuthRepository
+import com.github.caioreigot.girafadoces.data.repository.AuthRepository
 
-class FirebaseAuthDataSource : FirebaseAuthRepository {
+class AuthDataSource : AuthRepository {
 
     override fun loginUser(
         email: String,
@@ -24,7 +24,7 @@ class FirebaseAuthDataSource : FirebaseAuthRepository {
             return
         }
 
-        Singleton.mFirebaseAuth.signInWithEmailAndPassword(email, password)
+        Singleton.mAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 when (task.isSuccessful) {
                     true -> callback(FirebaseResult.Success)
@@ -68,11 +68,11 @@ class FirebaseAuthDataSource : FirebaseAuthRepository {
         val dashedPhoneNumber = StringBuilder(phoneNumber).insert(5, "-").toString()
         val fullPhoneNumber = "($phoneDDD) $dashedPhoneNumber"
 
-        Singleton.mFirebaseAuth
+        Singleton.mAuth
             .createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                 when (task.isSuccessful) {
                     true -> {
-                        val userID = Singleton.mFirebaseAuth.currentUser?.uid
+                        val userID = Singleton.mAuth.currentUser?.uid
 
                         userID?.let { uid ->
                             val currentUserDB = Singleton.mDatabaseUsersReference.child(uid)
@@ -108,7 +108,7 @@ class FirebaseAuthDataSource : FirebaseAuthRepository {
             return
         }
 
-        Singleton.mFirebaseAuth.sendPasswordResetEmail(email)
+        Singleton.mAuth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful)
                     callback(FirebaseResult.Success)

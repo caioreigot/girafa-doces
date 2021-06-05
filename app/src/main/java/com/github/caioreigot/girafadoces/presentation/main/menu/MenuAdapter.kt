@@ -23,7 +23,7 @@ class MenuAdapter(
         fun bind(item: MenuItem) {
             header.text = item.header
             content.text = item.content
-            imageView.setImageDrawable(item.image)
+            imageView.setImageBitmap(item.image)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                 header.letterSpacing = 0.05F

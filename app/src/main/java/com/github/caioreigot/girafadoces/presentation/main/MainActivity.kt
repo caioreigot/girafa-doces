@@ -1,6 +1,5 @@
 package com.github.caioreigot.girafadoces.presentation.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -24,7 +23,7 @@ class MainActivity : BaseActivity() {
         // Assignments
         bottomNavigation = findViewById(R.id.main_bottom_navigation)
 
-        //showDebug()
+        //showDebugUserInfo()
 
         bottomNavigation.menu.clear()
 
@@ -51,7 +50,7 @@ class MainActivity : BaseActivity() {
         // Listeners
         bottomNavigation.setOnNavigationItemSelectedListener { selectedItem ->
 
-            val selectedFragment: Fragment = when (selectedItem.itemId) {
+            val _selectedFragment: Fragment = when (selectedItem.itemId) {
                 R.id.menu -> MenuFragment()
                 R.id.user_profile -> AccountFragment()
                 R.id.add_menu_item -> AddFragment()
@@ -61,15 +60,15 @@ class MainActivity : BaseActivity() {
 
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fragment_container, selectedFragment)
+                .replace(R.id.fragment_container, _selectedFragment)
                 .commit()
 
             return@setOnNavigationItemSelectedListener true
         }
     }
 
-    fun showDebug() {
-        Log.d("MY_DEBUG", Singleton.mFirebaseAuth.currentUser?.uid.toString())
+    fun showDebugUserInfo() {
+        Log.d("MY_DEBUG", Singleton.mAuth.currentUser?.uid.toString())
         Log.d("MY_DEBUG", UserSingleton.fullName)
         Log.d("MY_DEBUG", UserSingleton.deliveryAddress)
         Log.d("MY_DEBUG", UserSingleton.phoneNumber)

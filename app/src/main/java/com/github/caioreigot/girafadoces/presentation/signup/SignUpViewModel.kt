@@ -8,20 +8,20 @@ import com.github.caioreigot.girafadoces.data.FirebaseResult
 import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.SingleLiveEvent
 import com.github.caioreigot.girafadoces.data.model.ErrorType
-import com.github.caioreigot.girafadoces.data.repository.FirebaseAuthRepository
+import com.github.caioreigot.girafadoces.data.repository.AuthRepository
 import java.lang.IllegalArgumentException
 
 class SignUpViewModel(
-    private val dataSource: FirebaseAuthRepository,
+    private val dataSource: AuthRepository,
     private val resProvider: ResourcesProvider
 ) : ViewModel() {
 
-    val registrationMade: SingleLiveEvent<Boolean> = SingleLiveEvent<Boolean>()
+    val registrationMadeLD: SingleLiveEvent<Boolean> = SingleLiveEvent<Boolean>()
 
-    val registerBtnViewFlipper: MutableLiveData<Int> = MutableLiveData()
+    val registerBtnViewFlipperLD: MutableLiveData<Int> = MutableLiveData()
 
-    val errorMessage: SingleLiveEvent<String> = SingleLiveEvent<String>()
-    val sucessfulMessage: SingleLiveEvent<String> = SingleLiveEvent<String>()
+    val errorMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
+    val sucessfulMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
 
     companion object {
         private const val VIEW_FLIPPER_REGISTER_BUTTON = 0
@@ -39,7 +39,7 @@ class SignUpViewModel(
         passwordConfirm: String,
     ) {
         // Show Progress Bar
-        registerBtnViewFlipper.value = VIEW_FLIPPER_PROGRESS_BAR
+        registerBtnViewFlipperLD.value = VIEW_FLIPPER_PROGRESS_BAR
 
         dataSource.registerUser(
             fullName = fullName,
@@ -52,18 +52,18 @@ class SignUpViewModel(
             passwordConfirm = passwordConfirm
         ) { FirebaseResult ->
 
-            registerBtnViewFlipper.value = VIEW_FLIPPER_REGISTER_BUTTON
+            registerBtnViewFlipperLD.value = VIEW_FLIPPER_REGISTER_BUTTON
 
             when (FirebaseResult) {
                 is FirebaseResult.Success -> {
-                    sucessfulMessage.value = resProvider
+                    sucessfulMessageLD.value = resProvider
                         .getString(R.string.signup_success_message)
 
-                    registrationMade.value = true
+                    registrationMadeLD.value = true
                 }
 
                 is FirebaseResult.Error -> {
-                    errorMessage.value = when (FirebaseResult.errorType) {
+                    errorMessageLD.value = when (FirebaseResult.errorType) {
                         ErrorType.UNEXPECTED_ERROR ->
                             resProvider.getString(R.string.unexpected_error)
 
@@ -96,7 +96,7 @@ class SignUpViewModel(
 
     @Suppress("UNCHECKED_CAST")
     class ViewModelFactory(
-        private val dataSource: FirebaseAuthRepository,
+        private val dataSource: AuthRepository,
         private val resourceProvider: ResourcesProvider
     ) :
         ViewModelProvider.Factory {

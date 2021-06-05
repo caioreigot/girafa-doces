@@ -13,4 +13,8 @@
         android:icon="@drawable/ic_baseline_add_circle_24"
         android:title="Add"/>
 
+    <item android:id="@+id/admin_panel"
+        android:icon="@drawable/ic_baseline_admin_panel_settings_24"
+        android:title="Admin"/>
+
 </menu>
