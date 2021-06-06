@@ -1,14 +1,9 @@
 package com.github.caioreigot.girafadoces.data.remote.storage
 
-import android.util.Log
-import com.github.caioreigot.girafadoces.data.FirebaseResult
+import com.github.caioreigot.girafadoces.data.model.FirebaseResult
 import com.github.caioreigot.girafadoces.data.model.ErrorType
 import com.github.caioreigot.girafadoces.data.model.Singleton
 import com.github.caioreigot.girafadoces.data.repository.StorageRepository
-import com.google.firebase.FirebaseError
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 
 class StorageDataSource : StorageRepository {
 
@@ -29,7 +24,7 @@ class StorageDataSource : StorageRepository {
                                 callback(null, FirebaseResult.Error(ErrorType.SERVER_ERROR))
                         }
 
-                        // Just call back when all images are downloaded
+                        // Just "callback" when all images are downloaded
                         if (mutableListImages.size == listResult.items.size)
                             callback(mutableListImages, FirebaseResult.Success)
                     }
@@ -75,5 +70,14 @@ class StorageDataSource : StorageRepository {
                 else if (task.isCanceled)
                     callback(FirebaseResult.Error(ErrorType.UNEXPECTED_ERROR))
             }
+    }
+
+    override fun deleteImage(
+        uid: String,
+        callback: (result: FirebaseResult) -> Unit
+    ) {
+        Singleton.mStorageMenuImagesReference.child(uid).delete()
+            .addOnSuccessListener { callback(FirebaseResult.Success) }
+            .addOnFailureListener { callback(FirebaseResult.Error(ErrorType.SERVER_ERROR)) }
     }
 }

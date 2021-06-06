@@ -1,6 +1,6 @@
 package com.github.caioreigot.girafadoces.data.repository
 
-import com.github.caioreigot.girafadoces.data.FirebaseResult
+import com.github.caioreigot.girafadoces.data.model.FirebaseResult
 
 interface StorageRepository {
     fun downloadAllImages(
@@ -16,6 +16,11 @@ interface StorageRepository {
         imageInByte: ByteArray,
         uid: String,
         progressCallback: (progress: Int) -> Unit,
+        callback: (result: FirebaseResult) -> Unit
+    )
+
+    fun deleteImage(
+        uid: String,
         callback: (result: FirebaseResult) -> Unit
     )
 }

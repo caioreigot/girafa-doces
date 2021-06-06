@@ -2,11 +2,13 @@ package com.github.caioreigot.girafadoces.presentation.main.account
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.model.Singleton
@@ -24,7 +26,8 @@ class AccountFragment : Fragment() {
     lateinit var editAccountName: Button
     lateinit var editAccountDeliveryAddress: Button
     lateinit var editAccountPhone: Button
-    lateinit var signOutBtn: Button
+
+    lateinit var signOutBtnCV: CardView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,7 +53,7 @@ class AccountFragment : Fragment() {
         editAccountName = view.findViewById(R.id.account_name_edit_button)
         editAccountDeliveryAddress = view.findViewById(R.id.account_address_edit_button)
         editAccountPhone = view.findViewById(R.id.account_phone_edit_button)
-        signOutBtn = view.findViewById(R.id.account_sign_out)
+        signOutBtnCV = view.findViewById(R.id.account_sign_out_cv)
 
         nameTV.text = UserSingleton.fullName
         addressTV.text = UserSingleton.deliveryAddress
@@ -59,7 +62,7 @@ class AccountFragment : Fragment() {
         //endregion
 
         //region Listeners
-        signOutBtn.setOnClickListener {
+        signOutBtnCV.setOnClickListener {
             Singleton.mAuth.signOut()
         }
 

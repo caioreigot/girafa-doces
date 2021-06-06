@@ -2,15 +2,9 @@ package com.github.caioreigot.girafadoces.presentation.base
 
 import android.app.Dialog
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.Color
-import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
-import android.os.Message
-import android.util.TypedValue
-import android.view.TouchDelegate
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ImageView
@@ -18,6 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.model.MessageType
+
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -34,7 +29,9 @@ open class BaseActivity : AppCompatActivity() {
         messageType: MessageType,
         header: String,
         content: String,
-        onClickListener: (() -> Unit)?
+        positiveOnClickListener: (() -> Unit)? = null,
+        negativeOnClickListener: (() -> Unit)? = null,
+        callback: ((choice: Boolean) -> Unit)? = null
     ): Dialog {
         val dialog = Dialog(context)
         dialog.setContentView(R.layout.message_dialog)
@@ -47,8 +44,11 @@ open class BaseActivity : AppCompatActivity() {
          */
 
         val dialogImage = dialog.findViewById<ImageView>(R.id.message_dialog_image_iv)
+
         val dialogTitleTv = dialog.findViewById<TextView>(R.id.message_dialog_title_tv)
         val dialogContentTv = dialog.findViewById<TextView>(R.id.message_dialog_content_tv)
+
+        val dialogNegativeBtn = dialog.findViewById<Button>(R.id.message_dialog_negative_btn)
         val dialogPositiveBtn = dialog.findViewById<Button>(R.id.message_dialog_positive_btn)
 
         when (messageType) {
@@ -57,13 +57,27 @@ open class BaseActivity : AppCompatActivity() {
 
             MessageType.ERROR ->
                 dialogImage.setImageResource(R.drawable.ic_baseline_error_outline_24)
+
+            MessageType.CONFIRMATION -> {
+                dialogImage.setImageResource(R.drawable.ic_baseline_info_24)
+
+                dialogPositiveBtn.text = getString(R.string.dialog_yes_button)
+                dialogNegativeBtn.visibility = View.VISIBLE
+            }
         }
 
         dialogTitleTv.text = header
         dialogContentTv.text = content
 
         dialogPositiveBtn.setOnClickListener{
-            onClickListener?.invoke()
+            positiveOnClickListener?.invoke()
+            callback?.let { it(true) }
+            dialog.dismiss()
+        }
+
+        dialogNegativeBtn.setOnClickListener {
+            negativeOnClickListener?.invoke()
+            callback?.let { it(false) }
             dialog.dismiss()
         }
 

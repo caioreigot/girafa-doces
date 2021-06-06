@@ -1,6 +1,6 @@
 package com.github.caioreigot.girafadoces.data.repository
 
-import com.github.caioreigot.girafadoces.data.FirebaseResult
+import com.github.caioreigot.girafadoces.data.model.FirebaseResult
 import com.github.caioreigot.girafadoces.data.model.MenuItem
 import com.github.caioreigot.girafadoces.data.model.User
 
@@ -18,5 +18,11 @@ interface DatabaseRepository {
         itemHeader: String,
         itemContent: String,
         callback: (uid: String?, result: FirebaseResult) -> Unit
+    )
+
+    fun removeMenuItem(
+        storageSource: StorageRepository,
+        uid: String,
+        callback: (result: FirebaseResult) -> Unit
     )
 }

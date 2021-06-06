@@ -44,9 +44,32 @@
             android:layout_marginEnd="40dp"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/account_email_address_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/account_email_header"
+                android:textColor="@color/primaryPink"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/account_user_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAlignment="textStart"
+                android:textColor="@color/primaryBrown"
+                android:textSize="18sp"
+                tools:text="emailtemplate@gmail.com" />
+
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
 
                 <TextView
                     android:id="@+id/account_name_title"
@@ -87,35 +110,6 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
-                    android:id="@+id/account_email_address_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/account_email_header"
-                    android:textColor="@color/primaryPink"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/account_user_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textAlignment="textStart"
-                android:textColor="@color/primaryBrown"
-                android:textSize="18sp"
-                tools:text="my.random.email@gmail.com" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp">
-
-                <TextView
                     android:id="@+id/account_address_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -146,7 +140,7 @@
                 android:textAlignment="textStart"
                 android:textColor="@color/primaryBrown"
                 android:textSize="18sp"
-                tools:text="R. Aleatoria - nº 1024" />
+                tools:text="R. Random - nº 1024" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -193,24 +187,38 @@
             android:layout_height="60dp"
             android:layout_below="@id/account_informations_view_group"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="18dp">
+            android:layout_marginTop="25dp">
 
-            <Button
-                android:id="@+id/account_sign_out"
-                android:layout_width="wrap_content"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/account_sign_out_cv"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:text="@string/account_sign_out"
-                android:textColor="@color/white"
-                app:backgroundTint="@color/primaryPink" />
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/primaryPink"
+                app:cardCornerRadius="10dp"
+                app:contentPadding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/account_sign_out"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/primaryPink" />
+
+            </androidx.cardview.widget.CardView>
 
             <ProgressBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:indeterminate="true"
-                android:indeterminateDrawable="@drawable/progress_bar_pink"/>
+                android:indeterminateDrawable="@drawable/progress_bar_pink" />
 
         </ViewFlipper>
 

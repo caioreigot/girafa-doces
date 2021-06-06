@@ -8,25 +8,29 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.github.caioreigot.girafadoces.R
+import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.model.MenuItem
 
 class MenuAdapter(
-    private val items: MutableList<MenuItem>
+    private val items: MutableList<MenuItem>,
+    private val resProvider: ResourcesProvider
 ) : RecyclerView.Adapter<MenuAdapter.MenuViewHolder>() {
 
     inner class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val header: TextView = itemView.findViewById(R.id.menu_item_header)
-        private val content: TextView = itemView.findViewById(R.id.menu_item_content)
+        private val headerTV: TextView = itemView.findViewById(R.id.menu_item_header)
+        private val contentTV: TextView = itemView.findViewById(R.id.menu_item_content)
         private val imageView: ImageView = itemView.findViewById(R.id.menu_item_image)
+        private val bottomButtonTV: TextView = itemView.findViewById(R.id.menu_item_bottom_button_tv)
 
         fun bind(item: MenuItem) {
-            header.text = item.header
-            content.text = item.content
+            headerTV.text = item.header
+            contentTV.text = item.content
             imageView.setImageBitmap(item.image)
+            bottomButtonTV.text = resProvider.getString(R.string.menu_item_order_text)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                header.letterSpacing = 0.05F
+                headerTV.letterSpacing = 0.05F
         }
     }
 

@@ -1,7 +1,6 @@
 package com.github.caioreigot.girafadoces.data.remote.database
 
-import android.util.Log
-import com.github.caioreigot.girafadoces.data.FirebaseResult
+import com.github.caioreigot.girafadoces.data.model.FirebaseResult
 import com.github.caioreigot.girafadoces.data.Utils.Companion.toBitmap
 import com.github.caioreigot.girafadoces.data.model.Singleton
 import com.github.caioreigot.girafadoces.data.model.*
@@ -116,6 +115,24 @@ class DatabaseDataSource : DatabaseRepository {
                     true -> callback(uid, FirebaseResult.Success)
                     false -> callback(null, FirebaseResult.Error(ErrorType.SERVER_ERROR))
                 }
+            }
+        }
+    }
+
+    override fun removeMenuItem(
+        storageSource: StorageRepository,
+        uid: String,
+        callback: (result: FirebaseResult) -> Unit
+    ) {
+        storageSource.deleteImage(uid) { result ->
+            when (result) {
+                is FirebaseResult.Success -> {
+                    Singleton.mDatabaseMenuItensReference.child(uid).removeValue()
+                        .addOnSuccessListener { callback(FirebaseResult.Success) }
+                        .addOnFailureListener { callback(FirebaseResult.Error(ErrorType.SERVER_ERROR)) }
+                }
+
+                is FirebaseResult.Error -> callback(result)
             }
         }
     }

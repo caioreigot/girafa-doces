@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.github.caioreigot.girafadoces.R
-import com.github.caioreigot.girafadoces.data.FirebaseResult
+import com.github.caioreigot.girafadoces.data.model.FirebaseResult
 import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.SingleLiveEvent
 import com.github.caioreigot.girafadoces.data.model.ErrorType

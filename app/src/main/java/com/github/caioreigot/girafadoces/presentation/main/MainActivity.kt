@@ -2,8 +2,11 @@ package com.github.caioreigot.girafadoces.presentation.main
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.github.caioreigot.girafadoces.R
+import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.model.Singleton
 import com.github.caioreigot.girafadoces.data.model.UserSingleton
 import com.github.caioreigot.girafadoces.presentation.base.BaseActivity
@@ -50,6 +53,9 @@ class MainActivity : BaseActivity() {
         // Listeners
         bottomNavigation.setOnNavigationItemSelectedListener { selectedItem ->
 
+            if (bottomNavigation.selectedItemId == selectedItem.itemId)
+                return@setOnNavigationItemSelectedListener false
+
             val _selectedFragment: Fragment = when (selectedItem.itemId) {
                 R.id.menu -> MenuFragment()
                 R.id.user_profile -> AccountFragment()
@@ -65,6 +71,25 @@ class MainActivity : BaseActivity() {
 
             return@setOnNavigationItemSelectedListener true
         }
+    }
+
+    fun showMessageDialog(
+        messageType: MessageType,
+        @StringRes stringRes: Int,
+        errorMessage: String,
+        positiveOnClickListener: (() -> Unit)? = null,
+        negativeOnClickListener: (() -> Unit)? = null,
+        callback: ((choice: Boolean) -> Unit)? = null
+    ) {
+        createMessageDialog(
+            this,
+            messageType,
+            getString(stringRes),
+            errorMessage,
+            positiveOnClickListener,
+            negativeOnClickListener,
+            callback
+        ).show()
     }
 
     fun showDebugUserInfo() {

@@ -39,7 +39,8 @@ class MenuFragment : Fragment() {
 
         menuRecyclerView = view.findViewById(R.id.menu_recycler_view)
         menuRecyclerView.layoutManager = LinearLayoutManager(
-            activity, LinearLayoutManager.HORIZONTAL, false)
+            activity, LinearLayoutManager.HORIZONTAL, false
+        )
 
         val helper: SnapHelper = LinearSnapHelper()
         helper.attachToRecyclerView(menuRecyclerView)
@@ -49,7 +50,8 @@ class MenuFragment : Fragment() {
         //region Observers
         mViewModel.menuItemsLD.observe(viewLifecycleOwner, {
             it?.let { menuItems ->
-                menuRecyclerView.adapter = MenuAdapter(menuItems)
+                menuRecyclerView.adapter =
+                    MenuAdapter(menuItems, ResourcesProvider(requireContext()))
             }
         })
         //endregion

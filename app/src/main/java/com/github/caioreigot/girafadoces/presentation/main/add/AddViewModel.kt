@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.github.caioreigot.girafadoces.R
-import com.github.caioreigot.girafadoces.data.FirebaseResult
+import com.github.caioreigot.girafadoces.data.model.FirebaseResult
 import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.SingleLiveEvent
 import com.github.caioreigot.girafadoces.data.model.ErrorType
@@ -20,6 +20,8 @@ class AddViewModel(
 ) : ViewModel() {
 
     val errorMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
+    val successMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
+
     val menuItemsLD: MutableLiveData<MutableList<MenuItem>> = MutableLiveData()
     val uploadProgressLD: MutableLiveData<String> = MutableLiveData()
 
@@ -43,11 +45,12 @@ class AddViewModel(
     fun saveMenuItemDatabase(
         itemHeader: String,
         itemContent: String,
-        itemImage: ByteArray
+        itemImage: ByteArray,
+        callback: (closeDialog: Boolean) -> Unit
     ) {
         databaseSource.saveMenuItem(itemHeader, itemContent) { uid, FirebaseResult ->
-            uid?.let {
-                storageSource.uploadImage(itemImage, it,
+            uid?.let { imageUid ->
+                storageSource.uploadImage(itemImage, imageUid,
 
                 // Callback for track progress of image upload
                 { percentageProgress ->
@@ -58,11 +61,21 @@ class AddViewModel(
                 { _FirebaseResult ->
                     when (_FirebaseResult) {
                         is FirebaseResult.Success -> {
-                            // TODO
+                            successMessageLD.value =
+                                resProvider.getString(R.string.menu_item_save_successful)
+
+                            callback(true)
                         }
 
                         is FirebaseResult.Error -> {
-                            // TODO
+                            errorMessageLD.value = when (_FirebaseResult.errorType) {
+                                ErrorType.SERVER_ERROR ->
+                                    resProvider.getString(R.string.server_error_message)
+                                else ->
+                                    resProvider.getString(R.string.unexpected_error)
+                            }
+
+                            callback(false)
                         }
                     }
                 })

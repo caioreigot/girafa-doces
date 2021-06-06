@@ -1,33 +1,43 @@
 package com.github.caioreigot.girafadoces.presentation.main.add
 
-import android.R.attr.bitmap
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.DialogFragment
 import com.github.caioreigot.girafadoces.R
+import com.github.caioreigot.girafadoces.data.model.MessageType
+import com.github.caioreigot.girafadoces.presentation.main.MainActivity
 import java.io.ByteArrayOutputStream
 
 
-class AddMenuItemDialog(private val addViewModel: AddViewModel) : DialogFragment() {
+class AddMenuItemDialog(
+    private val addViewModel: AddViewModel,
+    private val clearRecyclerView: () -> Unit
+) : DialogFragment() {
 
     val PICK_IMAGE = 1
+
+    val VIEW_FLIPPER_BUTTON = 0
+    val VIEW_FLIPPER_PROGRESS_BAR = 1
 
     lateinit var contentET: EditText
     lateinit var titleET: EditText
     lateinit var imageView: ImageView
-    lateinit var percentageTV: TextView
+    lateinit var progressBar: ProgressBar
 
-    lateinit var addDialogBtn: Button
-    lateinit var chooseImageBtn: Button
+    lateinit var viewFlipper: ViewFlipper
+
+    lateinit var addDialogBtnCV: CardView
+    lateinit var chooseImageBtnCV: CardView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,40 +55,52 @@ class AddMenuItemDialog(private val addViewModel: AddViewModel) : DialogFragment
         titleET = view.findViewById(R.id.menu_item_header)
         contentET = view.findViewById(R.id.dialog_menu_item_content)
         imageView = view.findViewById(R.id.menu_item_image)
-        percentageTV = view.findViewById(R.id.add_dialog_percentage_tv)
+        progressBar = view.findViewById(R.id.add_dialog_progress_bar)
 
-        addDialogBtn = view.findViewById(R.id.add_btn_dialog)
-        chooseImageBtn = view.findViewById(R.id.choose_image_btn)
+        viewFlipper = view.findViewById(R.id.add_dialog_view_flipper)
 
-        chooseImageBtn.setOnClickListener {
+        addDialogBtnCV = view.findViewById(R.id.dialog_add_btn_cv)
+        chooseImageBtnCV = view.findViewById(R.id.choose_image_cardview)
+
+        chooseImageBtnCV.setOnClickListener {
             val intent = Intent()
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT
             startActivityForResult(Intent.createChooser(intent, "Selecionar Imagem"), PICK_IMAGE)
         }
 
-        addDialogBtn.setOnClickListener {
+        addDialogBtnCV.setOnClickListener {
             if (imageView.drawable == null) {
-                Toast.makeText(
-                    requireContext(),
-                    "Nenhuma imagem selecionada!",
-                    Toast.LENGTH_LONG
-                ).show()
+                (activity as MainActivity).showMessageDialog(
+                    MessageType.ERROR,
+                    R.string.dialog_error_title,
+                    "Nenhuma imagem selecionada",
+                    null
+                )
+            } else {
+                val imageBitmap = (imageView.drawable as BitmapDrawable).bitmap
+                val imageInByte = convertBitmapToArrayBite(imageBitmap)
 
-                return@setOnClickListener
+                addViewModel.saveMenuItemDatabase(
+                    titleET.text.toString(),
+                    contentET.text.toString(),
+                    imageInByte
+                ) { closeDialog ->
+                    when (closeDialog) {
+                        // Clear and update RecyclerView
+                        true -> {
+                            clearRecyclerView()
+                            addViewModel.getMenuItems()
+                            dismiss()
+                        }
+
+                        // Hide progress bar and show button
+                        false -> viewFlipper.displayedChild = VIEW_FLIPPER_BUTTON
+                    }
+                }
+
+                viewFlipper.displayedChild = VIEW_FLIPPER_PROGRESS_BAR
             }
-
-            val imageBitmap = (imageView.drawable as BitmapDrawable).bitmap
-            val imageInByte = convertBitmapToArrayBite(imageBitmap)
-
-            addViewModel.saveMenuItemDatabase(
-                titleET.text.toString(),
-                contentET.text.toString(),
-                imageInByte
-            )
-
-            addDialogBtn.visibility = View.GONE
-            percentageTV.visibility = View.VISIBLE
         }
     }
 
@@ -89,14 +111,9 @@ class AddMenuItemDialog(private val addViewModel: AddViewModel) : DialogFragment
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == PICK_IMAGE) {
+        if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK) {
             imageView.setImageURI(data?.data)
-            chooseImageBtn.visibility = View.GONE
-        } else
-            Toast.makeText(
-                requireContext(),
-                "Você não escolheu uma imagem",
-                Toast.LENGTH_LONG
-            ).show()
+            chooseImageBtnCV.visibility = View.GONE
+        }
     }
 }

@@ -6,8 +6,11 @@
     <string name="password">Senha</string>
     <string name="send">ENVIAR</string>
     <string name="dialog_ok_button">Ok</string>
+    <string name="dialog_cancel_button">Cancelar</string>
+    <string name="dialog_yes_button">Sim</string>
     <string name="dialog_successful_title">SUCESSO</string>
     <string name="dialog_error_title">ERRO</string>
+    <string name="dialog_confirmation_title">CONFIRMAR AÇÃO</string>
     <string name="unexpected_error">Erro inesperado</string>
     <string name="server_error_message">Erro no servidor</string>
     <string name="empty_field">Por favor, preencha todos os campos</string>
@@ -48,7 +51,6 @@
     <string name="account">Conta</string>
 
     <!-- Menu Fragment -->
-    <string name="order">ENCOMENDAR</string>
     <string name="drag_sideways">&lt; ARRASTE PARA OS LADOS &gt;</string>
 
     <!-- Account Fragment -->
@@ -58,5 +60,15 @@
     <string name="account_email_header">E-mail:</string>
     <string name="account_phone_header">Celular</string>
     <string name="account_sign_out">SAIR DA CONTA</string>
+
+    <!-- Add Fragment Result Messages -->
+    <string name="menu_item_save_successful">Item adicionado com sucesso</string>
+
+    <!-- Info Dialog Messages -->
+    <string name="remove_menu_item_info">O item será removido para todos os usuários, deseja continuar?</string>
+
+    <!-- Menu Item -->
+    <string name="menu_item_order_text">ENCOMENDAR</string>
+    <string name="menu_item_remove_text">REMOVER</string>
 
 </resources>

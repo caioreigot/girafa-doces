@@ -47,15 +47,35 @@
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/white">
+            android:layout_gravity="center"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="0dp">
 
-            <Button
-                android:id="@+id/choose_image_btn"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/choose_image_cardview"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:layout_gravity="bottom|center_horizontal"
-                android:text="ESCOLHER IMAGEM"
-                android:textSize="25sp" />
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/primaryPink"
+                app:cardCornerRadius="20dp"
+                app:contentPaddingBottom="10dp"
+                app:contentPaddingLeft="20dp"
+                app:contentPaddingRight="20dp"
+                app:contentPaddingTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="ESCOLHER IMAGEM"
+                    android:textColor="@color/white"
+                    android:textSize="25sp" />
+
+            </androidx.cardview.widget.CardView>
 
             <ImageView
                 android:id="@+id/menu_item_image"
@@ -68,33 +88,50 @@
 
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/add_dialog_percentage_tv"
-            android:layout_width="wrap_content"
+        <ViewFlipper
+            android:id="@+id/add_dialog_view_flipper"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="15dp"
-            android:text="0%"
-            android:textColor="@color/primaryPink"
-            android:textSize="34sp"
-            android:textStyle="bold"
-            android:visibility="gone"
-            tools:ignore="HardcodedText" />
+            android:layout_marginBottom="15dp">
 
-        <Button
-            android:id="@+id/add_btn_dialog"
-            android:layout_width="wrap_content"
-            android:layout_height="75dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="15dp"
-            android:ems="10"
-            android:text="ADICIONAR"
-            android:textAllCaps="true"
-            android:textColor="@color/primaryPink"
-            android:textSize="25sp"
-            app:backgroundTint="@color/white" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/dialog_add_btn_cv"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp"
+                app:contentPaddingBottom="10dp"
+                app:contentPaddingLeft="20dp"
+                app:contentPaddingRight="20dp"
+                app:contentPaddingTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="ADICIONAR"
+                    android:textAllCaps="true"
+                    android:textColor="@color/primaryPink"
+                    android:textSize="25sp" />
+
+            </androidx.cardview.widget.CardView>
+
+            <ProgressBar
+                android:id="@+id/add_dialog_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_gravity="center_horizontal"
+                android:indeterminate="true"
+                android:indeterminateDrawable="@drawable/progress_bar_pink" />
+
+        </ViewFlipper>
 
     </LinearLayout>
 

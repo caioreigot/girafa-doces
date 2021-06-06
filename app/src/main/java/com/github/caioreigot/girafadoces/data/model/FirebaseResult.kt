@@ -1,6 +1,4 @@
-package com.github.caioreigot.girafadoces.data
-
-import com.github.caioreigot.girafadoces.data.model.ErrorType
+package com.github.caioreigot.girafadoces.data.model
 
 sealed class FirebaseResult {
     object Success : FirebaseResult()

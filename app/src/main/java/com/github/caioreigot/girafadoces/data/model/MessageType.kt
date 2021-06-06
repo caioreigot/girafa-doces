@@ -2,5 +2,6 @@ package com.github.caioreigot.girafadoces.data.model
 
 enum class MessageType {
     SUCCESSFUL,
-    ERROR
+    ERROR,
+    CONFIRMATION
 }

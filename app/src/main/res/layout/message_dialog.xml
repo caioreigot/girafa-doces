@@ -44,13 +44,34 @@
         android:layout_height="1dp"
         android:background="@android:color/darker_gray" />
 
-    <Button
-        android:id="@+id/message_dialog_positive_btn"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00FFFFFF"
-        android:text="@string/dialog_ok_button"
-        android:textColor="@android:color/holo_blue_dark"
-        android:textSize="17sp" />
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/message_dialog_negative_btn"
+            android:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:background="#00FFFFFF"
+            android:text="@string/dialog_cancel_button"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="17sp" />
+
+        <Button
+            android:id="@+id/message_dialog_positive_btn"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:background="#00FFFFFF"
+            android:text="@string/dialog_ok_button"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="17sp" />
+
+    </LinearLayout>
 
 </LinearLayout>

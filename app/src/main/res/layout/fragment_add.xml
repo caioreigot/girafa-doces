@@ -4,6 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ProgressBar
+        android:id="@+id/add_fragment_progress_bar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:layout_margin="20dp"
+        android:indeterminateDrawable="@drawable/progress_bar_pink"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/add_recycler_view"
         android:layout_width="match_parent"

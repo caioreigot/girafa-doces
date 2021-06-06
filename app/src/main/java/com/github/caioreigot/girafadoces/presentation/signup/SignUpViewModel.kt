@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.github.caioreigot.girafadoces.R
-import com.github.caioreigot.girafadoces.data.FirebaseResult
+import com.github.caioreigot.girafadoces.data.model.FirebaseResult
 import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.SingleLiveEvent
 import com.github.caioreigot.girafadoces.data.model.ErrorType
@@ -21,7 +21,7 @@ class SignUpViewModel(
     val registerBtnViewFlipperLD: MutableLiveData<Int> = MutableLiveData()
 
     val errorMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
-    val sucessfulMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
+    val successMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
 
     companion object {
         private const val VIEW_FLIPPER_REGISTER_BUTTON = 0
@@ -56,7 +56,7 @@ class SignUpViewModel(
 
             when (FirebaseResult) {
                 is FirebaseResult.Success -> {
-                    sucessfulMessageLD.value = resProvider
+                    successMessageLD.value = resProvider
                         .getString(R.string.signup_success_message)
 
                     registrationMadeLD.value = true
