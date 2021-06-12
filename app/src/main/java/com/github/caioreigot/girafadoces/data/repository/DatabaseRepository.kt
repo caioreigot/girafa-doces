@@ -3,10 +3,17 @@ package com.github.caioreigot.girafadoces.data.repository
 import com.github.caioreigot.girafadoces.data.model.FirebaseResult
 import com.github.caioreigot.girafadoces.data.model.MenuItem
 import com.github.caioreigot.girafadoces.data.model.User
+import com.github.caioreigot.girafadoces.data.model.UserAccountField
 
 interface DatabaseRepository {
     fun getLoggedUserInformation(
         callback: (User?, result: FirebaseResult) -> Unit
+    )
+
+    fun changeAccountField(
+        accountField: UserAccountField,
+        newValue: Any,
+        callback: (result: FirebaseResult) -> Unit
     )
 
     fun getMenuItems(

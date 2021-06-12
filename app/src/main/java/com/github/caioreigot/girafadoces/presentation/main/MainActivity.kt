@@ -13,6 +13,7 @@ import com.github.caioreigot.girafadoces.presentation.base.BaseActivity
 import com.github.caioreigot.girafadoces.presentation.main.add.AddFragment
 import com.github.caioreigot.girafadoces.presentation.main.menu.MenuFragment
 import com.github.caioreigot.girafadoces.presentation.main.account.AccountFragment
+import com.github.caioreigot.girafadoces.presentation.main.admin.AdminFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : BaseActivity() {
@@ -60,6 +61,7 @@ class MainActivity : BaseActivity() {
                 R.id.menu -> MenuFragment()
                 R.id.user_profile -> AccountFragment()
                 R.id.add_menu_item -> AddFragment()
+                R.id.admin_panel -> AdminFragment()
 
                 else -> MenuFragment()
             }

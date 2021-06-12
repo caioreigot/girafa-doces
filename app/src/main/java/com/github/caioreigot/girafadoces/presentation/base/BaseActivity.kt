@@ -50,6 +50,7 @@ open class BaseActivity : AppCompatActivity() {
 
         val dialogNegativeBtn = dialog.findViewById<Button>(R.id.message_dialog_negative_btn)
         val dialogPositiveBtn = dialog.findViewById<Button>(R.id.message_dialog_positive_btn)
+        val buttonDividerView = dialog.findViewById<View>(R.id.message_dialog_buttons_divider)
 
         when (messageType) {
             MessageType.SUCCESSFUL ->
@@ -63,6 +64,7 @@ open class BaseActivity : AppCompatActivity() {
 
                 dialogPositiveBtn.text = getString(R.string.dialog_yes_button)
                 dialogNegativeBtn.visibility = View.VISIBLE
+                buttonDividerView.visibility = View.VISIBLE
             }
         }
 

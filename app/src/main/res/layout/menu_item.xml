@@ -1,77 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingStart="25dp"
-    android:paddingTop="25dp"
-    android:paddingEnd="25dp"
-    android:paddingBottom="20dp">
+    android:layout_gravity="center_vertical"
+    android:scrollbars="none">
 
-    <TextView
-        android:id="@+id/menu_item_header"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primaryPink"
-        android:fontFamily="@font/bebasneue"
-        android:gravity="center"
-        android:padding="10dp"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="45sp"
-        tools:text="BOLO DE POTE" />
-
-    <TextView
-        android:id="@+id/menu_item_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:fontFamily="@font/bebasneue"
-        android:padding="20dp"
-        android:textAlignment="textStart"
-        android:textAllCaps="true"
-        android:textColor="@color/primaryBrown"
-        android:textSize="25sp"
-        tools:text="NINHO/ R$ 7,00\nBRIGADEIRO/ R$ 7,00\nPRESTÍGIO/ R$ 7,00" />
-
-    <ImageView
-        android:id="@+id/menu_item_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:adjustViewBounds="true"
-        android:maxHeight="350dp"
-        android:scaleType="centerCrop"
-        tools:src="@drawable/bolo" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/menu_item_bottom_button_cv"
-        android:layout_width="300dp"
-        android:layout_height="75dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="14dp"
-        android:layout_marginBottom="5dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        app:cardBackgroundColor="@color/white"
-        app:cardElevation="2dp">
+        android:orientation="vertical"
+        android:paddingStart="25dp"
+        android:paddingTop="25dp"
+        android:paddingEnd="25dp"
+        android:paddingBottom="20dp">
 
         <TextView
-            android:id="@+id/menu_item_bottom_button_tv"
+            android:id="@+id/menu_item_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/primaryPink"
+            android:fontFamily="@font/bebasneue"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="45sp"
+            tools:text="BOLO DE POTE" />
+
+        <TextView
+            android:id="@+id/menu_item_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:fontFamily="@font/bebasneue"
+            android:padding="20dp"
+            android:textAlignment="textStart"
+            android:textAllCaps="true"
+            android:textColor="@color/primaryBrown"
+            android:textSize="25sp"
+            tools:text="NINHO/ R$ 7,00\nBRIGADEIRO/ R$ 7,00\nPRESTÍGIO/ R$ 7,00" />
+
+        <ImageView
+            android:id="@+id/menu_item_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:ems="15"
-            android:gravity="center"
-            android:textAllCaps="true"
-            android:textColor="@color/primaryPink"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            tools:text="ENCOMENDAR" />
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/bolo" />
 
-    </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/menu_item_bottom_button_cv"
+            android:layout_width="300dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/primaryPink"
+            app:cardElevation="2dp">
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/menu_item_bottom_button_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ems="15"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                tools:text="ENCOMENDAR" />
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</ScrollView>

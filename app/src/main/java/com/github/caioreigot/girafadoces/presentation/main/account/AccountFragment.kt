@@ -2,32 +2,38 @@ package com.github.caioreigot.girafadoces.presentation.main.account
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
-import androidx.cardview.widget.CardView
+import android.widget.ViewFlipper
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import com.github.caioreigot.girafadoces.R
-import com.github.caioreigot.girafadoces.data.model.Singleton
+import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.local.Preferences
+import com.github.caioreigot.girafadoces.data.model.Singleton
+import com.github.caioreigot.girafadoces.data.model.UserAccountField
 import com.github.caioreigot.girafadoces.data.model.UserSingleton
+import com.github.caioreigot.girafadoces.data.remote.database.DatabaseDataSource
 import com.github.caioreigot.girafadoces.presentation.login.LoginActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class AccountFragment : Fragment() {
 
-    lateinit var nameTV: TextView
-    lateinit var addressTV: TextView
-    lateinit var emailTV: TextView
-    lateinit var phoneTV: TextView
+    private lateinit var loadingViewFlipper: ViewFlipper
+    private lateinit var informationsViewGroup: ViewGroup
 
-    lateinit var editAccountName: Button
-    lateinit var editAccountDeliveryAddress: Button
-    lateinit var editAccountPhone: Button
+    private lateinit var nameTV: TextView
+    private lateinit var addressTV: TextView
+    private lateinit var emailTV: TextView
+    private lateinit var phoneTV: TextView
 
-    lateinit var signOutBtnCV: CardView
+    private lateinit var editAccountName: ViewGroup
+    private lateinit var editAccountDeliveryAddress: ViewGroup
+    private lateinit var editAccountPhone: ViewGroup
+
+    private lateinit var signOutBtn: FloatingActionButton
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,31 +47,55 @@ class AccountFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val mViewModel: AccountViewModel = AccountViewModel.ViewModelFactory(
-            Preferences(requireContext())
+            ResourcesProvider(requireContext()),
+            DatabaseDataSource()
         ).create(AccountViewModel::class.java)
 
         //region Assignments
+        loadingViewFlipper = view.findViewById(R.id.account_loading_view_flipper)
+        informationsViewGroup = view.findViewById(R.id.account_informations_view_group)
+
         nameTV = view.findViewById(R.id.account_user_name)
         addressTV = view.findViewById(R.id.account_user_address)
         emailTV = view.findViewById(R.id.account_user_email)
         phoneTV = view.findViewById(R.id.account_user_phone)
 
-        editAccountName = view.findViewById(R.id.account_name_edit_button)
-        editAccountDeliveryAddress = view.findViewById(R.id.account_address_edit_button)
-        editAccountPhone = view.findViewById(R.id.account_phone_edit_button)
-        signOutBtnCV = view.findViewById(R.id.account_sign_out_cv)
+        editAccountName = view.findViewById(R.id.account_name_header_view_group)
+        editAccountDeliveryAddress = view.findViewById(R.id.account_address_header_view_group)
+        editAccountPhone = view.findViewById(R.id.account_phone_header_view_group)
 
-        nameTV.text = UserSingleton.fullName
-        addressTV.text = UserSingleton.deliveryAddress
-        emailTV.text = UserSingleton.email
-        phoneTV.text = UserSingleton.phoneNumber
+        signOutBtn = view.findViewById(R.id.account_sign_out_btn)
         //endregion
 
+        mViewModel.fetchUserAccountInformation()
+
         //region Listeners
-        signOutBtnCV.setOnClickListener {
+        signOutBtn.setOnClickListener {
             Singleton.mAuth.signOut()
         }
 
+        editAccountName
+            .setOnClickListener(ChangeAccountFieldListener(
+                activity,
+                mViewModel,
+                UserAccountField.NAME)
+            )
+
+        editAccountDeliveryAddress
+            .setOnClickListener(ChangeAccountFieldListener(
+                activity,
+                mViewModel,
+                UserAccountField.DELIVERY_ADDRESS)
+            )
+
+        editAccountPhone
+            .setOnClickListener(ChangeAccountFieldListener(
+                activity,
+                mViewModel,
+                UserAccountField.PHONE)
+            )
+
+        // Responsible for logging out the player and taking it to the login screen
         Singleton.mAuth.addAuthStateListener { firebaseAuth ->
             if (firebaseAuth.currentUser == null) {
                 val intent = Intent(requireContext(), LoginActivity::class.java)
@@ -76,5 +106,49 @@ class AccountFragment : Fragment() {
             }
         }
         //endregion
+
+        //region Observers
+        mViewModel.userAccountInformationLD.observe(viewLifecycleOwner, {
+            it?.let { user ->
+                UserSingleton.set(user)
+
+                nameTV.text = UserSingleton.fullName
+                addressTV.text = UserSingleton.deliveryAddress
+                emailTV.text = UserSingleton.email
+                phoneTV.text = UserSingleton.phoneNumber
+
+                informationsViewGroup.visibility = View.VISIBLE
+            }
+        })
+
+        mViewModel.loadingViewFlipperLD.observe(viewLifecycleOwner, {
+            it?.let { childToDisplay ->
+                loadingViewFlipper.displayedChild = childToDisplay
+            }
+        })
+
+        mViewModel.reloadInformationLD.observe(viewLifecycleOwner, {
+            mViewModel.fetchUserAccountInformation()
+        })
+        //endregion
+    }
+
+    class ChangeAccountFieldListener(
+        private val activity: FragmentActivity?,
+        private val accountViewModel: AccountViewModel,
+        private val fieldToChange: UserAccountField
+        ) : View.OnClickListener
+    {
+        override fun onClick(v: View?) {
+            activity?.supportFragmentManager?.let { supportFragmentManager ->
+                val changeInfoDialog = ChangeInfoDialog(
+                    accountViewModel,
+                    fieldToChange,
+                    ResourcesProvider(activity)
+                )
+
+                changeInfoDialog.show(supportFragmentManager, changeInfoDialog.tag)
+            }
+        }
     }
 }

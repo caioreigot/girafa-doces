@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/message_dialog_background"
     android:gravity="center"
     android:minWidth="300dp"
@@ -20,24 +20,24 @@
         tools:ignore="ContentDescription" />
 
     <TextView
-        android:gravity="center"
         android:id="@+id/message_dialog_title_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:gravity="center"
         android:text="@string/unexpected_error"
         android:textColor="@android:color/black"
         android:textSize="32sp" />
 
     <TextView
         android:id="@+id/message_dialog_content_tv"
-        android:padding="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat!"
-        android:textSize="14sp"
         android:gravity="center"
-        android:textColor="@android:color/black" />
+        android:padding="30dp"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat!" />
 
     <View
         android:layout_width="match_parent"
@@ -47,26 +47,33 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:weightSum="1"
-        android:gravity="center">
+        android:weightSum="1">
 
         <Button
             android:id="@+id/message_dialog_negative_btn"
-            android:visibility="gone"
             android:layout_width="0dp"
-            android:layout_weight="0.5"
             android:layout_height="wrap_content"
+            android:layout_weight="0.5"
             android:background="#00FFFFFF"
             android:text="@string/dialog_cancel_button"
             android:textColor="@android:color/holo_blue_dark"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/message_dialog_buttons_divider"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/message_dialog_positive_btn"
             android:layout_width="0dp"
-            android:layout_weight="0.5"
             android:layout_height="wrap_content"
+            android:layout_weight="0.5"
             android:background="#00FFFFFF"
             android:text="@string/dialog_ok_button"
             android:textColor="@android:color/holo_blue_dark"

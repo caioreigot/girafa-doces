@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -17,7 +18,8 @@ import com.github.caioreigot.girafadoces.data.remote.storage.StorageDataSource
 
 class MenuFragment : Fragment() {
 
-    lateinit var menuRecyclerView: RecyclerView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var menuRecyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,10 +39,14 @@ class MenuFragment : Fragment() {
         )
             .create(MenuViewModel::class.java)
 
+        progressBar = view.findViewById(R.id.menu_fragment_progress_bar)
         menuRecyclerView = view.findViewById(R.id.menu_recycler_view)
+
         menuRecyclerView.layoutManager = LinearLayoutManager(
             activity, LinearLayoutManager.HORIZONTAL, false
         )
+
+        menuRecyclerView.setHasFixedSize(true)
 
         val helper: SnapHelper = LinearSnapHelper()
         helper.attachToRecyclerView(menuRecyclerView)
@@ -50,6 +56,8 @@ class MenuFragment : Fragment() {
         //region Observers
         mViewModel.menuItemsLD.observe(viewLifecycleOwner, {
             it?.let { menuItems ->
+                progressBar.visibility = View.GONE
+
                 menuRecyclerView.adapter =
                     MenuAdapter(menuItems, ResourcesProvider(requireContext()))
             }

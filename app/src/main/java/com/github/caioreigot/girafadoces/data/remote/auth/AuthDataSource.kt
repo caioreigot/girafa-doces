@@ -1,10 +1,7 @@
 package com.github.caioreigot.girafadoces.data.remote.auth
 
-import com.github.caioreigot.girafadoces.data.model.FirebaseResult
-import com.github.caioreigot.girafadoces.data.model.Singleton
 import com.github.caioreigot.girafadoces.data.Utils
-import com.github.caioreigot.girafadoces.data.model.ErrorType
-import com.github.caioreigot.girafadoces.data.model.Global
+import com.github.caioreigot.girafadoces.data.model.*
 import com.github.caioreigot.girafadoces.data.repository.AuthRepository
 
 class AuthDataSource : AuthRepository {
@@ -37,7 +34,6 @@ class AuthDataSource : AuthRepository {
     override fun registerUser(
         fullName: String,
         email: String,
-        phoneDDD: String,
         phoneNumber: String,
         deliveryAddress: String,
         postalNumber: String,
@@ -48,7 +44,6 @@ class AuthDataSource : AuthRepository {
         val (isValid, errorType) = Utils.isRegisterInformationValid(
             fullName = fullName,
             email = email,
-            phoneDDD = phoneDDD,
             phoneNumber = phoneNumber,
             deliveryAddress = deliveryAddress,
             postalNumber = postalNumber,
@@ -64,10 +59,6 @@ class AuthDataSource : AuthRepository {
         // Adding postal number with the address
         val fullDeliveryAddress = "$deliveryAddress - nº $postalNumber"
 
-        // Adding phone DDD to phone number
-        val dashedPhoneNumber = StringBuilder(phoneNumber).insert(5, "-").toString()
-        val fullPhoneNumber = "($phoneDDD) $dashedPhoneNumber"
-
         Singleton.mAuth
             .createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                 when (task.isSuccessful) {
@@ -81,7 +72,7 @@ class AuthDataSource : AuthRepository {
                                 child(Global.DatabaseNames.USER_FULL_NAME).setValue(fullName)
                                 child(Global.DatabaseNames.USER_DELIVERY_ADDRESS).setValue(fullDeliveryAddress)
                                 child(Global.DatabaseNames.USER_EMAIL).setValue(email)
-                                child(Global.DatabaseNames.USER_PHONE).setValue(fullPhoneNumber)
+                                child(Global.DatabaseNames.USER_PHONE).setValue(phoneNumber)
                                 child(Global.DatabaseNames.USER_IS_ADMINISTRATOR).setValue(false)
                             }
                         }

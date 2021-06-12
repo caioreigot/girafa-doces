@@ -1,6 +1,7 @@
 package com.github.caioreigot.girafadoces.data.repository
 
 import com.github.caioreigot.girafadoces.data.model.FirebaseResult
+import com.github.caioreigot.girafadoces.data.model.UserAccountField
 
 interface AuthRepository {
     fun loginUser(
@@ -12,7 +13,6 @@ interface AuthRepository {
     fun registerUser(
         fullName: String,
         email: String,
-        phoneDDD: String,
         phoneNumber: String,
         deliveryAddress: String,
         postalNumber: String,

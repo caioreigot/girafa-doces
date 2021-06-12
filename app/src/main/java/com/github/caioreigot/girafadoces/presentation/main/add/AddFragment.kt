@@ -59,6 +59,8 @@ class AddFragment : Fragment() {
         addRecyclerView.layoutManager = LinearLayoutManager(
             activity, LinearLayoutManager.HORIZONTAL, false)
 
+        addRecyclerView.setHasFixedSize(true)
+
         val helper: SnapHelper = LinearSnapHelper()
         helper.attachToRecyclerView(addRecyclerView)
 

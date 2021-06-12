@@ -12,7 +12,7 @@ import com.github.caioreigot.girafadoces.data.repository.AuthRepository
 import java.lang.IllegalArgumentException
 
 class SignUpViewModel(
-    private val dataSource: AuthRepository,
+    private val authSource: AuthRepository,
     private val resProvider: ResourcesProvider
 ) : ViewModel() {
 
@@ -21,7 +21,6 @@ class SignUpViewModel(
     val registerBtnViewFlipperLD: MutableLiveData<Int> = MutableLiveData()
 
     val errorMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
-    val successMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
 
     companion object {
         private const val VIEW_FLIPPER_REGISTER_BUTTON = 0
@@ -31,7 +30,6 @@ class SignUpViewModel(
     fun registerUser(
         fullName: String,
         email: String,
-        phoneDDD: String,
         phoneNumber: String,
         deliveryAddress: String,
         postalNumber: String,
@@ -41,10 +39,9 @@ class SignUpViewModel(
         // Show Progress Bar
         registerBtnViewFlipperLD.value = VIEW_FLIPPER_PROGRESS_BAR
 
-        dataSource.registerUser(
+        authSource.registerUser(
             fullName = fullName,
             email = email,
-            phoneDDD = phoneDDD,
             phoneNumber = phoneNumber,
             deliveryAddress = deliveryAddress,
             postalNumber = postalNumber,
@@ -55,12 +52,7 @@ class SignUpViewModel(
             registerBtnViewFlipperLD.value = VIEW_FLIPPER_REGISTER_BUTTON
 
             when (FirebaseResult) {
-                is FirebaseResult.Success -> {
-                    successMessageLD.value = resProvider
-                        .getString(R.string.signup_success_message)
-
-                    registrationMadeLD.value = true
-                }
+                is FirebaseResult.Success -> registrationMadeLD.value = true
 
                 is FirebaseResult.Error -> {
                     errorMessageLD.value = when (FirebaseResult.errorType) {
@@ -96,13 +88,13 @@ class SignUpViewModel(
 
     @Suppress("UNCHECKED_CAST")
     class ViewModelFactory(
-        private val dataSource: AuthRepository,
+        private val authSource: AuthRepository,
         private val resourceProvider: ResourcesProvider
     ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(SignUpViewModel::class.java))
-                return SignUpViewModel(dataSource, resourceProvider) as T
+                return SignUpViewModel(authSource, resourceProvider) as T
 
             throw IllegalArgumentException("Unkown ViewModel class")
         }

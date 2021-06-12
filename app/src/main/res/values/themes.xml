@@ -35,7 +35,7 @@
     <style name="LoginEditTextNoPadding">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/EditTextHeight</item>
-        <item name="android:background">@drawable/login_edit_text_bg</item>
+        <item name="android:background">@drawable/edit_text_rounded_pink_bg</item>
         <item name="android:gravity">center</item>
         <item name="android:scrollHorizontally">true</item>
         <item name="android:singleLine">true</item>
@@ -53,7 +53,7 @@
         <item name="android:ems">15</item>
         <item name="android:paddingStart">12dp</item>
         <item name="android:paddingEnd">12dp</item>
-        <item name="android:background">@drawable/sign_up_edit_text_bg</item>
+        <item name="android:background">@drawable/edit_text_line_pink_bg</item>
         <item name="android:gravity">center</item>
         <item name="android:scrollHorizontally">true</item>
         <item name="android:singleLine">true</item>

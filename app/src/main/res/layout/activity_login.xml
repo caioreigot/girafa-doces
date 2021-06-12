@@ -19,8 +19,8 @@
 
     <ImageView
         android:id="@+id/login_logo"
-        android:layout_width="185dp"
-        android:layout_height="185dp"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:src="@drawable/logo"
@@ -120,11 +120,11 @@
                 android:id="@+id/login_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/EditTextHeight"
-                android:ems="15"
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/login_button_bg"
+                android:background="@drawable/rounded_pink_fill_bg"
+                android:ems="15"
                 android:text="@string/login"
                 android:textSize="18sp" />
 
@@ -134,7 +134,8 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:indeterminate="true" />
+                android:indeterminate="true"
+                android:indeterminateDrawable="@drawable/progress_bar_pink" />
         </ViewFlipper>
 
         <TextView
@@ -153,7 +154,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="35dp"
             android:layout_marginBottom="15dp"
-            android:background="@drawable/login_button_bg"
+            android:background="@drawable/rounded_pink_fill_bg"
             android:text="@string/register"
             android:textSize="18sp" />
 

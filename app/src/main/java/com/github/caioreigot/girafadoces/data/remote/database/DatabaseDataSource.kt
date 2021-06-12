@@ -1,5 +1,8 @@
 package com.github.caioreigot.girafadoces.data.remote.database
 
+import android.text.TextUtils
+import android.util.Log
+import com.github.caioreigot.girafadoces.data.Utils
 import com.github.caioreigot.girafadoces.data.model.FirebaseResult
 import com.github.caioreigot.girafadoces.data.Utils.Companion.toBitmap
 import com.github.caioreigot.girafadoces.data.model.Singleton
@@ -32,6 +35,76 @@ class DatabaseDataSource : DatabaseRepository {
         }
 
         callback(null, FirebaseResult.Error(ErrorType.UNEXPECTED_ERROR))
+    }
+
+    override fun changeAccountField(
+        accountField: UserAccountField,
+        newValue: Any,
+        callback: (result: FirebaseResult) -> Unit
+    ) {
+        var databaseUserKeyName: String?
+        var errorType = ErrorType.UNEXPECTED_ERROR
+        var isValid = true
+
+        when (accountField) {
+            UserAccountField.NAME -> {
+                if (TextUtils.isEmpty(newValue.toString())) {
+                    isValid = false
+                    errorType = ErrorType.EMPTY_FIELD
+                }
+
+                databaseUserKeyName = Global.DatabaseNames.USER_FULL_NAME
+            }
+
+            UserAccountField.DELIVERY_ADDRESS -> {
+                if (TextUtils.isEmpty(newValue.toString())) {
+                    isValid = false
+                    errorType = ErrorType.EMPTY_FIELD
+                }
+
+                databaseUserKeyName = Global.DatabaseNames.USER_DELIVERY_ADDRESS
+            }
+
+            UserAccountField.PHONE -> {
+                if (TextUtils.isEmpty(newValue.toString())) {
+                    isValid = false
+                    errorType = ErrorType.EMPTY_FIELD
+                } else if (!Utils.isValidPhoneNumber(newValue.toString(), "(XX) XXXXX-XXXX")) {
+                    isValid = false
+                    errorType = ErrorType.INVALID_PHONE
+                }
+
+                databaseUserKeyName = Global.DatabaseNames.USER_PHONE
+            }
+
+            else -> databaseUserKeyName = null
+        }
+
+        if (!isValid) {
+            callback(FirebaseResult.Error(errorType))
+            return
+        }
+
+        if (Singleton.mAuth.currentUser == null || databaseUserKeyName == null) {
+            callback(FirebaseResult.Error(ErrorType.SERVER_ERROR))
+            return
+        }
+
+        val currentUserUid = Singleton.mAuth.currentUser!!.uid
+
+        Singleton.mDatabaseUsersReference
+            .child(currentUserUid)
+            .child(databaseUserKeyName)
+            .setValue(newValue)
+            .addOnSuccessListener {
+                callback(FirebaseResult.Success)
+
+                getLoggedUserInformation { _user, _ ->
+                    _user?.let { user -> UserSingleton.set(user) }
+                }
+            }
+
+            .addOnFailureListener { callback(FirebaseResult.Error(ErrorType.SERVER_ERROR)) }
     }
 
     override fun getMenuItems(
@@ -68,13 +141,17 @@ class DatabaseDataSource : DatabaseRepository {
                     }
                 }
 
-                is FirebaseResult.Error -> callback(null, FirebaseResult.Error(ErrorType.SERVER_ERROR))
+                is FirebaseResult.Error -> callback(
+                    null,
+                    FirebaseResult.Error(ErrorType.SERVER_ERROR)
+                )
             }
         }
     }
 
     private fun fetchDatabaseMenuItemsInformation(callback: (MutableList<MenuItem>?) -> Unit) {
-        Singleton.mDatabaseMenuItensReference.addListenerForSingleValueEvent(object : ValueEventListener {
+        Singleton.mDatabaseMenuItensReference.addListenerForSingleValueEvent(object :
+            ValueEventListener {
 
             val itemsList = mutableListOf<MenuItem>()
 
@@ -110,7 +187,9 @@ class DatabaseDataSource : DatabaseRepository {
             with(Singleton.mDatabaseMenuItensReference.child(uid)) {
                 child(Global.DatabaseNames.MENU_ITEM_HEADER).setValue(itemHeader)
                 child(Global.DatabaseNames.MENU_ITEM_CONTENT).setValue(itemContent)
-            }.addOnCompleteListener { task ->
+            }
+
+            .addOnCompleteListener { task ->
                 when (task.isSuccessful) {
                     true -> callback(uid, FirebaseResult.Success)
                     false -> callback(null, FirebaseResult.Error(ErrorType.SERVER_ERROR))

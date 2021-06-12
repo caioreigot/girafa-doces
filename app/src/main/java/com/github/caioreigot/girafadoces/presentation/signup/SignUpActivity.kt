@@ -4,14 +4,15 @@ import android.os.Bundle
 import android.text.InputType.*
 import android.view.KeyEvent
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.ResourcesProvider
+import com.github.caioreigot.girafadoces.data.Utils
 import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.remote.auth.AuthDataSource
 import com.github.caioreigot.girafadoces.presentation.base.BaseActivity
-
 
 class SignUpActivity : BaseActivity() {
 
@@ -19,15 +20,14 @@ class SignUpActivity : BaseActivity() {
 
     lateinit var fullNameET: EditText
     lateinit var emailET: EditText
-    lateinit var phoneDDD: EditText
-    lateinit var phoneNumber: EditText
+    lateinit var phoneNumberET: EditText
     lateinit var deliveryAddressET: EditText
     lateinit var postalNumberET: EditText
 
     lateinit var passwordET: EditText
-    lateinit var passwordVisibilityBtn: Button
+    lateinit var passwordVisibilityBtn: LinearLayout
     lateinit var confirmPasswordET: EditText
-    lateinit var confirmPasswordVisibilityBtn: Button
+    lateinit var confirmPasswordVisibilityBtn: LinearLayout
 
     lateinit var viewFlipper: ViewFlipper
     lateinit var signUpButton: Button
@@ -48,14 +48,13 @@ class SignUpActivity : BaseActivity() {
 
         fullNameET = findViewById(R.id.sign_up_full_name_et)
         emailET = findViewById(R.id.sign_up_email_et)
-        phoneDDD = findViewById(R.id.sign_up_phone_ddd_et)
-        phoneNumber = findViewById(R.id.sign_up_phone_et)
+        phoneNumberET = findViewById(R.id.sign_up_phone_et)
         deliveryAddressET = findViewById(R.id.sign_up_delivery_adress_et)
         postalNumberET = findViewById(R.id.sign_up_postal_number_et)
         passwordET = findViewById(R.id.sign_up_password_et)
-        passwordVisibilityBtn = findViewById(R.id.sign_up_password_visibility_button)
+        passwordVisibilityBtn = findViewById(R.id.sign_up_password_visibility_btn_la)
         confirmPasswordET = findViewById(R.id.sign_up_confirm_password_et)
-        confirmPasswordVisibilityBtn = findViewById(R.id.sign_up_confirm_password_visibility_button)
+        confirmPasswordVisibilityBtn = findViewById(R.id.sign_up_confirm_password_visibility_btn_la)
 
         viewFlipper = findViewById(R.id.sign_up_vf)
         signUpButton = findViewById(R.id.sign_up_btn)
@@ -66,8 +65,7 @@ class SignUpActivity : BaseActivity() {
             mViewModel.registerUser(
                 fullName = fullNameET.text.toString().trimEnd(),
                 email = emailET.text.toString().trimEnd(),
-                phoneDDD = phoneDDD.text.toString(),
-                phoneNumber = phoneNumber.text.toString(),
+                phoneNumber = phoneNumberET.text.toString(),
                 deliveryAddress = deliveryAddressET.text.toString(),
                 postalNumber = postalNumberET.text.toString(),
                 password = passwordET.text.toString(),
@@ -77,19 +75,18 @@ class SignUpActivity : BaseActivity() {
             hideKeyboard()
         }
 
-        passwordVisibilityBtn
-            .setOnClickListener(PasswordVisibilityButtonListener(passwordET))
-        (passwordVisibilityBtn.parent as LinearLayout)
-            .setOnClickListener { passwordVisibilityBtn.callOnClick() }
+        phoneNumberET.addTextChangedListener(Utils.PhoneNumberWatcher(phoneNumberET))
 
-        confirmPasswordVisibilityBtn
-            .setOnClickListener(PasswordVisibilityButtonListener(confirmPasswordET))
-        (confirmPasswordVisibilityBtn.parent as LinearLayout)
-            .setOnClickListener { confirmPasswordVisibilityBtn.callOnClick() }
+        passwordVisibilityBtn.setOnClickListener(PasswordVisibilityButtonListener(passwordET))
+        confirmPasswordVisibilityBtn.setOnClickListener(
+            PasswordVisibilityButtonListener(
+                confirmPasswordET
+            )
+        )
 
         confirmPasswordET.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-                if (actionId == EditorInfo.IME_ACTION_SEND)  {
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
                     confirmPasswordET.clearFocus()
                     signUpButton.callOnClick()
                     return true
@@ -144,14 +141,16 @@ class SignUpActivity : BaseActivity() {
                 editText.inputType = (TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)
                 editText.setSelection(cursorPosition)
 
-                v?.setBackgroundResource(R.drawable.ic_baseline_visibility_24)
+                ((v as LinearLayout?)?.getChildAt(0) as ImageView?)
+                    ?.setImageResource(R.drawable.ic_baseline_visibility_24)
             } else { // Not visible
                 val cursorPosition = editText.selectionStart
 
                 editText.inputType = (TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_PASSWORD)
                 editText.setSelection(cursorPosition)
 
-                v?.setBackgroundResource(R.drawable.ic_baseline_visibility_off_24)
+                ((v as LinearLayout?)?.getChildAt(0) as ImageView?)
+                    ?.setImageResource(R.drawable.ic_baseline_visibility_off_24)
             }
         }
     }

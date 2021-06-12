@@ -18,7 +18,6 @@ import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.presentation.main.MainActivity
 import java.io.ByteArrayOutputStream
 
-
 class AddMenuItemDialog(
     private val addViewModel: AddViewModel,
     private val clearRecyclerView: () -> Unit
