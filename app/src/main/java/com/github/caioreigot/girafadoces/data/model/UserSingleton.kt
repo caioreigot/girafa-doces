@@ -6,7 +6,7 @@ object UserSingleton {
     var email: String = ""
     var phoneNumber: String = ""
     var deliveryAddress: String = ""
-    var isAdministrator: Boolean = false
+    var isAdmin: Boolean = false
 
     fun set(user: User) {
         apply {
@@ -14,7 +14,7 @@ object UserSingleton {
             email = user.email
             phoneNumber = user.phoneNumber
             deliveryAddress = user.deliveryAddress
-            isAdministrator = user.isAdministrator
+            isAdmin = user.isAdmin
         }
     }
 
@@ -23,6 +23,6 @@ object UserSingleton {
         email = ""
         phoneNumber = ""
         deliveryAddress = ""
-        isAdministrator = false
+        isAdmin = false
     }
 }

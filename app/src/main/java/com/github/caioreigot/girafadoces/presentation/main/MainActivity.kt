@@ -32,7 +32,7 @@ class MainActivity : BaseActivity() {
         bottomNavigation.menu.clear()
 
         bottomNavigation.inflateMenu(
-            if (UserSingleton.isAdministrator)
+            if (UserSingleton.isAdmin)
                 R.menu.administrator_menu_items
             else
                 R.menu.user_menu_items
@@ -100,6 +100,6 @@ class MainActivity : BaseActivity() {
         Log.d("MY_DEBUG", UserSingleton.deliveryAddress)
         Log.d("MY_DEBUG", UserSingleton.phoneNumber)
         Log.d("MY_DEBUG", UserSingleton.email)
-        Log.d("MY_DEBUG", UserSingleton.isAdministrator.toString())
+        Log.d("MY_DEBUG", UserSingleton.isAdmin.toString())
     }
 }

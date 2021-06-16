@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.github.caioreigot.girafadoces.R
+import com.github.caioreigot.girafadoces.data.ErrorMessageHandler
 import com.github.caioreigot.girafadoces.data.model.FirebaseResult
 import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.SingleLiveEvent
@@ -47,40 +48,16 @@ class SignUpViewModel(
             postalNumber = postalNumber,
             password = password,
             passwordConfirm = passwordConfirm
-        ) { FirebaseResult ->
+        ) { result ->
 
             registerBtnViewFlipperLD.value = VIEW_FLIPPER_REGISTER_BUTTON
 
-            when (FirebaseResult) {
+            when (result) {
                 is FirebaseResult.Success -> registrationMadeLD.value = true
 
                 is FirebaseResult.Error -> {
-                    errorMessageLD.value = when (FirebaseResult.errorType) {
-                        ErrorType.UNEXPECTED_ERROR ->
-                            resProvider.getString(R.string.unexpected_error)
-
-                        // Information Validation
-                        ErrorType.EMPTY_FIELD ->
-                            resProvider.getString(R.string.empty_field)
-
-                        ErrorType.EMAIL_ALREADY_REGISTERED ->
-                            resProvider.getString(R.string.email_already_registered)
-
-                        ErrorType.INVALID_EMAIL ->
-                            resProvider.getString(R.string.invalid_email_message)
-
-                        ErrorType.INVALID_PHONE ->
-                            resProvider.getString(R.string.invalid_phone_message)
-
-                        ErrorType.WEAK_PASSWORD ->
-                            resProvider.getString(R.string.weak_password_message)
-
-                        ErrorType.PASSWORD_CONFIRM_DONT_MATCH ->
-                            resProvider.getString(R.string.password_confirm_dont_match_message)
-
-                        else ->
-                            resProvider.getString(R.string.unexpected_error)
-                    }
+                    errorMessageLD.value =
+                        ErrorMessageHandler.getErrorMessage(resProvider, result.errorType)
                 }
             }
         }

@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.github.caioreigot.girafadoces.R
+import com.github.caioreigot.girafadoces.data.ErrorMessageHandler
 import com.github.caioreigot.girafadoces.data.model.FirebaseResult
 import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.SingleLiveEvent
@@ -27,18 +28,14 @@ class MenuViewModel(
             when (result) {
                 is FirebaseResult.Success -> {
                     if (items == null)
-                        errorMessageLD.value = resProvider.getString(R.string.unexpected_error)
+                        errorMessageLD.value = resProvider.getString(R.string.unexpected_error_message)
 
                     menuItemsLD.value = items
                 }
 
                 is FirebaseResult.Error -> {
-                    errorMessageLD.value = when (result.errorType) {
-                        ErrorType.SERVER_ERROR ->
-                            resProvider.getString(R.string.server_error_message)
-                        else ->
-                            resProvider.getString(R.string.unexpected_error)
-                    }
+                    errorMessageLD.value =
+                        ErrorMessageHandler.getErrorMessage(resProvider, result.errorType)
                 }
             }
         }

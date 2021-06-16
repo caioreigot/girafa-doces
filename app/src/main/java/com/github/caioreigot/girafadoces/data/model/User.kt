@@ -19,9 +19,7 @@ data class User (
     @set:PropertyName(Global.DatabaseNames.USER_DELIVERY_ADDRESS)
     var deliveryAddress: String = "",
 
-    @get:PropertyName(Global.DatabaseNames.USER_IS_ADMINISTRATOR)
-    @set:PropertyName(Global.DatabaseNames.USER_IS_ADMINISTRATOR)
-    var isAdministrator: Boolean = false
+    var isAdmin: Boolean = false
 )
 
 class Builder {
@@ -29,10 +27,10 @@ class Builder {
     var email: String = ""
     var phoneNumber: String = ""
     var deliveryAddress: String = ""
-    var isAdministrator: Boolean = false
+    var isAdmin: Boolean = false
 
     fun build(): User {
-        return User(fullName, email, phoneNumber, deliveryAddress, isAdministrator)
+        return User(fullName, email, phoneNumber, deliveryAddress, isAdmin)
     }
 }
 

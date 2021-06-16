@@ -10,6 +10,10 @@ interface DatabaseRepository {
         callback: (User?, result: FirebaseResult) -> Unit
     )
 
+    fun getAdministratorsUsers(
+        callback: (MutableList<User>?, result: FirebaseResult) -> Unit
+    )
+
     fun changeAccountField(
         accountField: UserAccountField,
         newValue: Any,

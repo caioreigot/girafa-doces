@@ -25,8 +25,7 @@ class AuthDataSource : AuthRepository {
             .addOnCompleteListener { task ->
                 when (task.isSuccessful) {
                     true -> callback(FirebaseResult.Success)
-
-                    false -> callback(FirebaseResult.Error(ErrorType.NOT_FOUND))
+                    false -> callback(FirebaseResult.Error(ErrorType.ACCOUNT_NOT_FOUND))
                 }
             }
     }
@@ -73,7 +72,6 @@ class AuthDataSource : AuthRepository {
                                 child(Global.DatabaseNames.USER_DELIVERY_ADDRESS).setValue(fullDeliveryAddress)
                                 child(Global.DatabaseNames.USER_EMAIL).setValue(email)
                                 child(Global.DatabaseNames.USER_PHONE).setValue(phoneNumber)
-                                child(Global.DatabaseNames.USER_IS_ADMINISTRATOR).setValue(false)
                             }
                         }
 
@@ -104,7 +102,7 @@ class AuthDataSource : AuthRepository {
                 if (task.isSuccessful)
                     callback(FirebaseResult.Success)
                 else
-                    callback(FirebaseResult.Error(ErrorType.NOT_FOUND))
+                    callback(FirebaseResult.Error(ErrorType.ACCOUNT_NOT_FOUND))
             }
     }
 }

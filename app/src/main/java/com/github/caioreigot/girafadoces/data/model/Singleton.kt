@@ -22,6 +22,13 @@ object Singleton {
 
     val mDatabaseUsersReference: DatabaseReference = getDatabaseUsersReference()
 
+    // Database Admins Reference
+    private fun getDatabaseAdminsReference(): DatabaseReference = mDatabase
+        .reference
+        .child(Global.DatabaseNames.ADMINS_PARENT)
+
+    val mDatabaseAdminsReference: DatabaseReference = getDatabaseAdminsReference()
+
     // Database Menu Itens Reference
     private fun getDatabaseMenuItensReference(): DatabaseReference = mDatabase
         .reference

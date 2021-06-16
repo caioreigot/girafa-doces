@@ -38,7 +38,8 @@ class ForgotPasswordDialog(private val loginViewModel: LoginViewModel) : DialogF
 
         dialog?.window?.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT)
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
 
         val emailET = view.findViewById<EditText>(R.id.forgot_password_dialog_email_et)
         val sendBtn = view.findViewById<Button>(R.id.forgot_password_send_btn)

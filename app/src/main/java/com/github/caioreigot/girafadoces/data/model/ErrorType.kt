@@ -3,8 +3,8 @@ package com.github.caioreigot.girafadoces.data.model
 enum class ErrorType {
     UNEXPECTED_ERROR,
     SERVER_ERROR,
-    NOT_FOUND,
     EMPTY_FIELD,
+    ACCOUNT_NOT_FOUND,
     INVALID_EMAIL,
     INVALID_PHONE,
     EMAIL_ALREADY_REGISTERED,

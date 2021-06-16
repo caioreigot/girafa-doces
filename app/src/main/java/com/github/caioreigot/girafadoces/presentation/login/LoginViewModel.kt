@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.github.caioreigot.girafadoces.R
+import com.github.caioreigot.girafadoces.data.ErrorMessageHandler
 import com.github.caioreigot.girafadoces.data.model.FirebaseResult
 import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.SingleLiveEvent
@@ -42,27 +43,24 @@ class LoginViewModel(
         // Show Progress Bar
         loginBtnViewFlipperLD.value = VIEW_FLIPPER_PROGRESS_BAR
 
-        authDataSource.loginUser(email, password) { FirebaseAuthResult ->
+        authDataSource.loginUser(email, password) { firebaseAuthResult ->
 
-            when (FirebaseAuthResult) {
+            when (firebaseAuthResult) {
 
                 // If the user logs in, send the user information to view change activity
                 is FirebaseResult.Success -> {
-                    databaseDataSource.getLoggedUserInformation { User, FirebaseDBResult ->
-                        when (FirebaseDBResult) {
+                    databaseDataSource.getLoggedUserInformation { user, firebaseDBResult ->
+                        when (firebaseDBResult) {
                             is FirebaseResult.Success -> {
-                                loggedUserInformationLD.value = Pair(User, password)
+                                loggedUserInformationLD.value = Pair(user, password)
                             }
 
                             is FirebaseResult.Error -> {
                                 loggedUserInformationLD.value = null
 
-                                errorMessageLD.value = when (FirebaseDBResult.errorType) {
-                                    ErrorType.SERVER_ERROR ->
-                                        resProvider.getString(R.string.server_error_message)
-                                    else ->
-                                        resProvider.getString(R.string.unexpected_error)
-                                }
+                                errorMessageLD.value =
+                                    ErrorMessageHandler
+                                        .getErrorMessage(resProvider, firebaseDBResult.errorType)
                             }
                         }
 
@@ -71,23 +69,8 @@ class LoginViewModel(
                 }
 
                 is FirebaseResult.Error -> {
-                    errorMessageLD.value = when (FirebaseAuthResult.errorType) {
-                        ErrorType.UNEXPECTED_ERROR ->
-                            resProvider.getString(R.string.unexpected_error)
-
-                        // Information Validation
-                        ErrorType.EMPTY_FIELD ->
-                            resProvider.getString(R.string.empty_field)
-
-                        ErrorType.INVALID_EMAIL ->
-                            resProvider.getString(R.string.invalid_email_message)
-
-                        ErrorType.WEAK_PASSWORD ->
-                            resProvider.getString(R.string.weak_password_message)
-
-                        else ->
-                            resProvider.getString(R.string.login_error)
-                    }
+                    errorMessageLD.value = ErrorMessageHandler
+                        .getErrorMessage(resProvider, firebaseAuthResult.errorType)
 
                     loginBtnViewFlipperLD.value = VIEW_FLIPPER_BUTTON
                 }
@@ -98,11 +81,11 @@ class LoginViewModel(
     fun sendPasswordResetEmail(email: String) {
         forgotPasswordBtnViewFlipperLD.value = VIEW_FLIPPER_PROGRESS_BAR
 
-        authDataSource.sendPasswordResetEmail(email) { FirebaseAuthResult ->
+        authDataSource.sendPasswordResetEmail(email) { firebaseAuthResult ->
 
             forgotPasswordBtnViewFlipperLD.value = VIEW_FLIPPER_BUTTON
 
-            when (FirebaseAuthResult) {
+            when (firebaseAuthResult) {
                 is FirebaseResult.Success ->
                     resetPasswordMessageLD.value = Pair(
                         MessageType.SUCCESSFUL, resProvider
@@ -110,7 +93,7 @@ class LoginViewModel(
                     )
 
                 is FirebaseResult.Error -> {
-                    resetPasswordMessageLD.value = when (FirebaseAuthResult.errorType) {
+                    resetPasswordMessageLD.value = when (firebaseAuthResult.errorType) {
                         ErrorType.INVALID_EMAIL -> Pair(MessageType.ERROR,
                             resProvider.getString(R.string.invalid_email_message))
 

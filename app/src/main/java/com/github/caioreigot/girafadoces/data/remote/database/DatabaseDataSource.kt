@@ -1,7 +1,6 @@
 package com.github.caioreigot.girafadoces.data.remote.database
 
 import android.text.TextUtils
-import android.util.Log
 import com.github.caioreigot.girafadoces.data.Utils
 import com.github.caioreigot.girafadoces.data.model.FirebaseResult
 import com.github.caioreigot.girafadoces.data.Utils.Companion.toBitmap
@@ -19,10 +18,72 @@ class DatabaseDataSource : DatabaseRepository {
         Singleton.mAuth.currentUser?.let { currentUser ->
             val loggedUserReference = Singleton.mDatabaseUsersReference.child(currentUser.uid)
 
-            loggedUserReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            Singleton.mDatabaseAdminsReference
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(adminsSnapshot: DataSnapshot) {
+                        val isUserAdmin = adminsSnapshot.child(currentUser.uid).exists()
+
+                        loggedUserReference.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(userSnapshot: DataSnapshot) {
+                                val user: User? = userSnapshot.getValue(User::class.java)
+                                user?.isAdmin = isUserAdmin
+
+                                callback(user, FirebaseResult.Success)
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                callback(null, FirebaseResult.Error(ErrorType.SERVER_ERROR))
+                                return
+                            }
+                        })
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        callback(null, FirebaseResult.Error(ErrorType.SERVER_ERROR))
+                        return
+                    }
+                })
+
+            return
+        }
+
+        callback(null, FirebaseResult.Error(ErrorType.UNEXPECTED_ERROR))
+    }
+
+    override fun getAdministratorsUsers(
+        callback: (MutableList<User>?, result: FirebaseResult) -> Unit
+    ) {
+        val allAdminsUID = mutableListOf<String>()
+        val adminUsers = mutableListOf<User>()
+
+        Singleton.mDatabaseAdminsReference
+            .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val user: User? = snapshot.getValue(User::class.java)
-                    callback(user, FirebaseResult.Success)
+
+                    // Adding UID of admin users to list
+                    for (uidSnapshot in snapshot.children)
+                        uidSnapshot.key?.let { allAdminsUID.add(it) }
+
+                    if (allAdminsUID.size == snapshot.childrenCount.toInt()) {
+                        Singleton.mDatabaseUsersReference
+                            .addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    // Getting the information from each admin user, in the users node
+                                    for (i in allAdminsUID.indices) {
+                                        snapshot.child(allAdminsUID[i]).getValue(User::class.java)
+                                            ?.let { user -> adminUsers.add(user) }
+                                    }
+
+                                    callback(adminUsers, FirebaseResult.Success)
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {
+                                    callback(null, FirebaseResult.Error(ErrorType.SERVER_ERROR))
+                                    return
+                                }
+                            })
+                    } else
+                        callback(null, FirebaseResult.Error(ErrorType.UNEXPECTED_ERROR))
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -30,11 +91,6 @@ class DatabaseDataSource : DatabaseRepository {
                     return
                 }
             })
-
-            return
-        }
-
-        callback(null, FirebaseResult.Error(ErrorType.UNEXPECTED_ERROR))
     }
 
     override fun changeAccountField(
@@ -95,7 +151,7 @@ class DatabaseDataSource : DatabaseRepository {
         Singleton.mDatabaseUsersReference
             .child(currentUserUid)
             .child(databaseUserKeyName)
-            .setValue(newValue)
+            .setValue(newValue.toString().trimEnd())
             .addOnSuccessListener {
                 callback(FirebaseResult.Success)
 
@@ -189,12 +245,12 @@ class DatabaseDataSource : DatabaseRepository {
                 child(Global.DatabaseNames.MENU_ITEM_CONTENT).setValue(itemContent)
             }
 
-            .addOnCompleteListener { task ->
-                when (task.isSuccessful) {
-                    true -> callback(uid, FirebaseResult.Success)
-                    false -> callback(null, FirebaseResult.Error(ErrorType.SERVER_ERROR))
+                .addOnCompleteListener { task ->
+                    when (task.isSuccessful) {
+                        true -> callback(uid, FirebaseResult.Success)
+                        false -> callback(null, FirebaseResult.Error(ErrorType.SERVER_ERROR))
+                    }
                 }
-            }
         }
     }
 

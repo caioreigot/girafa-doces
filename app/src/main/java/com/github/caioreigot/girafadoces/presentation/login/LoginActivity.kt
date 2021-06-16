@@ -108,16 +108,18 @@ class LoginActivity : BaseActivity() {
         //endregion
 
         //region Observers
-        mViewModel.loggedUserInformationLD.observe(this, { (loggedUser, password) ->
-            loggedUser?.let {
-                UserSingleton.set(loggedUser)
+        mViewModel.loggedUserInformationLD.observe(this, { loggedUserAndPassword ->
+            loggedUserAndPassword?.let { (loggedUser, password) ->
+                loggedUser?.let {
+                    UserSingleton.set(loggedUser)
 
-                if (keepConnectedCB.isChecked)
-                    mViewModel.rememberAccount(loggedUser.email, password)
+                    if (keepConnectedCB.isChecked)
+                        mViewModel.rememberAccount(loggedUser.email, password)
 
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish()
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
             }
         })
 

@@ -6,15 +6,23 @@
     <string name="password">Senha</string>
     <string name="send">ENVIAR</string>
     <string name="save">SALVAR</string>
+    <string name="add_button">ADICIONAR</string>
+    <string name="remove">REMOVER</string>
+    <string name="informations">INFORMAÇÕES</string>
     <string name="dialog_ok_button">Ok</string>
     <string name="dialog_cancel_button">Cancelar</string>
     <string name="dialog_yes_button">Sim</string>
     <string name="dialog_successful_title">SUCESSO</string>
     <string name="dialog_error_title">ERRO</string>
     <string name="dialog_confirmation_title">CONFIRMAR AÇÃO</string>
-    <string name="unexpected_error">Erro inesperado</string>
+    <string name="administrators">ADMINISTRADORES</string>
+    <string name="monitor_orders">MONITORAR PEDIDOS</string>
+
+    <!-- Common Error Messages -->
+    <string name="unexpected_error_message">Erro inesperado</string>
     <string name="server_error_message">Erro no servidor</string>
-    <string name="empty_field">Por favor, preencha todos os campos</string>
+    <string name="empty_field_error_message">Por favor, preencha todos os campos</string>
+    <string name="account_not_found_error_message">Conta não encontrada</string>
 
     <!-- Login Activity -->
     <string name="keep_me_connected">Mantenha-me conectado</string>
@@ -50,9 +58,9 @@
     <string name="signup_success_message">Cadastro realizado com sucesso!</string>
     <string name="invalid_email_message">Formato de e-mail fornecido não é válido</string>
     <string name="invalid_phone_message">Número de telefone fornecido não é valido</string>
-    <string name="email_already_registered">E-mail já cadastrado</string>
-    <string name="weak_password_message">A senha precisa ter 6 ou mais dígitos</string>
-    <string name="password_confirm_dont_match_message">Senhas não correspondem</string>
+    <string name="email_already_registered_error_message">E-mail já cadastrado</string>
+    <string name="weak_password_error_message">A senha precisa ter 6 ou mais dígitos</string>
+    <string name="password_confirm_dont_match_error_message">Senhas não correspondem</string>
 
     <!-- Bottom Navigation Titles -->
     <string name="menu">Menu</string>
@@ -81,6 +89,9 @@
     <string name="menu_item_order_text">ENCOMENDAR</string>
     <string name="menu_item_remove_text">REMOVER</string>
     <string name="menu_item_choose_image">ESCOLHER IMAGEM</string>
-    <string name="menu_item_add_button">ADICIONAR</string>
+
+    <!-- Administrators -->
+    <string name="administrator_item_header">ADMINISTRADOR:</string>
+    <string name="enter_admin_email">Digite o e-mail do usuário:</string>
 
 </resources>

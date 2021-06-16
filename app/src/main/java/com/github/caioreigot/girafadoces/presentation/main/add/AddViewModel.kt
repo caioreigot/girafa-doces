@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.github.caioreigot.girafadoces.R
+import com.github.caioreigot.girafadoces.data.ErrorMessageHandler
 import com.github.caioreigot.girafadoces.data.model.FirebaseResult
 import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.SingleLiveEvent
@@ -26,17 +27,13 @@ class AddViewModel(
     val uploadProgressLD: MutableLiveData<String> = MutableLiveData()
 
     fun getMenuItems() {
-        databaseSource.getMenuItems(storageSource) { menuItems, FirebaseResult ->
-            when (FirebaseResult) {
+        databaseSource.getMenuItems(storageSource) { menuItems, result ->
+            when (result) {
                 is FirebaseResult.Success -> menuItemsLD.value = menuItems
 
                 is FirebaseResult.Error -> {
-                    errorMessageLD.value = when (FirebaseResult.errorType) {
-                        ErrorType.SERVER_ERROR ->
-                            resProvider.getString(R.string.server_error_message)
-                        else ->
-                            resProvider.getString(R.string.unexpected_error)
-                    }
+                    errorMessageLD.value =
+                        ErrorMessageHandler.getErrorMessage(resProvider, result.errorType)
                 }
             }
         }
@@ -48,7 +45,7 @@ class AddViewModel(
         itemImage: ByteArray,
         callback: (closeDialog: Boolean) -> Unit
     ) {
-        databaseSource.saveMenuItem(itemHeader, itemContent) { uid, FirebaseResult ->
+        databaseSource.saveMenuItem(itemHeader, itemContent) { uid, result ->
             uid?.let { imageUid ->
                 storageSource.uploadImage(itemImage, imageUid,
 
@@ -58,8 +55,8 @@ class AddViewModel(
                 },
 
                 // Callback for result
-                { _FirebaseResult ->
-                    when (_FirebaseResult) {
+                { _result ->
+                    when (_result) {
                         is FirebaseResult.Success -> {
                             successMessageLD.value =
                                 resProvider.getString(R.string.menu_item_save_successful)
@@ -68,12 +65,8 @@ class AddViewModel(
                         }
 
                         is FirebaseResult.Error -> {
-                            errorMessageLD.value = when (_FirebaseResult.errorType) {
-                                ErrorType.SERVER_ERROR ->
-                                    resProvider.getString(R.string.server_error_message)
-                                else ->
-                                    resProvider.getString(R.string.unexpected_error)
-                            }
+                            errorMessageLD.value =
+                                ErrorMessageHandler.getErrorMessage(resProvider, _result.errorType)
 
                             callback(false)
                         }
@@ -81,17 +74,17 @@ class AddViewModel(
                 })
             }
 
-            when (FirebaseResult) {
+            when (result) {
                 is FirebaseResult.Success -> {
                     // TODO
                 }
 
                 is FirebaseResult.Error -> {
-                    errorMessageLD.value = when (FirebaseResult.errorType) {
+                    errorMessageLD.value = when (result.errorType) {
                         ErrorType.SERVER_ERROR ->
                             resProvider.getString(R.string.server_error_message)
                         else ->
-                            resProvider.getString(R.string.unexpected_error)
+                            resProvider.getString(R.string.unexpected_error_message)
                     }
                 }
             }

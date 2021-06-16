@@ -12,7 +12,7 @@ import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.model.MenuItem
 
 class MenuAdapter(
-    private val items: MutableList<MenuItem>,
+    private val items: List<MenuItem>,
     private val resProvider: ResourcesProvider
 ) : RecyclerView.Adapter<MenuAdapter.MenuViewHolder>() {
 

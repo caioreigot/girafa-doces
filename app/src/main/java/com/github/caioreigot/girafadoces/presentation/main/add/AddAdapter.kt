@@ -93,7 +93,7 @@ class AddAdapter(
                             resProvider.getString(R.string.server_error_message)
 
                         else ->
-                            resProvider.getString(R.string.unexpected_error)
+                            resProvider.getString(R.string.unexpected_error_message)
                     }
 
                     mainActivity.showMessageDialog(

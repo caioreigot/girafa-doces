@@ -26,6 +26,7 @@
             style="@style/SignUpEditText"
             android:hint="@string/full_name"
             android:inputType="textCapWords"
+            android:maxLength="400"
             android:nextFocusDown="@+id/sign_up_email_et"
             tools:ignore="Autofill" />
 
@@ -35,6 +36,7 @@
             android:layout_marginTop="20dp"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
+            android:maxLength="400"
             android:nextFocusDown="@+id/sign_up_phone_et"
             tools:ignore="Autofill" />
 
@@ -60,6 +62,7 @@
                 android:ems="10"
                 android:hint="@string/delivery_adress"
                 android:inputType="textPostalAddress"
+                android:maxLength="400"
                 android:nextFocusDown="@+id/sign_up_postal_number_et"
                 tools:ignore="Autofill" />
 
@@ -70,7 +73,7 @@
                 android:ems="4"
                 android:hint="@string/postal_number_char"
                 android:inputType="number"
-                android:maxLength="6"
+                android:maxLength="8"
                 android:nextFocusDown="@+id/sign_up_password_et"
                 tools:ignore="Autofill" />
 
