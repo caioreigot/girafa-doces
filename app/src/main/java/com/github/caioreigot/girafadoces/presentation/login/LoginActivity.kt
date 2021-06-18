@@ -19,6 +19,8 @@ import com.github.caioreigot.girafadoces.presentation.signup.SignUpActivity
 
 class LoginActivity : BaseActivity() {
 
+    private lateinit var mViewModel: LoginViewModel
+
     private lateinit var rootView: RelativeLayout
 
     private lateinit var loginBtn: Button
@@ -39,7 +41,7 @@ class LoginActivity : BaseActivity() {
         setTheme(R.style.Theme_GirafaDoces)
         setContentView(R.layout.activity_login)
 
-        val mViewModel: LoginViewModel = LoginViewModel.ViewModelFactory(
+        mViewModel = LoginViewModel.ViewModelFactory(
             AuthDataSource(),
             DatabaseDataSource(),
             ResourcesProvider(this),

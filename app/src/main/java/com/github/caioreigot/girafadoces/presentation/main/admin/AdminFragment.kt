@@ -10,8 +10,11 @@ import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.remote.database.DatabaseDataSource
 import com.github.caioreigot.girafadoces.presentation.main.admin.administrators.AdministratorsDialog
+import com.github.caioreigot.girafadoces.presentation.main.menu.MenuViewModel
 
 class AdminFragment : Fragment() {
+
+    private lateinit var mViewModel: AdminViewModel
 
     lateinit var administratorsBtn: CardView
 
@@ -26,7 +29,7 @@ class AdminFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mViewModel: AdminViewModel = AdminViewModel.ViewModelFactory(
+        mViewModel = AdminViewModel.ViewModelFactory(
             ResourcesProvider(requireContext()),
             DatabaseDataSource()
         )

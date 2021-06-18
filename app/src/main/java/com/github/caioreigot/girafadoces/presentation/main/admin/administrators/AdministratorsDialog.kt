@@ -11,15 +11,19 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.caioreigot.girafadoces.R
+import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.presentation.main.admin.AdminViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.lang.Exception
 
 class AdministratorsDialog(private val adminViewModel: AdminViewModel) : DialogFragment() {
 
     lateinit var adminProgressBar: ProgressBar
     lateinit var administratorsRecyclerView: RecyclerView
+    lateinit var adapter: AdministratorsAdapter
 
     lateinit var addAdminFloatingButton: FloatingActionButton
+    var addAdminDialog: DialogFragment? = null
 
     /*
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,15 +59,12 @@ class AdministratorsDialog(private val adminViewModel: AdminViewModel) : DialogF
             activity, LinearLayoutManager.VERTICAL, false
         )
 
-        administratorsRecyclerView.setHasFixedSize(true)
-
         addAdminFloatingButton.setOnClickListener {
-            val addAdminDialog = AddAdminDialog(adminViewModel)
+            addAdminDialog = AddAdminDialog(adminViewModel)
 
-            addAdminDialog.show(
-                requireActivity().supportFragmentManager,
-                addAdminDialog.tag
-            )
+            addAdminDialog?.let {
+                it.show(requireActivity().supportFragmentManager, it.tag)
+            }
         }
 
         adminViewModel.getAdministratorsUsers()
@@ -73,9 +74,29 @@ class AdministratorsDialog(private val adminViewModel: AdminViewModel) : DialogF
             it?.let { adminUsersItems ->
                 adminProgressBar.visibility = View.GONE
 
-                administratorsRecyclerView.adapter =
-                    AdministratorsAdapter(adminUsersItems)
+                adapter = AdministratorsAdapter(
+                    adminViewModel,
+                    ResourcesProvider(requireContext()),
+                    adminUsersItems.asReversed()
+                )
+
+                administratorsRecyclerView.adapter = adapter
             }
+        })
+
+        adminViewModel.adminRemovedLD.observe(viewLifecycleOwner, {
+            it?.let { position ->
+                adapter.items.removeAt(position)
+                adapter.notifyItemRemoved(position)
+                adapter.notifyItemRangeChanged(position, adapter.items.size)
+            }
+        })
+
+        adminViewModel.adminAddedLD.observe(viewLifecycleOwner, { adminAdded ->
+            addAdminDialog?.dismiss()
+
+            adapter.items.add(adminAdded)
+            adapter.notifyItemInserted(adapter.items.size)
         })
         //endregion
     }

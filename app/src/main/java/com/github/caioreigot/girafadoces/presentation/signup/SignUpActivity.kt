@@ -13,8 +13,11 @@ import com.github.caioreigot.girafadoces.data.Utils
 import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.remote.auth.AuthDataSource
 import com.github.caioreigot.girafadoces.presentation.base.BaseActivity
+import com.github.caioreigot.girafadoces.presentation.login.LoginViewModel
 
 class SignUpActivity : BaseActivity() {
+
+    private lateinit var mViewModel: SignUpViewModel
 
     lateinit var rootView: RelativeLayout
 
@@ -37,7 +40,7 @@ class SignUpActivity : BaseActivity() {
         setTheme(R.style.SignUpScreen)
         setContentView(R.layout.activity_sign_up)
 
-        val mViewModel: SignUpViewModel = SignUpViewModel.ViewModelFactory(
+        mViewModel = SignUpViewModel.ViewModelFactory(
             AuthDataSource(),
             ResourcesProvider(this)
         )

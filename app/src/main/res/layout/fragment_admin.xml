@@ -10,7 +10,7 @@
         android:id="@+id/admin_monitor_orders_btn_cv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="49.8"
+        android:layout_weight="49.9"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
@@ -52,14 +52,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center_vertical"
-        android:layout_weight="0.4"
+        android:layout_weight="0.2"
         android:background="@color/primaryPink" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/admin_administrators_btn_cv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="49.8"
+        android:layout_weight="49.9"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"

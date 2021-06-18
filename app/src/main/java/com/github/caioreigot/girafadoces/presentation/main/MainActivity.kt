@@ -1,15 +1,18 @@
 package com.github.caioreigot.girafadoces.presentation.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.github.caioreigot.girafadoces.R
+import com.github.caioreigot.girafadoces.data.local.Preferences
 import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.model.Singleton
 import com.github.caioreigot.girafadoces.data.model.UserSingleton
 import com.github.caioreigot.girafadoces.presentation.base.BaseActivity
+import com.github.caioreigot.girafadoces.presentation.login.LoginActivity
 import com.github.caioreigot.girafadoces.presentation.main.add.AddFragment
 import com.github.caioreigot.girafadoces.presentation.main.menu.MenuFragment
 import com.github.caioreigot.girafadoces.presentation.main.account.AccountFragment
@@ -42,6 +45,7 @@ class MainActivity : BaseActivity() {
             R.id.menu -> MenuFragment()
             R.id.user_profile -> AccountFragment()
             R.id.add_menu_item -> AddFragment()
+            R.id.admin_panel -> AdminFragment()
 
             else -> MenuFragment()
         }
@@ -51,7 +55,7 @@ class MainActivity : BaseActivity() {
             .replace(R.id.fragment_container, selectedFragment)
             .commit()
 
-        // Listeners
+        //region Listeners
         bottomNavigation.setOnNavigationItemSelectedListener { selectedItem ->
 
             if (bottomNavigation.selectedItemId == selectedItem.itemId)
@@ -73,6 +77,18 @@ class MainActivity : BaseActivity() {
 
             return@setOnNavigationItemSelectedListener true
         }
+
+        // Responsible for logging out the player and taking it to the login screen
+        Singleton.mAuth.addAuthStateListener { firebaseAuth ->
+            if (firebaseAuth.currentUser == null) {
+                val intent = Intent(this, LoginActivity::class.java)
+                Preferences(this).clearPreferences()
+                UserSingleton.clear()
+                startActivity(intent)
+                finish()
+            }
+        }
+        //endregion
     }
 
     fun showMessageDialog(

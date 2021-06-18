@@ -2,6 +2,7 @@ package com.github.caioreigot.girafadoces.presentation.main.account
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +18,12 @@ import com.github.caioreigot.girafadoces.data.model.UserAccountField
 import com.github.caioreigot.girafadoces.data.model.UserSingleton
 import com.github.caioreigot.girafadoces.data.remote.database.DatabaseDataSource
 import com.github.caioreigot.girafadoces.presentation.login.LoginActivity
+import com.github.caioreigot.girafadoces.presentation.main.menu.MenuViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class AccountFragment : Fragment() {
+
+    private lateinit var mViewModel: AccountViewModel
 
     private lateinit var loadingViewFlipper: ViewFlipper
     private lateinit var informationsViewGroup: ViewGroup
@@ -46,7 +50,7 @@ class AccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mViewModel: AccountViewModel = AccountViewModel.ViewModelFactory(
+        mViewModel = AccountViewModel.ViewModelFactory(
             ResourcesProvider(requireContext()),
             DatabaseDataSource()
         ).create(AccountViewModel::class.java)
@@ -94,17 +98,6 @@ class AccountFragment : Fragment() {
                 mViewModel,
                 UserAccountField.PHONE)
             )
-
-        // Responsible for logging out the player and taking it to the login screen
-        Singleton.mAuth.addAuthStateListener { firebaseAuth ->
-            if (firebaseAuth.currentUser == null) {
-                val intent = Intent(requireContext(), LoginActivity::class.java)
-                Preferences(requireContext()).clearPreferences()
-                UserSingleton.clear()
-                startActivity(intent)
-                activity?.finish()
-            }
-        }
         //endregion
 
         //region Observers

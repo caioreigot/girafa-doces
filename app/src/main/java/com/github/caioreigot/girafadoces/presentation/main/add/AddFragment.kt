@@ -20,9 +20,12 @@ import com.github.caioreigot.girafadoces.data.remote.database.DatabaseDataSource
 import com.github.caioreigot.girafadoces.data.remote.storage.StorageDataSource
 import com.github.caioreigot.girafadoces.data.repository.StorageRepository
 import com.github.caioreigot.girafadoces.presentation.main.MainActivity
+import com.github.caioreigot.girafadoces.presentation.main.menu.MenuViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class AddFragment : Fragment() {
+
+    private lateinit var mViewModel: AddViewModel
 
     lateinit var progressBar: ProgressBar
 
@@ -43,7 +46,7 @@ class AddFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mViewModel: AddViewModel = AddViewModel.ViewModelFactory(
+        mViewModel = AddViewModel.ViewModelFactory(
             ResourcesProvider(requireContext()),
             StorageDataSource(),
             DatabaseDataSource()

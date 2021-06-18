@@ -15,6 +15,7 @@
         android:paddingBottom="12dp">
 
         <TextView
+            android:id="@+id/administrators_item_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/administrator_item_header"

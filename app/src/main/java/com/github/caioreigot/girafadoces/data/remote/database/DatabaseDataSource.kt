@@ -1,6 +1,7 @@
 package com.github.caioreigot.girafadoces.data.remote.database
 
 import android.text.TextUtils
+import android.util.Log
 import com.github.caioreigot.girafadoces.data.Utils
 import com.github.caioreigot.girafadoces.data.model.FirebaseResult
 import com.github.caioreigot.girafadoces.data.Utils.Companion.toBitmap
@@ -50,6 +51,21 @@ class DatabaseDataSource : DatabaseRepository {
         callback(null, FirebaseResult.Error(ErrorType.UNEXPECTED_ERROR))
     }
 
+    override fun getUserByUid(uid: String, callback: (User?, result: FirebaseResult) -> Unit) {
+        Singleton.mDatabaseUsersReference.child(uid)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(userSnapshot: DataSnapshot) {
+                    val user: User? = userSnapshot.getValue(User::class.java)
+                    callback(user, FirebaseResult.Success)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    callback(null, FirebaseResult.Error(ErrorType.SERVER_ERROR))
+                    return
+                }
+            })
+    }
+
     override fun getAdministratorsUsers(
         callback: (MutableList<User>?, result: FirebaseResult) -> Unit
     ) {
@@ -91,6 +107,30 @@ class DatabaseDataSource : DatabaseRepository {
                     return
                 }
             })
+    }
+
+    override fun getAdministratorUidByEmail(
+        email: String,
+        callback: (uid: String?, result: FirebaseResult) -> Unit
+    ) {
+        Singleton.mDatabaseUsersReference
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (user in snapshot.children) {
+                        if (email == user.child(Global.DatabaseNames.USER_EMAIL).value) {
+                            callback(user.key, FirebaseResult.Success)
+                            return
+                        }
+                    }
+
+                    callback(null, FirebaseResult.Error(ErrorType.ACCOUNT_NOT_FOUND))
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    callback(null, FirebaseResult.Error(ErrorType.SERVER_ERROR))
+                    return
+                }
+        })
     }
 
     override fun changeAccountField(

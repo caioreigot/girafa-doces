@@ -22,6 +22,11 @@ class Utils {
 
         fun isValidPhoneNumber(target: CharSequence?, template: CharSequence): Boolean {
 
+            /*
+             Regex for template (XX) XXXXX-XXXX
+             ^[(][0-9]{2}[)][ ][0-9]{5}[-]([0-9]{4})$
+             */
+
             val OPEN_PARENTHESES_INDEX = 0
             val CLOSED_PARENTHESES_INDEX = 1
             val WHITE_SPACE_INDEX = 2

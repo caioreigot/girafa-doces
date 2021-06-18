@@ -92,6 +92,7 @@
 
     <!-- Administrators -->
     <string name="administrator_item_header">ADMINISTRADOR:</string>
+    <string name="administrator_you_item_header">ADMINISTRADOR (você):</string>
     <string name="enter_admin_email">Digite o e-mail do usuário:</string>
 
 </resources>

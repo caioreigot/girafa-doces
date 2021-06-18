@@ -15,8 +15,12 @@ import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.remote.database.DatabaseDataSource
 import com.github.caioreigot.girafadoces.data.remote.storage.StorageDataSource
+import com.github.caioreigot.girafadoces.presentation.login.LoginViewModel
+import java.lang.Exception
 
 class MenuFragment : Fragment() {
+
+    private lateinit var mViewModel: MenuViewModel
 
     private lateinit var progressBar: ProgressBar
     private lateinit var menuRecyclerView: RecyclerView
@@ -32,7 +36,7 @@ class MenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mViewModel: MenuViewModel = MenuViewModel.ViewModelFactory(
+        mViewModel = MenuViewModel.ViewModelFactory(
             ResourcesProvider(requireContext()),
             DatabaseDataSource(),
             StorageDataSource()
