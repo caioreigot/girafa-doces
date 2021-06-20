@@ -18,6 +18,7 @@ import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.remote.DatabaseService
 import com.github.caioreigot.girafadoces.data.remote.StorageService
 import com.github.caioreigot.girafadoces.ui.main.MainActivity
+import com.github.caioreigot.girafadoces.ui.main.menu.MenuAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class AddFragment : Fragment() {
@@ -55,6 +56,14 @@ class AddFragment : Fragment() {
         addRecyclerView = view.findViewById(R.id.add_recycler_view)
         addItemBtn = view.findViewById(R.id.floating_btn_add_item)
         //endregion
+
+        addRecyclerView.adapter = AddAdapter(
+            mutableListOf(),
+            ResourcesProvider(requireContext()),
+            (activity as MainActivity),
+            DatabaseService(),
+            StorageService()
+        )
 
         addRecyclerView.layoutManager = LinearLayoutManager(
             activity, LinearLayoutManager.HORIZONTAL, false)

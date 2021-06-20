@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import com.github.caioreigot.girafadoces.R
+import com.github.caioreigot.girafadoces.data.model.MenuItem
 import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.remote.DatabaseService
 import com.github.caioreigot.girafadoces.data.remote.StorageService
@@ -40,8 +41,12 @@ class MenuFragment : Fragment() {
         )
             .create(MenuViewModel::class.java)
 
+        //region Assignments
         progressBar = view.findViewById(R.id.menu_fragment_progress_bar)
         menuRecyclerView = view.findViewById(R.id.menu_recycler_view)
+        //endregion
+
+        menuRecyclerView.adapter = MenuAdapter(listOf(), ResourcesProvider(requireContext()))
 
         menuRecyclerView.layoutManager = LinearLayoutManager(
             activity, LinearLayoutManager.HORIZONTAL, false
