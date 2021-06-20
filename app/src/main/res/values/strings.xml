@@ -15,8 +15,6 @@
     <string name="dialog_successful_title">SUCESSO</string>
     <string name="dialog_error_title">ERRO</string>
     <string name="dialog_confirmation_title">CONFIRMAR AÇÃO</string>
-    <string name="administrators">ADMINISTRADORES</string>
-    <string name="monitor_orders">MONITORAR PEDIDOS</string>
 
     <!-- Common Error Messages -->
     <string name="unexpected_error_message">Erro inesperado</string>
@@ -90,9 +88,11 @@
     <string name="menu_item_remove_text">REMOVER</string>
     <string name="menu_item_choose_image">ESCOLHER IMAGEM</string>
 
-    <!-- Administrators -->
+    <!-- Administrator Panel -->
     <string name="administrator_item_header">ADMINISTRADOR:</string>
     <string name="administrator_you_item_header">ADMINISTRADOR (você):</string>
     <string name="enter_admin_email">Digite o e-mail do usuário:</string>
+    <string name="administrators">ADMINISTRADORES</string>
+    <string name="monitor_orders">VER PEDIDOS</string>
 
 </resources>

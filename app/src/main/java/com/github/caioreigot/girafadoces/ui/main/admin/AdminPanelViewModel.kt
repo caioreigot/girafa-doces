@@ -1,0 +1,126 @@
+package com.github.caioreigot.girafadoces.ui.main.admin
+
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.github.caioreigot.girafadoces.data.helper.ErrorMessageHandler
+import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
+import com.github.caioreigot.girafadoces.data.helper.SingleLiveEvent
+import com.github.caioreigot.girafadoces.data.model.ErrorType
+import com.github.caioreigot.girafadoces.data.model.ServiceResult
+import com.github.caioreigot.girafadoces.data.model.Singleton
+import com.github.caioreigot.girafadoces.data.model.User
+import com.github.caioreigot.girafadoces.data.repository.DatabaseRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import java.lang.IllegalArgumentException
+import javax.inject.Inject
+
+@HiltViewModel
+class AdminPanelViewModel @Inject constructor(
+    private val resProvider: ResourcesProvider,
+    private val database: DatabaseRepository
+) : ViewModel() {
+
+    val adminUsersItemsLD: MutableLiveData<MutableList<User>> = MutableLiveData()
+    val errorMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
+
+    val addAdminErrorMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
+
+    val adminRemovedLD: MutableLiveData<Int> = MutableLiveData()
+    val adminAddedLD: MutableLiveData<User> = MutableLiveData()
+
+    fun getAdministratorsUsers() {
+        database.getAdministratorsUsers { adminUsers, result ->
+            when (result) {
+                is ServiceResult.Success -> adminUsersItemsLD.value = adminUsers
+
+                is ServiceResult.Error ->
+                    errorMessageLD.value =
+                        ErrorMessageHandler.getErrorMessage(resProvider, result.errorType)
+            }
+        }
+    }
+
+    fun addAdmin(email: String) {
+        database.getAdministratorUidByEmail(email) { uid, result ->
+            when (result) {
+                is ServiceResult.Success -> uid?.let {
+                    addAdminToDatabase(uid) { addAdminResult ->
+                        when (addAdminResult) {
+
+                            // User UID caught successfully
+                            is ServiceResult.Success -> {
+
+                                // Get User Data Class from database using UID previously caught
+                                database.getUserByUid(uid) { user, getUserResult ->
+                                    when (getUserResult) {
+                                        is ServiceResult.Success -> adminAddedLD.value = user
+
+                                        is ServiceResult.Error ->
+                                            addAdminErrorMessageLD.value = ErrorMessageHandler
+                                                .getErrorMessage(
+                                                    resProvider,
+                                                    getUserResult.errorType
+                                                )
+                                    }
+                                }
+                            }
+
+                            is ServiceResult.Error ->
+                                addAdminErrorMessageLD.value = ErrorMessageHandler
+                                    .getErrorMessage(resProvider, addAdminResult.errorType)
+                        }
+                    }
+                }
+
+                is ServiceResult.Error ->
+                    addAdminErrorMessageLD.value = ErrorMessageHandler
+                        .getErrorMessage(resProvider, result.errorType)
+            }
+        }
+    }
+
+    private fun addAdminToDatabase(uid: String, callback: (ServiceResult) -> Unit) =
+        Singleton.mDatabaseAdminsReference.child(uid).setValue(true)
+            .addOnSuccessListener { callback(ServiceResult.Success) }
+            .addOnFailureListener { callback(ServiceResult.Error(ErrorType.SERVER_ERROR)) }
+
+    fun removeAdmin(email: String, position: Int) {
+        database.getAdministratorUidByEmail(email) { uid, result ->
+            when (result) {
+                is ServiceResult.Success -> uid?.let {
+                    removeAdminOfDatabase(uid) { result ->
+                        when (result) {
+                            is ServiceResult.Success -> adminRemovedLD.value = position
+                            is ServiceResult.Error -> {/*TODO*/
+                            }
+                        }
+                    }
+                }
+
+                is ServiceResult.Error ->
+                    errorMessageLD.value = ErrorMessageHandler
+                        .getErrorMessage(resProvider, result.errorType)
+            }
+        }
+    }
+
+    private fun removeAdminOfDatabase(uid: String, callback: (ServiceResult) -> Unit) =
+        Singleton.mDatabaseAdminsReference.child(uid).removeValue()
+            .addOnSuccessListener { callback(ServiceResult.Success) }
+            .addOnFailureListener { callback(ServiceResult.Error(ErrorType.SERVER_ERROR)) }
+
+    @Suppress("UNCHECKED_CAST")
+    class ViewModelFactory(
+        private val resProvider: ResourcesProvider,
+        private val database: DatabaseRepository
+    ) :
+        ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(AdminPanelViewModel::class.java))
+                return AdminPanelViewModel(resProvider, database) as T
+
+            throw IllegalArgumentException("Unkown ViewModel class")
+        }
+    }
+}

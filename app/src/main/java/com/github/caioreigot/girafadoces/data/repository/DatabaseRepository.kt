@@ -1,49 +1,49 @@
 package com.github.caioreigot.girafadoces.data.repository
 
-import com.github.caioreigot.girafadoces.data.model.FirebaseResult
+import com.github.caioreigot.girafadoces.data.model.ServiceResult
 import com.github.caioreigot.girafadoces.data.model.MenuItem
 import com.github.caioreigot.girafadoces.data.model.User
 import com.github.caioreigot.girafadoces.data.model.UserAccountField
 
 interface DatabaseRepository {
     fun getLoggedUserInformation(
-        callback: (User?, result: FirebaseResult) -> Unit
+        callback: (User?, serviceResult: ServiceResult) -> Unit
     )
 
     fun getUserByUid(
         uid: String,
-        callback: (User?, result: FirebaseResult) -> Unit
+        callback: (User?, serviceResult: ServiceResult) -> Unit
     )
 
     fun getAdministratorsUsers(
-        callback: (MutableList<User>?, result: FirebaseResult) -> Unit
+        callback: (MutableList<User>?, serviceResult: ServiceResult) -> Unit
     )
 
     fun getAdministratorUidByEmail(
         email: String,
-        callback: (uid: String?, result: FirebaseResult) -> Unit
+        callback: (uid: String?, serviceResult: ServiceResult) -> Unit
     )
 
     fun changeAccountField(
         accountField: UserAccountField,
         newValue: Any,
-        callback: (result: FirebaseResult) -> Unit
+        callback: (serviceResult: ServiceResult) -> Unit
     )
 
     fun getMenuItems(
         storageSource: StorageRepository,
-        callback: (MutableList<MenuItem>?, result: FirebaseResult) -> Unit
+        callback: (MutableList<MenuItem>?, serviceResult: ServiceResult) -> Unit
     )
 
     fun saveMenuItem(
         itemHeader: String,
         itemContent: String,
-        callback: (uid: String?, result: FirebaseResult) -> Unit
+        callback: (uid: String?, serviceResult: ServiceResult) -> Unit
     )
 
     fun removeMenuItem(
-        storageSource: StorageRepository,
+        storage: StorageRepository,
         uid: String,
-        callback: (result: FirebaseResult) -> Unit
+        callback: (serviceResult: ServiceResult) -> Unit
     )
 }

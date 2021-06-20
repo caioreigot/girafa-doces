@@ -1,13 +1,12 @@
 package com.github.caioreigot.girafadoces.data.repository
 
-import com.github.caioreigot.girafadoces.data.model.FirebaseResult
-import com.github.caioreigot.girafadoces.data.model.UserAccountField
+import com.github.caioreigot.girafadoces.data.model.ServiceResult
 
 interface AuthRepository {
     fun loginUser(
         email: String,
         password: String,
-        callback: (result: FirebaseResult) -> Unit
+        callback: (serviceResult: ServiceResult) -> Unit
     )
 
     fun registerUser(
@@ -18,11 +17,11 @@ interface AuthRepository {
         postalNumber: String,
         password: String,
         passwordConfirm: String,
-        callback: (result: FirebaseResult) -> Unit
+        callback: (serviceResult: ServiceResult) -> Unit
     )
 
     fun sendPasswordResetEmail(
         email: String,
-        callback: (result: FirebaseResult) -> Unit
+        callback: (serviceResult: ServiceResult) -> Unit
     )
 }

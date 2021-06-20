@@ -57,7 +57,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/choose_image_cardview"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="60dp"
                 android:layout_gravity="bottom|center_horizontal"
                 android:layout_margin="5dp"
                 android:clickable="true"
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
-                android:maxHeight="280dp"
+                android:maxHeight="240dp"
                 android:scaleType="centerCrop" />
 
         </androidx.cardview.widget.CardView>
@@ -97,13 +97,13 @@
         android:id="@+id/add_dialog_view_flipper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="15dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/dialog_add_btn_cv"
             android:layout_width="wrap_content"
-            android:layout_height="75dp"
+            android:layout_height="60dp"
             android:layout_gravity="center"
             android:layout_margin="5dp"
             android:clickable="true"

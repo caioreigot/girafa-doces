@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:background="@color/primaryPink"
     android:minWidth="350dp"
     android:orientation="vertical"
@@ -55,29 +57,43 @@
         app:autoSizeTextType="uniform"
         tools:text="Formato incorreto!" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/add_admin_btn_cv"
+    <ViewFlipper
+        android:id="@+id/add_admin_view_flipper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="30dp"
-        app:contentPaddingBottom="10dp"
-        app:contentPaddingLeft="30dp"
-        app:contentPaddingRight="30dp"
-        app:contentPaddingTop="10dp">
+        android:layout_marginTop="20dp">
 
-        <TextView
+        <androidx.cardview.widget.CardView
+            android:id="@+id/add_admin_btn_cv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_button"
-            android:textColor="@color/primaryPink"
-            android:textSize="21sp" />
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="20dp"
+            app:contentPaddingBottom="10dp"
+            app:contentPaddingLeft="30dp"
+            app:contentPaddingRight="30dp"
+            app:contentPaddingTop="10dp">
 
-    </androidx.cardview.widget.CardView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_button"
+                android:textColor="@color/primaryPink"
+                android:textSize="21sp" />
+
+        </androidx.cardview.widget.CardView>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/progress_bar_white" />
+
+    </ViewFlipper>
 
 </LinearLayout>
