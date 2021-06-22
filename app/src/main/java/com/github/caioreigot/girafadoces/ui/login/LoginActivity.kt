@@ -6,20 +6,19 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.*
+import androidx.activity.viewModels
 import com.github.caioreigot.girafadoces.R
-import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
-import com.github.caioreigot.girafadoces.data.remote.AuthService
-import com.github.caioreigot.girafadoces.data.local.Preferences
 import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.model.UserSingleton
-import com.github.caioreigot.girafadoces.data.remote.DatabaseService
 import com.github.caioreigot.girafadoces.ui.base.BaseActivity
 import com.github.caioreigot.girafadoces.ui.main.MainActivity
 import com.github.caioreigot.girafadoces.ui.signup.SignUpActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : BaseActivity() {
 
-    private lateinit var mViewModel: LoginViewModel
+    private val mViewModel: LoginViewModel by viewModels()
 
     private lateinit var rootView: RelativeLayout
 
@@ -40,14 +39,6 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_GirafaDoces)
         setContentView(R.layout.activity_login)
-
-        mViewModel = LoginViewModel.ViewModelFactory(
-            AuthService(),
-            DatabaseService(),
-            ResourcesProvider(this),
-            Preferences(this)
-        )
-            .create(LoginViewModel::class.java)
 
         mViewModel.searchRememberedAccount()
 

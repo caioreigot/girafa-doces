@@ -2,7 +2,6 @@ package com.github.caioreigot.girafadoces.ui.main.add
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.helper.ErrorMessageHandler
 import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
@@ -12,9 +11,11 @@ import com.github.caioreigot.girafadoces.data.model.MenuItem
 import com.github.caioreigot.girafadoces.data.model.ServiceResult
 import com.github.caioreigot.girafadoces.data.repository.DatabaseRepository
 import com.github.caioreigot.girafadoces.data.repository.StorageRepository
-import java.lang.IllegalArgumentException
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class AddViewModel(
+@HiltViewModel
+class AddViewModel @Inject constructor(
     private val resProvider: ResourcesProvider,
     private val storage: StorageRepository,
     private val database: DatabaseRepository
@@ -79,7 +80,7 @@ class AddViewModel(
 
             when (result) {
                 is ServiceResult.Success -> {
-                    // TODO
+                    // TODO: Erro ao salvar item do menu ao database
                 }
 
                 is ServiceResult.Error -> {
@@ -91,24 +92,6 @@ class AddViewModel(
                     }
                 }
             }
-        }
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    class ViewModelFactory(
-        private val resProvider: ResourcesProvider,
-        private val storage: StorageRepository,
-        private val database: DatabaseRepository
-    ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(AddViewModel::class.java))
-                return AddViewModel(
-                    resProvider,
-                    storage,
-                    database
-                ) as T
-
-            throw IllegalArgumentException("Unkown ViewModel class")
         }
     }
 }

@@ -13,13 +13,13 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.ui.main.MainActivity
 import java.io.ByteArrayOutputStream
 
 class AddMenuItemDialog(
-    private val addViewModel: AddViewModel,
     private val clearRecyclerView: () -> Unit
 ) : DialogFragment() {
 
@@ -27,6 +27,8 @@ class AddMenuItemDialog(
 
     val VIEW_FLIPPER_BUTTON = 0
     val VIEW_FLIPPER_PROGRESS_BAR = 1
+
+    private val addViewModel: AddViewModel by viewModels()
 
     lateinit var contentET: EditText
     lateinit var titleET: EditText

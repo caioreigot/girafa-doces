@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -15,10 +16,12 @@ import com.github.caioreigot.girafadoces.data.model.MenuItem
 import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.remote.DatabaseService
 import com.github.caioreigot.girafadoces.data.remote.StorageService
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MenuFragment : Fragment() {
 
-    private lateinit var mViewModel: MenuViewModel
+    private val mViewModel: MenuViewModel by viewModels()
 
     private lateinit var progressBar: ProgressBar
     private lateinit var menuRecyclerView: RecyclerView
@@ -33,13 +36,6 @@ class MenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        mViewModel = MenuViewModel.ViewModelFactory(
-            ResourcesProvider(requireContext()),
-            DatabaseService(),
-            StorageService()
-        )
-            .create(MenuViewModel::class.java)
 
         //region Assignments
         progressBar = view.findViewById(R.id.menu_fragment_progress_bar)

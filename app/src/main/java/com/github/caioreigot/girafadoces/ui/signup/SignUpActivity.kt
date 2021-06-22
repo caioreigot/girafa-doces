@@ -6,43 +6,38 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.*
+import androidx.activity.viewModels
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.helper.PhoneNumberWatcher
-import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.model.MessageType
-import com.github.caioreigot.girafadoces.data.remote.AuthService
 import com.github.caioreigot.girafadoces.ui.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpActivity : BaseActivity() {
 
-    private lateinit var mViewModel: SignUpViewModel
+    private val mViewModel: SignUpViewModel by viewModels()
 
-    lateinit var rootView: RelativeLayout
+    private lateinit var rootView: RelativeLayout
 
-    lateinit var fullNameET: EditText
-    lateinit var emailET: EditText
-    lateinit var phoneNumberET: EditText
-    lateinit var deliveryAddressET: EditText
-    lateinit var postalNumberET: EditText
+    private lateinit var fullNameET: EditText
+    private lateinit var emailET: EditText
+    private lateinit var phoneNumberET: EditText
+    private lateinit var deliveryAddressET: EditText
+    private lateinit var postalNumberET: EditText
 
-    lateinit var passwordET: EditText
-    lateinit var passwordVisibilityBtn: LinearLayout
-    lateinit var confirmPasswordET: EditText
-    lateinit var confirmPasswordVisibilityBtn: LinearLayout
+    private lateinit var passwordET: EditText
+    private lateinit var passwordVisibilityBtn: LinearLayout
+    private lateinit var confirmPasswordET: EditText
+    private lateinit var confirmPasswordVisibilityBtn: LinearLayout
 
-    lateinit var viewFlipper: ViewFlipper
-    lateinit var signUpButton: Button
+    private lateinit var viewFlipper: ViewFlipper
+    private lateinit var signUpButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.SignUpScreen)
         setContentView(R.layout.activity_sign_up)
-
-        mViewModel = SignUpViewModel.ViewModelFactory(
-            AuthService(),
-            ResourcesProvider(this)
-        )
-            .create(SignUpViewModel::class.java)
 
         //region Assignments
         rootView = findViewById(R.id.sign_up_root_view)

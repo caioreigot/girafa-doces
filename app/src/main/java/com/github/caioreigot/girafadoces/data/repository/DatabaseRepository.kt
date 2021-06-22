@@ -31,7 +31,7 @@ interface DatabaseRepository {
     )
 
     fun getMenuItems(
-        storageSource: StorageRepository,
+        storage: StorageRepository,
         callback: (MutableList<MenuItem>?, serviceResult: ServiceResult) -> Unit
     )
 

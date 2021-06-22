@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -18,12 +19,13 @@ import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.remote.DatabaseService
 import com.github.caioreigot.girafadoces.data.remote.StorageService
 import com.github.caioreigot.girafadoces.ui.main.MainActivity
-import com.github.caioreigot.girafadoces.ui.main.menu.MenuAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddFragment : Fragment() {
 
-    private lateinit var mViewModel: AddViewModel
+    private val mViewModel: AddViewModel by viewModels()
 
     lateinit var progressBar: ProgressBar
 
@@ -43,13 +45,6 @@ class AddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        mViewModel = AddViewModel.ViewModelFactory(
-            ResourcesProvider(requireContext()),
-            StorageService(),
-            DatabaseService()
-        )
-            .create(AddViewModel::class.java)
 
         //region Assignments
         progressBar = view.findViewById(R.id.add_fragment_progress_bar)
@@ -78,7 +73,7 @@ class AddFragment : Fragment() {
         //region Listeners
         addItemBtn.setOnClickListener {
             activity?.supportFragmentManager?.let { supportFragmentManager ->
-                val addMenuItemDialog = AddMenuItemDialog(mViewModel, ::clearRecyclerView)
+                val addMenuItemDialog = AddMenuItemDialog(::clearRecyclerView)
                 addMenuItemDialog.show(supportFragmentManager, addMenuItemDialog.tag)
             }
         }

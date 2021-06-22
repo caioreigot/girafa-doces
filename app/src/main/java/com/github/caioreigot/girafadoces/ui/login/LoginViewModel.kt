@@ -14,9 +14,12 @@ import com.github.caioreigot.girafadoces.data.model.User
 import com.github.caioreigot.girafadoces.data.model.ServiceResult
 import com.github.caioreigot.girafadoces.data.repository.AuthRepository
 import com.github.caioreigot.girafadoces.data.repository.DatabaseRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.lang.IllegalArgumentException
+import javax.inject.Inject
 
-class LoginViewModel(
+@HiltViewModel
+class LoginViewModel @Inject constructor(
     private val auth: AuthRepository,
     private val database: DatabaseRepository,
     private val resProvider: ResourcesProvider,
@@ -115,26 +118,5 @@ class LoginViewModel(
 
         if (email != null && password != null)
             loginUser(email, password)
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    class ViewModelFactory(
-        private val auth: AuthRepository,
-        private val database: DatabaseRepository,
-        private val resourceProvider: ResourcesProvider,
-        private val preferences: Preferences
-    ) :
-        ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(LoginViewModel::class.java))
-                return LoginViewModel(
-                    auth,
-                    database,
-                    resourceProvider,
-                    preferences
-                ) as T
-
-            throw IllegalArgumentException("Unkown ViewModel class")
-        }
     }
 }

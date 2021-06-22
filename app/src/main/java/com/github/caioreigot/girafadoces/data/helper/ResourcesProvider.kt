@@ -5,11 +5,7 @@ import androidx.annotation.StringRes
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class ResourcesProvider @Inject constructor(@ApplicationContext context: Context) {
+class ResourcesProvider @Inject constructor(@ApplicationContext private val context: Context) {
 
-    private var mContext: Context = context
-
-    fun getString(@StringRes stringID: Int): String {
-        return mContext.getString(stringID)
-    }
+    fun getString(@StringRes stringID: Int): String = context.getString(stringID)
 }

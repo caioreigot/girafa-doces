@@ -17,6 +17,7 @@ android {
         minSdkVersion 19
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -54,6 +55,8 @@ dependencies {
 
     implementation "androidx.activity:activity-ktx:1.2.3"
     implementation 'androidx.fragment:fragment-ktx:1.3.5'
+
+    implementation 'androidx.multidex:multidex:2.0.1'
 
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")

@@ -11,9 +11,12 @@ import com.github.caioreigot.girafadoces.data.model.MenuItem
 import com.github.caioreigot.girafadoces.data.model.ServiceResult
 import com.github.caioreigot.girafadoces.data.repository.DatabaseRepository
 import com.github.caioreigot.girafadoces.data.repository.StorageRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.lang.IllegalArgumentException
+import javax.inject.Inject
 
-class MenuViewModel(
+@HiltViewModel
+class MenuViewModel @Inject constructor(
     private val resProvider: ResourcesProvider,
     private val database: DatabaseRepository,
     private val storage: StorageRepository
@@ -40,6 +43,7 @@ class MenuViewModel(
         }
     }
 
+    /*
     @Suppress("UNCHECKED_CAST")
     class ViewModelFactory(
         private val resProvider: ResourcesProvider,
@@ -54,4 +58,5 @@ class MenuViewModel(
             throw IllegalArgumentException("Unkown ViewModel class")
         }
     }
+     */
 }

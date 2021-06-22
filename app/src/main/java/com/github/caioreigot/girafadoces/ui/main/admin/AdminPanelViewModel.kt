@@ -2,7 +2,6 @@ package com.github.caioreigot.girafadoces.ui.main.admin
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.github.caioreigot.girafadoces.data.helper.ErrorMessageHandler
 import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.helper.SingleLiveEvent
@@ -12,7 +11,6 @@ import com.github.caioreigot.girafadoces.data.model.Singleton
 import com.github.caioreigot.girafadoces.data.model.User
 import com.github.caioreigot.girafadoces.data.repository.DatabaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -89,11 +87,10 @@ class AdminPanelViewModel @Inject constructor(
         database.getAdministratorUidByEmail(email) { uid, result ->
             when (result) {
                 is ServiceResult.Success -> uid?.let {
-                    removeAdminOfDatabase(uid) { result ->
+                    removeAdminOfDatabase(it) { result ->
                         when (result) {
                             is ServiceResult.Success -> adminRemovedLD.value = position
-                            is ServiceResult.Error -> {/*TODO*/
-                            }
+                            is ServiceResult.Error -> {/*TODO*/}
                         }
                     }
                 }
@@ -109,18 +106,4 @@ class AdminPanelViewModel @Inject constructor(
         Singleton.mDatabaseAdminsReference.child(uid).removeValue()
             .addOnSuccessListener { callback(ServiceResult.Success) }
             .addOnFailureListener { callback(ServiceResult.Error(ErrorType.SERVER_ERROR)) }
-
-    @Suppress("UNCHECKED_CAST")
-    class ViewModelFactory(
-        private val resProvider: ResourcesProvider,
-        private val database: DatabaseRepository
-    ) :
-        ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(AdminPanelViewModel::class.java))
-                return AdminPanelViewModel(resProvider, database) as T
-
-            throw IllegalArgumentException("Unkown ViewModel class")
-        }
-    }
 }

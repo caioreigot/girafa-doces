@@ -2,23 +2,23 @@ package com.github.caioreigot.girafadoces.data.local
 
 import android.content.Context
 import android.content.SharedPreferences
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class Preferences(private val context: Context) {
+class Preferences @Inject constructor(@ApplicationContext private val context: Context) {
 
     private val APP_SETTINGS = "GIRAFA_DOCES_SETTINGS"
     private val PREF_EMAIL = "email"
     private val PREF_PASSWORD = "password"
 
-    private fun getSharedPreferences(): SharedPreferences {
-        return context.getSharedPreferences(APP_SETTINGS, Context.MODE_PRIVATE)
-    }
+    private fun getSharedPreferences(): SharedPreferences =
+        context.getSharedPreferences(APP_SETTINGS, Context.MODE_PRIVATE)
 
-    fun getEmailAndPasswordValue(): Pair<String?, String?> {
-        return Pair(
+    fun getEmailAndPasswordValue(): Pair<String?, String?> =
+        Pair(
             getSharedPreferences().getString(PREF_EMAIL, null),
             getSharedPreferences().getString(PREF_PASSWORD, null)
         )
-    }
 
     fun setEmailAndPasswordValue(email: String, password: String) {
         getSharedPreferences()

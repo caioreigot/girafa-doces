@@ -8,20 +8,22 @@ import android.widget.TextView
 import android.widget.ViewFlipper
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.viewModels
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.model.Singleton
 import com.github.caioreigot.girafadoces.data.model.UserAccountField
 import com.github.caioreigot.girafadoces.data.model.UserSingleton
-import com.github.caioreigot.girafadoces.data.remote.DatabaseService
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AccountFragment : Fragment() {
 
-    private lateinit var mViewModel: AccountViewModel
+    private val mViewModel: AccountViewModel by viewModels()
 
     private lateinit var loadingViewFlipper: ViewFlipper
-    private lateinit var informationsViewGroup: ViewGroup
+    private lateinit var informationViewGroup: ViewGroup
 
     private lateinit var nameTV: TextView
     private lateinit var addressTV: TextView
@@ -45,14 +47,9 @@ class AccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mViewModel = AccountViewModel.ViewModelFactory(
-            ResourcesProvider(requireContext()),
-            DatabaseService()
-        ).create(AccountViewModel::class.java)
-
         //region Assignments
         loadingViewFlipper = view.findViewById(R.id.account_loading_view_flipper)
-        informationsViewGroup = view.findViewById(R.id.account_informations_view_group)
+        informationViewGroup = view.findViewById(R.id.account_information_view_group)
 
         nameTV = view.findViewById(R.id.account_user_name)
         addressTV = view.findViewById(R.id.account_user_address)
@@ -105,7 +102,7 @@ class AccountFragment : Fragment() {
                 emailTV.text = UserSingleton.email
                 phoneTV.text = UserSingleton.phoneNumber
 
-                informationsViewGroup.visibility = View.VISIBLE
+                informationViewGroup.visibility = View.VISIBLE
             }
         })
 

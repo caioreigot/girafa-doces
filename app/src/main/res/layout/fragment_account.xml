@@ -65,7 +65,7 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:id="@+id/account_informations_view_group"
+                android:id="@+id/account_information_view_group"
                 android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

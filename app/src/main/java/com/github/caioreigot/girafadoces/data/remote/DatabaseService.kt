@@ -289,7 +289,7 @@ class DatabaseService @Inject constructor() : DatabaseRepository {
                         false -> callback(null, ServiceResult.Error(ErrorType.SERVER_ERROR))
                     }
                 }
-        }
+        } ?: callback(null, ServiceResult.Error(ErrorType.SERVER_ERROR))
     }
 
     override fun removeMenuItem(

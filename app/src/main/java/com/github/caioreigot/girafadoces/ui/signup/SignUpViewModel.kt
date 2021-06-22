@@ -2,15 +2,16 @@ package com.github.caioreigot.girafadoces.ui.signup
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.github.caioreigot.girafadoces.data.helper.ErrorMessageHandler
 import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.helper.SingleLiveEvent
 import com.github.caioreigot.girafadoces.data.model.ServiceResult
 import com.github.caioreigot.girafadoces.data.repository.AuthRepository
-import java.lang.IllegalArgumentException
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SignUpViewModel(
+@HiltViewModel
+class SignUpViewModel @Inject constructor(
     private val auth: AuthRepository,
     private val resProvider: ResourcesProvider
 ) : ViewModel() {
@@ -58,20 +59,6 @@ class SignUpViewModel(
                         ErrorMessageHandler.getErrorMessage(resProvider, result.errorType)
                 }
             }
-        }
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    class ViewModelFactory(
-        private val auth: AuthRepository,
-        private val resourceProvider: ResourcesProvider
-    ) :
-        ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(SignUpViewModel::class.java))
-                return SignUpViewModel(auth, resourceProvider) as T
-
-            throw IllegalArgumentException("Unkown ViewModel class")
         }
     }
 }
