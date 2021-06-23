@@ -8,16 +8,17 @@ import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.remote.DatabaseService
 import com.github.caioreigot.girafadoces.ui.main.admin.administrators.AdministratorsDialog
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AdminPanelFragment : Fragment() {
-
-    //private val mViewModel: AdminPanelViewModel by viewModels()
 
     lateinit var administratorsBtn: CardView
 
@@ -35,10 +36,10 @@ class AdminPanelFragment : Fragment() {
         administratorsBtn = view.findViewById(R.id.admin_administrators_btn_cv)
 
         administratorsBtn.setOnClickListener {
-            val administratorsDialog = AdministratorsDialog(/*mViewModel*/)
+            val administratorsDialog = AdministratorsDialog()
 
             administratorsDialog.show(
-                requireActivity().supportFragmentManager,
+                childFragmentManager,
                 administratorsDialog.tag
             )
         }

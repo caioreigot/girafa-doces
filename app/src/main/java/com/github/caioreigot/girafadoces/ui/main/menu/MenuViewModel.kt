@@ -55,8 +55,8 @@ class MenuViewModel @Inject constructor(
             if (modelClass.isAssignableFrom(MenuViewModel::class.java))
                 return MenuViewModel(resProvider, database, storage) as T
 
-            throw IllegalArgumentException("Unkown ViewModel class")
+            throw IllegalArgumentException("Unknown ViewModel class")
         }
     }
-     */
+    */
 }

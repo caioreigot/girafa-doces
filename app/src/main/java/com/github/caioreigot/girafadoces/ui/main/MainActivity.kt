@@ -31,8 +31,6 @@ class MainActivity : BaseActivity() {
         // Assignments
         bottomNavigation = findViewById(R.id.main_bottom_navigation)
 
-        //showDebugUserInfo()
-
         bottomNavigation.menu.clear()
 
         bottomNavigation.inflateMenu(
@@ -94,8 +92,8 @@ class MainActivity : BaseActivity() {
 
     fun showMessageDialog(
         messageType: MessageType,
-        @StringRes stringRes: Int,
-        errorMessage: String,
+        @StringRes header: Int,
+        @StringRes content: Int,
         positiveOnClickListener: (() -> Unit)? = null,
         negativeOnClickListener: (() -> Unit)? = null,
         callback: ((choice: Boolean) -> Unit)? = null
@@ -103,8 +101,27 @@ class MainActivity : BaseActivity() {
         createMessageDialog(
             this,
             messageType,
-            getString(stringRes),
-            errorMessage,
+            getString(header),
+            getString(content),
+            positiveOnClickListener,
+            negativeOnClickListener,
+            callback
+        ).show()
+    }
+
+    fun showMessageDialog(
+        messageType: MessageType,
+        @StringRes header: Int,
+        content: String,
+        positiveOnClickListener: (() -> Unit)? = null,
+        negativeOnClickListener: (() -> Unit)? = null,
+        callback: ((choice: Boolean) -> Unit)? = null
+    ) {
+        createMessageDialog(
+            this,
+            messageType,
+            getString(header),
+            content,
             positiveOnClickListener,
             negativeOnClickListener,
             callback

@@ -79,9 +79,7 @@ class AddViewModel @Inject constructor(
             }
 
             when (result) {
-                is ServiceResult.Success -> {
-                    // TODO: Erro ao salvar item do menu ao database
-                }
+                is ServiceResult.Success -> return@saveMenuItem
 
                 is ServiceResult.Error -> {
                     errorMessageLD.value = when (result.errorType) {

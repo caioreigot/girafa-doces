@@ -101,7 +101,9 @@ class AddFragment : Fragment() {
         })
 
         mViewModel.errorMessageLD.observe(viewLifecycleOwner, { errorMessage ->
-            (activity as MainActivity).showMessageDialog(
+            val mainActivity = (activity as MainActivity)
+
+            mainActivity.showMessageDialog(
                 MessageType.ERROR,
                 R.string.dialog_error_title,
                 errorMessage

@@ -43,7 +43,7 @@
             android:weightSum="1">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/administrators_item_informations_btn_cv"
+                android:id="@+id/administrators_item_information_btn_cv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"

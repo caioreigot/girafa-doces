@@ -23,22 +23,22 @@ class AddMenuItemDialog(
     private val clearRecyclerView: () -> Unit
 ) : DialogFragment() {
 
-    val PICK_IMAGE = 1
+    private val PICK_IMAGE = 1
 
-    val VIEW_FLIPPER_BUTTON = 0
-    val VIEW_FLIPPER_PROGRESS_BAR = 1
+    private val VIEW_FLIPPER_BUTTON = 0
+    private val VIEW_FLIPPER_PROGRESS_BAR = 1
 
     private val addViewModel: AddViewModel by viewModels()
 
-    lateinit var contentET: EditText
-    lateinit var titleET: EditText
-    lateinit var imageView: ImageView
-    lateinit var progressBar: ProgressBar
+    private lateinit var contentET: EditText
+    private lateinit var titleET: EditText
+    private lateinit var imageView: ImageView
+    private lateinit var progressBar: ProgressBar
 
-    lateinit var viewFlipper: ViewFlipper
+    private lateinit var viewFlipper: ViewFlipper
 
-    lateinit var addDialogBtnCV: CardView
-    lateinit var chooseImageBtnCV: CardView
+    private lateinit var addDialogBtnCV: CardView
+    private lateinit var chooseImageBtnCV: CardView
 
     override fun onCreateView(
         inflater: LayoutInflater,

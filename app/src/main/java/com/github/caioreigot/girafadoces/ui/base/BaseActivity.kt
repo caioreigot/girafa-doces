@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -37,10 +38,8 @@ open class BaseActivity : AppCompatActivity() {
 
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        /*
-        val width = (resources.displayMetrics.widthPixels * 0.70).toInt()
-        dialog.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
-         */
+        /*val width = (resources.displayMetrics.widthPixels * 0.70).toInt()
+        dialog.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)*/
 
         val dialogImage = dialog.findViewById<ImageView>(R.id.message_dialog_image_iv)
 
@@ -62,6 +61,10 @@ open class BaseActivity : AppCompatActivity() {
                 dialogImage.setImageResource(R.drawable.ic_baseline_info_24)
 
                 dialogPositiveBtn.text = getString(R.string.dialog_yes_button)
+
+                dialogPositiveBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP,14F)
+                dialogNegativeBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP,14F)
+
                 dialogNegativeBtn.visibility = View.VISIBLE
                 buttonDividerView.visibility = View.VISIBLE
             }

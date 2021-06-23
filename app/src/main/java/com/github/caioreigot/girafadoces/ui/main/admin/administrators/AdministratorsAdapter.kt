@@ -21,14 +21,14 @@ class AdministratorsAdapter(
 
         private val adminHeader: TextView = itemView.findViewById(R.id.administrators_item_header)
         private val adminFullNameTV: TextView = itemView.findViewById(R.id.admininistrators_item_full_name_tv)
-        private val informationsAdminBtn: CardView = itemView.findViewById(R.id.administrators_item_informations_btn_cv)
+        private val informationAdminBtn: CardView = itemView.findViewById(R.id.administrators_item_information_btn_cv)
         private val removeAdminBtn: CardView = itemView.findViewById(R.id.administrators_item_remove_btn_cv)
 
         fun bind(admin: User, position: Int) {
             if (admin.email == UserSingleton.email) {
                 adminHeader.text = resProvider.getString(R.string.administrator_you_item_header)
 
-                informationsAdminBtn.visibility = View.GONE
+                informationAdminBtn.visibility = View.GONE
                 removeAdminBtn.visibility = View.GONE
             }
 

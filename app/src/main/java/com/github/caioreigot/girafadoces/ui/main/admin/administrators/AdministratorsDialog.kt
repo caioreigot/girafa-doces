@@ -1,6 +1,7 @@
 package com.github.caioreigot.girafadoces.ui.main.admin.administrators
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,9 @@ import android.view.WindowManager
 import android.widget.ProgressBar
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.caioreigot.girafadoces.R
@@ -15,26 +19,35 @@ import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
 import com.github.caioreigot.girafadoces.ui.main.admin.AdminPanelViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class AdministratorsDialog() : DialogFragment() {
+class AdministratorsDialog : DialogFragment() {
 
-    private val adminPanelViewModel: AdminPanelViewModel by viewModels()
+    @Inject lateinit var adminPanelVMFactory: AdminPanelViewModel.ViewModelFactory
 
-    lateinit var adminProgressBar: ProgressBar
-    lateinit var administratorsRecyclerView: RecyclerView
-    lateinit var adapter: AdministratorsAdapter
+    private val adminPanelViewModel: AdminPanelViewModel by viewModels(
+        { this },
+        { adminPanelVMFactory }
+    )
 
-    lateinit var addAdminFloatingButton: FloatingActionButton
-    var addAdminDialog: DialogFragment? = null
+    /*private val adminPanelViewModel: AdminPanelViewModel by lazy {
+        ViewModelProvider(this, adminPanelVMFactory)
+            .get(AdminPanelViewModel::class.java)
+    }*/
 
-    /*
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private lateinit var adminProgressBar: ProgressBar
+    private lateinit var administratorsRecyclerView: RecyclerView
+    private lateinit var adapter: AdministratorsAdapter
+
+    private lateinit var addAdminFloatingButton: FloatingActionButton
+    private var addAdminDialog: DialogFragment? = null
+
+    /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setStyle(STYLE_NORMAL, R.style.Theme_GirafaDoces)
-    }
-    */
+    }*/
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,10 +76,13 @@ class AdministratorsDialog() : DialogFragment() {
         )
 
         addAdminFloatingButton.setOnClickListener {
-            addAdminDialog = AddAdminDialog(adminPanelViewModel)
+            addAdminDialog = AddAdminDialog()
 
-            addAdminDialog?.let {
-                it.show(requireActivity().supportFragmentManager, it.tag)
+            addAdminDialog?.let { itDialogFragment ->
+                itDialogFragment.show(
+                    childFragmentManager,
+                    itDialogFragment.tag
+                )
             }
         }
 

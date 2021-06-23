@@ -14,7 +14,7 @@
     <string name="dialog_yes_button">Sim</string>
     <string name="dialog_successful_title">SUCESSO</string>
     <string name="dialog_error_title">ERRO</string>
-    <string name="dialog_confirmation_title">CONFIRMAR AÇÃO</string>
+    <string name="dialog_confirmation_title">CONFIRMAR</string>
 
     <!-- Common Error Messages -->
     <string name="unexpected_error_message">Erro inesperado</string>
@@ -74,6 +74,7 @@
     <string name="account_email_header">E-mail:</string>
     <string name="account_phone_header">Celular:</string>
     <string name="account_sign_out">SAIR DA CONTA</string>
+    <string name="account_sign_out_dialog_message">Deseja sair da conta?</string>
 
     <!-- Add Fragment Result Messages -->
     <string name="menu_item_save_successful">Item adicionado com sucesso</string>

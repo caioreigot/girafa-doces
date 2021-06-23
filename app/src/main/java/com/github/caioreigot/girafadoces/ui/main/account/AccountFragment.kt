@@ -11,9 +11,11 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
+import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.model.Singleton
 import com.github.caioreigot.girafadoces.data.model.UserAccountField
 import com.github.caioreigot.girafadoces.data.model.UserSingleton
+import com.github.caioreigot.girafadoces.ui.main.MainActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -67,7 +69,14 @@ class AccountFragment : Fragment() {
 
         //region Listeners
         signOutBtn.setOnClickListener {
-            Singleton.mAuth.signOut()
+            val mainActivity = (activity as MainActivity)
+
+            mainActivity.showMessageDialog(
+                MessageType.CONFIRMATION,
+                R.string.dialog_confirmation_title,
+                R.string.account_sign_out_dialog_message,
+                { Singleton.mAuth.signOut() }
+            )
         }
 
         editAccountName
@@ -122,7 +131,7 @@ class AccountFragment : Fragment() {
         private val activity: FragmentActivity?,
         private val accountViewModel: AccountViewModel,
         private val fieldToChange: UserAccountField
-        ) : View.OnClickListener
+    ) : View.OnClickListener
     {
         override fun onClick(v: View?) {
             activity?.supportFragmentManager?.let { supportFragmentManager ->

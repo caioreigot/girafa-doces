@@ -1,6 +1,7 @@
 package com.github.caioreigot.girafadoces.ui.main.admin.administrators
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +10,27 @@ import android.widget.TextView
 import android.widget.ViewFlipper
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.ui.main.admin.AdminPanelViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class AddAdminDialog(
-    private val adminPanelViewModel: AdminPanelViewModel
-) : DialogFragment() {
+@AndroidEntryPoint
+class AddAdminDialog : DialogFragment() {
+
+    @Inject lateinit var adminPanelVMFactory: AdminPanelViewModel.ViewModelFactory
+
+    private val adminPanelViewModel: AdminPanelViewModel by viewModels(
+        { requireParentFragment() },
+        { adminPanelVMFactory }
+    )
+
+    /*private val adminPanelViewModel: AdminPanelViewModel by lazy {
+        ViewModelProvider(requireParentFragment().viewModelStore, adminPanelVMFactory)
+            .get(AdminPanelViewModel::class.java)
+    }*/
 
     lateinit var viewFlipper: ViewFlipper
     lateinit var addAdminBtnCV: CardView
