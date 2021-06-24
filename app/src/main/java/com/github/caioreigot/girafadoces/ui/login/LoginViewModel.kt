@@ -119,4 +119,20 @@ class LoginViewModel @Inject constructor(
         if (email != null && password != null)
             loginUser(email, password)
     }
+
+    @Suppress("UNCHECKED_CAST")
+    class ViewModelFactory @Inject constructor(
+        private val auth: AuthRepository,
+        private val database: DatabaseRepository,
+        private val resProvider: ResourcesProvider,
+        private val preferences: Preferences
+    ) : ViewModelProvider.Factory {
+
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(LoginViewModel::class.java))
+                return LoginViewModel(auth, database, resProvider, preferences) as T
+
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
+    }
 }

@@ -20,13 +20,13 @@ class AdministratorsViewModel @Inject constructor(
     private val database: DatabaseRepository
 ) : ViewModel() {
 
-    val adminUsersItemsLD: MutableLiveData<MutableList<User>> = MutableLiveData()
     val errorMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
-
     val addAdminErrorMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
 
-    val adminRemovedLD: MutableLiveData<Int> = MutableLiveData()
+    val adminUsersItemsLD: MutableLiveData<MutableList<User>> = MutableLiveData()
+
     val adminAddedLD: MutableLiveData<User> = MutableLiveData()
+    val adminRemovedLD: MutableLiveData<Int> = MutableLiveData()
 
     fun getAdministratorsUsers() {
         database.getAdministratorsUsers { adminUsers, result ->
@@ -107,18 +107,4 @@ class AdministratorsViewModel @Inject constructor(
         Singleton.mDatabaseAdminsReference.child(uid).removeValue()
             .addOnSuccessListener { callback(ServiceResult.Success) }
             .addOnFailureListener { callback(ServiceResult.Error(ErrorType.SERVER_ERROR)) }
-
-    @Suppress("UNCHECKED_CAST")
-    class ViewModelFactory @Inject constructor(
-        private val resProvider: ResourcesProvider,
-        private val database: DatabaseRepository
-    ) : ViewModelProvider.Factory {
-
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(AdministratorsViewModel::class.java))
-                return AdministratorsViewModel(resProvider, database) as T
-
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
-    }
 }

@@ -9,9 +9,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ViewFlipper
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.github.caioreigot.girafadoces.R
+import dagger.hilt.android.AndroidEntryPoint
 
-class ForgotPasswordDialog(private val loginViewModel: LoginViewModel) : DialogFragment() {
+@AndroidEntryPoint
+class ForgotPasswordDialog : DialogFragment(R.layout.forgot_password_dialog) {
+
+    private val loginViewModel: LoginViewModel by activityViewModels()
 
     lateinit var forgotPasswordViewFlipper: ViewFlipper
     lateinit var forgotPasswordBackBtn: Button
@@ -20,14 +26,6 @@ class ForgotPasswordDialog(private val loginViewModel: LoginViewModel) : DialogF
         super.onCreate(savedInstanceState)
 
         setStyle(STYLE_NO_TITLE, R.style.FullScreenDialog)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.forgot_password_dialog, container)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

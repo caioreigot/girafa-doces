@@ -7,13 +7,16 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.model.UserSingleton
 import com.github.caioreigot.girafadoces.ui.base.BaseActivity
 import com.github.caioreigot.girafadoces.ui.main.MainActivity
+import com.github.caioreigot.girafadoces.ui.main.admin.administrators.AdministratorsViewModel
 import com.github.caioreigot.girafadoces.ui.signup.SignUpActivity
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginActivity : BaseActivity() {
@@ -73,8 +76,8 @@ class LoginActivity : BaseActivity() {
         }
 
         forgotPasswordTV.setOnClickListener {
-            //val forgotPasswordDialog = Dialog(this, R.style.full_screen_dialog)
-            val forgotPasswordDialog = ForgotPasswordDialog(mViewModel)
+            /*val forgotPasswordDialog = Dialog(this, R.style.full_screen_dialog)*/
+            val forgotPasswordDialog = ForgotPasswordDialog()
             forgotPasswordDialog.show(supportFragmentManager, forgotPasswordDialog.tag)
         }
 
