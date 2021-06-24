@@ -9,10 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.model.*
-import com.github.caioreigot.girafadoces.ui.main.admin.AdminPanelViewModel
 
 class AdministratorsAdapter(
-    private val adminPanelViewModel: AdminPanelViewModel,
+    private val administratorsViewModel: AdministratorsViewModel,
     private val resProvider: ResourcesProvider,
     val items: MutableList<User>
 ) : RecyclerView.Adapter<AdministratorsAdapter.AdministratorsViewHolder>() {
@@ -35,13 +34,16 @@ class AdministratorsAdapter(
             adminFullNameTV.text = admin.fullName
 
             removeAdminBtn.setOnClickListener {
-                adminPanelViewModel.removeAdmin(admin.email, position)
+                administratorsViewModel.removeAdmin(admin.email, position)
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdministratorsViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.administrators_item, parent, false)
+        val view = LayoutInflater
+            .from(parent.context)
+            .inflate(R.layout.administrators_item, parent, false)
+
         return AdministratorsViewHolder(view)
     }
 

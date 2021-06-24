@@ -76,12 +76,13 @@ class DatabaseService @Inject constructor() : DatabaseRepository {
 
                     // Adding UID of admin users to list
                     for (uidSnapshot in snapshot.children)
-                        uidSnapshot.key?.let { allAdminsUID.add(it) }
+                        uidSnapshot.key?.let { key -> allAdminsUID.add(key) }
 
                     if (allAdminsUID.size == snapshot.childrenCount.toInt()) {
                         Singleton.mDatabaseUsersReference
                             .addListenerForSingleValueEvent(object : ValueEventListener {
                                 override fun onDataChange(snapshot: DataSnapshot) {
+
                                     // Getting the information from each admin user, in the users node
                                     for (i in allAdminsUID.indices) {
                                         snapshot.child(allAdminsUID[i]).getValue(User::class.java)

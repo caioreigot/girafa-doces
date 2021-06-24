@@ -1,7 +1,6 @@
 package com.github.caioreigot.girafadoces.ui.main.admin.administrators
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,26 +8,22 @@ import android.view.WindowManager
 import android.widget.ProgressBar
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStore
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
-import com.github.caioreigot.girafadoces.ui.main.admin.AdminPanelViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AdministratorsDialog : DialogFragment() {
+class AdministratorsDialog : DialogFragment(R.layout.administrators_dialog) {
 
-    @Inject lateinit var adminPanelVMFactory: AdminPanelViewModel.ViewModelFactory
+    @Inject lateinit var administratorsVMFactory: AdministratorsViewModel.ViewModelFactory
 
-    private val adminPanelViewModel: AdminPanelViewModel by viewModels(
+    private val administratorsViewModel: AdministratorsViewModel by viewModels(
         { this },
-        { adminPanelVMFactory }
+        { administratorsVMFactory }
     )
 
     /*private val adminPanelViewModel: AdminPanelViewModel by lazy {
@@ -48,14 +43,6 @@ class AdministratorsDialog : DialogFragment() {
 
         setStyle(STYLE_NORMAL, R.style.Theme_GirafaDoces)
     }*/
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.administrators_dialog, container)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -86,15 +73,15 @@ class AdministratorsDialog : DialogFragment() {
             }
         }
 
-        adminPanelViewModel.getAdministratorsUsers()
+        administratorsViewModel.getAdministratorsUsers()
 
         //region Observers
-        adminPanelViewModel.adminUsersItemsLD.observe(viewLifecycleOwner, {
+        administratorsViewModel.adminUsersItemsLD.observe(viewLifecycleOwner, {
             it?.let { adminUsersItems ->
                 adminProgressBar.visibility = View.GONE
 
                 adapter = AdministratorsAdapter(
-                    adminPanelViewModel,
+                    administratorsViewModel,
                     ResourcesProvider(requireContext()),
                     adminUsersItems.asReversed()
                 )
@@ -103,7 +90,7 @@ class AdministratorsDialog : DialogFragment() {
             }
         })
 
-        adminPanelViewModel.adminRemovedLD.observe(viewLifecycleOwner, {
+        administratorsViewModel.adminRemovedLD.observe(viewLifecycleOwner, {
             it?.let { position ->
                 adapter.items.removeAt(position)
                 adapter.notifyItemRemoved(position)
@@ -111,7 +98,7 @@ class AdministratorsDialog : DialogFragment() {
             }
         })
 
-        adminPanelViewModel.adminAddedLD.observe(viewLifecycleOwner, { adminAdded ->
+        administratorsViewModel.adminAddedLD.observe(viewLifecycleOwner, { adminAdded ->
             addAdminDialog?.dismiss()
 
             adapter.items.add(adminAdded)

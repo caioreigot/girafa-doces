@@ -1,7 +1,6 @@
 package com.github.caioreigot.girafadoces.ui.main.admin.administrators
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,20 +10,18 @@ import android.widget.ViewFlipper
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.github.caioreigot.girafadoces.R
-import com.github.caioreigot.girafadoces.ui.main.admin.AdminPanelViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AddAdminDialog : DialogFragment() {
+class AddAdminDialog : DialogFragment(R.layout.add_admin_dialog) {
 
-    @Inject lateinit var adminPanelVMFactory: AdminPanelViewModel.ViewModelFactory
+    @Inject lateinit var administratorsVMFactory: AdministratorsViewModel.ViewModelFactory
 
-    private val adminPanelViewModel: AdminPanelViewModel by viewModels(
+    private val administratorsViewModel: AdministratorsViewModel by viewModels(
         { requireParentFragment() },
-        { adminPanelVMFactory }
+        { administratorsVMFactory }
     )
 
     /*private val adminPanelViewModel: AdminPanelViewModel by lazy {
@@ -44,14 +41,6 @@ class AddAdminDialog : DialogFragment() {
         private const val VIEW_FLIPPER_PROGRESS_BAR = 1
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.add_admin_dialog, container)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -67,12 +56,12 @@ class AddAdminDialog : DialogFragment() {
             viewFlipper.displayedChild = VIEW_FLIPPER_PROGRESS_BAR
 
             val enteredEmail = emailEditText.text.toString().trimEnd()
-            adminPanelViewModel.addAdmin(enteredEmail)
+            administratorsViewModel.addAdmin(enteredEmail)
         }
         //endregion
 
         //region Observers
-        adminPanelViewModel.addAdminErrorMessageLD.observe(viewLifecycleOwner, { message ->
+        administratorsViewModel.addAdminErrorMessageLD.observe(viewLifecycleOwner, { message ->
             viewFlipper.displayedChild = VIEW_FLIPPER_ADD_BUTTON
 
             addAdminStatusMessage.text = message

@@ -19,20 +19,12 @@ import com.github.caioreigot.girafadoces.data.remote.StorageService
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MenuFragment : Fragment() {
+class MenuFragment : Fragment(R.layout.fragment_menu) {
 
     private val mViewModel: MenuViewModel by viewModels()
 
     private lateinit var progressBar: ProgressBar
     private lateinit var menuRecyclerView: RecyclerView
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_menu, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -23,7 +23,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AddFragment : Fragment() {
+class AddFragment : Fragment(R.layout.fragment_add) {
 
     private val mViewModel: AddViewModel by viewModels()
 
@@ -31,17 +31,6 @@ class AddFragment : Fragment() {
 
     lateinit var addRecyclerView: RecyclerView
     lateinit var addItemBtn: FloatingActionButton
-
-    var dialogUploadPercentage: TextView? = null
-    var mDataset: ArrayList<out Parcelable>? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_add, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

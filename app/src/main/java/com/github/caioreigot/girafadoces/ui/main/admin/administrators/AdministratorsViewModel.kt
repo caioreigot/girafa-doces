@@ -1,6 +1,5 @@
-package com.github.caioreigot.girafadoces.ui.main.admin
+package com.github.caioreigot.girafadoces.ui.main.admin.administrators
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -16,7 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class AdminPanelViewModel @Inject constructor(
+class AdministratorsViewModel @Inject constructor(
     private val resProvider: ResourcesProvider,
     private val database: DatabaseRepository
 ) : ViewModel() {
@@ -116,8 +115,8 @@ class AdminPanelViewModel @Inject constructor(
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(AdminPanelViewModel::class.java))
-                return AdminPanelViewModel(resProvider, database) as T
+            if (modelClass.isAssignableFrom(AdministratorsViewModel::class.java))
+                return AdministratorsViewModel(resProvider, database) as T
 
             throw IllegalArgumentException("Unknown ViewModel class")
         }
