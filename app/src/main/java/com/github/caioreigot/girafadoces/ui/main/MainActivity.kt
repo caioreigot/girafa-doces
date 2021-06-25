@@ -60,7 +60,7 @@ class MainActivity : BaseActivity() {
             if (bottomNavigation.selectedItemId == selectedItem.itemId)
                 return@setOnNavigationItemSelectedListener false
 
-            val _selectedFragment: Fragment = when (selectedItem.itemId) {
+            val listenerSelectedFragment: Fragment = when (selectedItem.itemId) {
                 R.id.menu -> MenuFragment()
                 R.id.user_profile -> AccountFragment()
                 R.id.add_menu_item -> AddFragment()
@@ -71,7 +71,7 @@ class MainActivity : BaseActivity() {
 
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fragment_container, _selectedFragment)
+                .replace(R.id.fragment_container, listenerSelectedFragment)
                 .commit()
 
             return@setOnNavigationItemSelectedListener true
@@ -126,14 +126,5 @@ class MainActivity : BaseActivity() {
             negativeOnClickListener,
             callback
         ).show()
-    }
-
-    fun showDebugUserInfo() {
-        Log.d("MY_DEBUG", Singleton.mAuth.currentUser?.uid.toString())
-        Log.d("MY_DEBUG", UserSingleton.fullName)
-        Log.d("MY_DEBUG", UserSingleton.deliveryAddress)
-        Log.d("MY_DEBUG", UserSingleton.phoneNumber)
-        Log.d("MY_DEBUG", UserSingleton.email)
-        Log.d("MY_DEBUG", UserSingleton.isAdmin.toString())
     }
 }

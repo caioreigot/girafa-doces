@@ -2,11 +2,14 @@ package com.github.caioreigot.girafadoces.data.helper
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.EditText
-import com.github.caioreigot.girafadoces.data.helper.Utils.Companion.putCharBefore
+import com.github.caioreigot.girafadoces.data.helper.Utils.Companion.putCharSequenceBefore
 import com.github.caioreigot.girafadoces.data.helper.Utils.Companion.removeLastWord
 
 class PhoneNumberWatcher(private val et: EditText) : TextWatcher {
+
+    private var ignore: Boolean = false
 
     private var textBeforeLength: Int = 0
     private var textCurrentLength: Int = 0
@@ -20,18 +23,21 @@ class PhoneNumberWatcher(private val et: EditText) : TextWatcher {
     ) {}
 
     override fun afterTextChanged(s: Editable?) {
+        if (ignore) return
+
         s?.let { text ->
             textCurrentLength = text.length
             erasing = textCurrentLength < textBeforeLength
 
             if (!erasing) {
+                ignore = true
                 when (text.length) {
-                    1 -> et.putCharBefore("(")
-                    4 -> et.putCharBefore(")")
-                    5 -> et.putCharBefore(" ")
-                    11 -> et.putCharBefore("-")
+                    1 -> et.putCharSequenceBefore("(")
+                    4 -> et.putCharSequenceBefore(") ")
+                    11 -> et.putCharSequenceBefore("-")
                     16 -> et.removeLastWord()
                 }
+                ignore = false
             }
 
             et.setSelection(et.length())

@@ -17,14 +17,22 @@ import com.github.caioreigot.girafadoces.data.model.ServiceResult
 import com.github.caioreigot.girafadoces.data.repository.DatabaseRepository
 import com.github.caioreigot.girafadoces.data.repository.StorageRepository
 import com.github.caioreigot.girafadoces.ui.main.MainActivity
+import javax.inject.Inject
 
-class AddAdapter(
-    private val items: MutableList<MenuItem>,
+class AddAdapter @Inject constructor(
     private val resProvider: ResourcesProvider,
-    private val mainActivity: MainActivity,
     private val database: DatabaseRepository,
     private val storage: StorageRepository
 ) : RecyclerView.Adapter<AddAdapter.MenuViewHolder>() {
+
+    lateinit var items: MutableList<MenuItem>
+    lateinit var mainActivity: MainActivity
+
+    /* It is vital to call this function to use this adapter */
+    fun setup(items: MutableList<MenuItem>, mainActivity: MainActivity) {
+        this.items = items
+        this.mainActivity = mainActivity
+    }
 
     inner class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -37,7 +45,7 @@ class AddAdapter(
         private val bottomButtonCV: CardView = itemView.findViewById(R.id.menu_item_bottom_button_cv)
         private val bottomButtonTV: TextView = itemView.findViewById(R.id.menu_item_bottom_button_tv)
 
-        fun bind(item: MenuItem, position: Int) {
+        fun bind(item: MenuItem) {
             uid = item.uid
 
             headerTV.text = item.header
@@ -55,7 +63,7 @@ class AddAdapter(
                             false -> return@showMessageDialog
 
                             // Confirmed deletion
-                            true -> removeItem(position)
+                            true -> removeItem(items.indexOf(item))
                         }
                     }
                 )
@@ -72,7 +80,7 @@ class AddAdapter(
     }
 
     override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
-        holder.bind(items[position], position)
+        holder.bind(items[position])
     }
 
     override fun getItemCount(): Int {

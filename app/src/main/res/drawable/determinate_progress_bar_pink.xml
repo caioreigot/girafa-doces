@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/determinate_background">
+        <shape
+            android:tint="@color/secondaryPink">
+
+            <corners android:radius="10dp"/>
+        </shape>
+    </item>
+
+    <item android:id="@+id/determinate_progress">
+        <clip>
+            <shape
+                android:tint="@color/primaryPink"
+                android:useLevel="false">
+
+                <corners android:radius="10dp"/>
+            </shape>
+        </clip>
+    </item>
+
+</layer-list>

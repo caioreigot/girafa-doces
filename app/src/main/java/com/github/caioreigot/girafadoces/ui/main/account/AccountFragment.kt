@@ -1,16 +1,14 @@
 package com.github.caioreigot.girafadoces.ui.main.account
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.ViewFlipper
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import com.github.caioreigot.girafadoces.R
-import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.model.Singleton
 import com.github.caioreigot.girafadoces.data.model.UserAccountField
@@ -18,11 +16,18 @@ import com.github.caioreigot.girafadoces.data.model.UserSingleton
 import com.github.caioreigot.girafadoces.ui.main.MainActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AccountFragment : Fragment(R.layout.fragment_account) {
 
-    private val mViewModel: AccountViewModel by viewModels()
+    @Inject
+    lateinit var accountVMFactory: AccountViewModel.Factory
+
+    private val accountViewModel: AccountViewModel by viewModels(
+        { this },
+        { accountVMFactory }
+    )
 
     private lateinit var loadingViewFlipper: ViewFlipper
     private lateinit var informationViewGroup: ViewGroup
@@ -57,7 +62,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         signOutBtn = view.findViewById(R.id.account_sign_out_btn)
         //endregion
 
-        mViewModel.fetchUserAccountInformation()
+        accountViewModel.fetchUserAccountInformation()
 
         //region Listeners
         signOutBtn.setOnClickListener {
@@ -73,28 +78,28 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 
         editAccountName
             .setOnClickListener(ChangeAccountFieldListener(
-                activity,
-                mViewModel,
-                UserAccountField.NAME)
+                childFragmentManager,
+                UserAccountField.NAME
             )
+        )
 
         editAccountDeliveryAddress
             .setOnClickListener(ChangeAccountFieldListener(
-                activity,
-                mViewModel,
-                UserAccountField.DELIVERY_ADDRESS)
+                childFragmentManager,
+                UserAccountField.DELIVERY_ADDRESS
             )
+        )
 
         editAccountPhone
             .setOnClickListener(ChangeAccountFieldListener(
-                activity,
-                mViewModel,
-                UserAccountField.PHONE)
+                childFragmentManager,
+                UserAccountField.PHONE
             )
+        )
         //endregion
 
         //region Observers
-        mViewModel.userAccountInformationLD.observe(viewLifecycleOwner, {
+        accountViewModel.userAccountInformationLD.observe(viewLifecycleOwner, {
             it?.let { user ->
                 UserSingleton.set(user)
 
@@ -107,34 +112,26 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             }
         })
 
-        mViewModel.loadingViewFlipperLD.observe(viewLifecycleOwner, {
+        accountViewModel.loadingViewFlipperLD.observe(viewLifecycleOwner, {
             it?.let { childToDisplay ->
                 loadingViewFlipper.displayedChild = childToDisplay
             }
         })
 
-        mViewModel.reloadInformationLD.observe(viewLifecycleOwner, {
-            mViewModel.fetchUserAccountInformation()
+        accountViewModel.reloadInformationLD.observe(viewLifecycleOwner, {
+            accountViewModel.fetchUserAccountInformation()
         })
         //endregion
     }
 
     class ChangeAccountFieldListener(
-        private val activity: FragmentActivity?,
-        private val accountViewModel: AccountViewModel,
+        private val fragmentManager: FragmentManager,
         private val fieldToChange: UserAccountField
     ) : View.OnClickListener
     {
         override fun onClick(v: View?) {
-            activity?.supportFragmentManager?.let { supportFragmentManager ->
-                val changeInfoDialog = ChangeInfoDialog(
-                    accountViewModel,
-                    fieldToChange,
-                    ResourcesProvider(activity)
-                )
-
-                changeInfoDialog.show(supportFragmentManager, changeInfoDialog.tag)
-            }
+            val changeInfoDialog = ChangeInfoDialog(fieldToChange)
+            changeInfoDialog.show(fragmentManager, changeInfoDialog.tag)
         }
     }
 }

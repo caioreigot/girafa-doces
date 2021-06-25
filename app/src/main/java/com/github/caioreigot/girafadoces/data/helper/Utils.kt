@@ -115,7 +115,7 @@ class Utils {
             return BitmapFactory.decodeByteArray(this, 0, this.size)
         }
 
-        fun EditText.putCharBefore(cs: CharSequence) {
+        fun EditText.putCharSequenceBefore(cs: CharSequence) {
             var newText = ""
             var amountCharAdded = 0
 

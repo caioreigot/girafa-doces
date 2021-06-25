@@ -1,12 +1,8 @@
 package com.github.caioreigot.girafadoces.ui.main.add
 
 import android.os.Bundle
-import android.os.Parcelable
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,11 +17,21 @@ import com.github.caioreigot.girafadoces.data.remote.StorageService
 import com.github.caioreigot.girafadoces.ui.main.MainActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddFragment : Fragment(R.layout.fragment_add) {
 
-    private val mViewModel: AddViewModel by viewModels()
+    @Inject
+    lateinit var addVMFactory: AddViewModel.Factory
+
+    private val addViewModel: AddViewModel by viewModels(
+        { this },
+        { addVMFactory }
+    )
+
+    @Inject
+    lateinit var addAdapter: AddAdapter
 
     lateinit var progressBar: ProgressBar
 
@@ -41,13 +47,11 @@ class AddFragment : Fragment(R.layout.fragment_add) {
         addItemBtn = view.findViewById(R.id.floating_btn_add_item)
         //endregion
 
-        addRecyclerView.adapter = AddAdapter(
-            mutableListOf(),
-            ResourcesProvider(requireContext()),
-            (activity as MainActivity),
-            DatabaseService(),
-            StorageService()
-        )
+        /* Passing an empty list to adapter
+        while the asynchronous call to return
+        items is not called */
+        addAdapter.setup(mutableListOf(), (activity as MainActivity))
+        addRecyclerView.adapter = addAdapter
 
         addRecyclerView.layoutManager = LinearLayoutManager(
             activity, LinearLayoutManager.HORIZONTAL, false)
@@ -57,39 +61,26 @@ class AddFragment : Fragment(R.layout.fragment_add) {
         val helper: SnapHelper = LinearSnapHelper()
         helper.attachToRecyclerView(addRecyclerView)
 
-        mViewModel.getMenuItems()
+        addViewModel.getMenuItems()
 
         //region Listeners
         addItemBtn.setOnClickListener {
-            activity?.supportFragmentManager?.let { supportFragmentManager ->
-                val addMenuItemDialog = AddMenuItemDialog(::clearRecyclerView)
-                addMenuItemDialog.show(supportFragmentManager, addMenuItemDialog.tag)
-            }
+            val addMenuItemDialog = AddMenuItemDialog(::clearRecyclerView)
+            addMenuItemDialog.show(childFragmentManager, addMenuItemDialog.tag)
         }
         //endregion
 
         //region Observers
-        mViewModel.menuItemsLD.observe(viewLifecycleOwner, {
+        addViewModel.menuItemsLD.observe(viewLifecycleOwner, {
             it?.let { menuItems ->
                 progressBar.visibility = View.GONE
 
-                addRecyclerView.adapter = AddAdapter(
-                    menuItems,
-                    ResourcesProvider(requireContext()),
-                    (activity as MainActivity),
-                    DatabaseService(),
-                    StorageService()
-                )
+                addAdapter.setup(menuItems, (activity as MainActivity))
+                addRecyclerView.adapter = addAdapter
             }
         })
 
-        mViewModel.uploadProgressLD.observe(viewLifecycleOwner, {
-            it?.let { percentageProgress ->
-                // TODO
-            }
-        })
-
-        mViewModel.errorMessageLD.observe(viewLifecycleOwner, { errorMessage ->
+        addViewModel.errorMessageLD.observe(viewLifecycleOwner, { errorMessage ->
             val mainActivity = (activity as MainActivity)
 
             mainActivity.showMessageDialog(
@@ -99,7 +90,7 @@ class AddFragment : Fragment(R.layout.fragment_add) {
             )
         })
 
-        mViewModel.successMessageLD.observe(viewLifecycleOwner, { message ->
+        addViewModel.successMessageLD.observe(viewLifecycleOwner, { message ->
             (activity as MainActivity).showMessageDialog(
                 MessageType.SUCCESSFUL,
                 R.string.dialog_successful_title,

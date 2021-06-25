@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SignUpActivity : BaseActivity() {
 
-    private val mViewModel: SignUpViewModel by viewModels()
+    private val signUpViewModel: SignUpViewModel by viewModels()
 
     private lateinit var rootView: RelativeLayout
 
@@ -58,7 +58,7 @@ class SignUpActivity : BaseActivity() {
 
         //region Listeners
         signUpButton.setOnClickListener {
-            mViewModel.registerUser(
+            signUpViewModel.registerUser(
                 fullName = fullNameET.text.toString().trimEnd(),
                 email = emailET.text.toString().trimEnd(),
                 phoneNumber = phoneNumberET.text.toString(),
@@ -97,7 +97,7 @@ class SignUpActivity : BaseActivity() {
         //endregion
 
         //region Observers
-        mViewModel.registrationMadeLD.observe(this, {
+        signUpViewModel.registrationMadeLD.observe(this, {
             it?.let {
                 createMessageDialog(
                     this,
@@ -108,13 +108,13 @@ class SignUpActivity : BaseActivity() {
             }
         })
 
-        mViewModel.registerBtnViewFlipperLD.observe(this, {
+        signUpViewModel.registerBtnViewFlipperLD.observe(this, {
             it?.let { childToDisplay ->
                 viewFlipper.displayedChild = childToDisplay
             }
         })
 
-        mViewModel.errorMessageLD.observe(this, {
+        signUpViewModel.errorMessageLD.observe(this, {
             it?.let { errorMessage ->
                 createMessageDialog(
                     this,

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ProgressBar
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +20,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class AdministratorsDialog : DialogFragment(R.layout.administrators_dialog) {
 
-    @Inject lateinit var administratorsVMFactory: AdministratorsViewModel.ViewModelFactory
+    @Inject
+    lateinit var administratorsVMFactory: AdministratorsViewModel.Factory
 
     private val administratorsViewModel: AdministratorsViewModel by viewModels(
         { this },

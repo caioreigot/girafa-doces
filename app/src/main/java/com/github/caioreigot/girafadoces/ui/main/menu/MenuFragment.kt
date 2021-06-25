@@ -1,9 +1,7 @@
 package com.github.caioreigot.girafadoces.ui.main.menu
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,16 +10,17 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import com.github.caioreigot.girafadoces.R
-import com.github.caioreigot.girafadoces.data.model.MenuItem
 import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
-import com.github.caioreigot.girafadoces.data.remote.DatabaseService
-import com.github.caioreigot.girafadoces.data.remote.StorageService
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MenuFragment : Fragment(R.layout.fragment_menu) {
 
-    private val mViewModel: MenuViewModel by viewModels()
+    private val menuViewModel: MenuViewModel by viewModels()
+
+    @Inject
+    lateinit var menuAdapter: MenuAdapter
 
     private lateinit var progressBar: ProgressBar
     private lateinit var menuRecyclerView: RecyclerView
@@ -34,7 +33,11 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
         menuRecyclerView = view.findViewById(R.id.menu_recycler_view)
         //endregion
 
-        menuRecyclerView.adapter = MenuAdapter(listOf(), ResourcesProvider(requireContext()))
+        /* Passing an empty list to adapter
+        while the asynchronous call to return
+        items is not called */
+        menuAdapter.setup(listOf())
+        menuRecyclerView.adapter = menuAdapter
 
         menuRecyclerView.layoutManager = LinearLayoutManager(
             activity, LinearLayoutManager.HORIZONTAL, false
@@ -45,15 +48,15 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
         val helper: SnapHelper = LinearSnapHelper()
         helper.attachToRecyclerView(menuRecyclerView)
 
-        mViewModel.getMenuItems()
+        menuViewModel.getMenuItems()
 
         //region Observers
-        mViewModel.menuItemsLD.observe(viewLifecycleOwner, {
+        menuViewModel.menuItemsLD.observe(viewLifecycleOwner, {
             it?.let { menuItems ->
                 progressBar.visibility = View.GONE
 
-                menuRecyclerView.adapter =
-                    MenuAdapter(menuItems, ResourcesProvider(requireContext()))
+                menuAdapter.setup(menuItems)
+                menuRecyclerView.adapter = menuAdapter
             }
         })
         //endregion

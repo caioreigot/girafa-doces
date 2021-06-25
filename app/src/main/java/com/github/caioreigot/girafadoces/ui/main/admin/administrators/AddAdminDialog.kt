@@ -17,7 +17,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class AddAdminDialog : DialogFragment(R.layout.add_admin_dialog) {
 
-    @Inject lateinit var administratorsVMFactory: AdministratorsViewModel.ViewModelFactory
+    @Inject
+    lateinit var administratorsVMFactory: AdministratorsViewModel.Factory
 
     private val administratorsViewModel: AdministratorsViewModel by viewModels(
         { requireParentFragment() },

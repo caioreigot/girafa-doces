@@ -1,5 +1,6 @@
 package com.github.caioreigot.girafadoces.data.remote
 
+import android.util.Log
 import com.github.caioreigot.girafadoces.data.model.ServiceResult
 import com.github.caioreigot.girafadoces.data.model.ErrorType
 import com.github.caioreigot.girafadoces.data.model.Singleton

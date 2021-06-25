@@ -107,4 +107,18 @@ class AdministratorsViewModel @Inject constructor(
         Singleton.mDatabaseAdminsReference.child(uid).removeValue()
             .addOnSuccessListener { callback(ServiceResult.Success) }
             .addOnFailureListener { callback(ServiceResult.Error(ErrorType.SERVER_ERROR)) }
+
+    @Suppress("UNCHECKED_CAST")
+    class Factory @Inject constructor(
+        private val resProvider: ResourcesProvider,
+        private val database: DatabaseRepository
+    ) : ViewModelProvider.Factory {
+
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(AdministratorsViewModel::class.java))
+                return AdministratorsViewModel(resProvider, database) as T
+
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
+    }
 }

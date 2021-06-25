@@ -11,11 +11,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.model.MenuItem
+import com.github.caioreigot.girafadoces.ui.main.MainActivity
+import javax.inject.Inject
 
-class MenuAdapter(
-    private val items: List<MenuItem>,
+class MenuAdapter @Inject constructor(
     private val resProvider: ResourcesProvider
 ) : RecyclerView.Adapter<MenuAdapter.MenuViewHolder>() {
+
+    private lateinit var items: List<MenuItem>
+
+    /* It is vital to call this function to use this adapter */
+    fun setup(items: List<MenuItem>) {
+        this.items = items
+    }
 
     inner class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

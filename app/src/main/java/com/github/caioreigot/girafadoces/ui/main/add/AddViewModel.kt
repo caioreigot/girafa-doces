@@ -2,6 +2,7 @@ package com.github.caioreigot.girafadoces.ui.main.add
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.helper.ErrorMessageHandler
 import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
@@ -25,7 +26,7 @@ class AddViewModel @Inject constructor(
     val successMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
 
     val menuItemsLD: MutableLiveData<MutableList<MenuItem>> = MutableLiveData()
-    val uploadProgressLD: MutableLiveData<String> = MutableLiveData()
+    val uploadProgressLD: MutableLiveData<Int> = MutableLiveData()
 
     fun getMenuItems() {
         database.getMenuItems(storage) { menuItems, result ->
@@ -52,7 +53,7 @@ class AddViewModel @Inject constructor(
 
                     // Callback for track progress of image upload
                     { percentageProgress ->
-                        uploadProgressLD.value = "${percentageProgress}%"
+                        uploadProgressLD.value = percentageProgress
                     },
 
                     // Callback for result
@@ -90,6 +91,21 @@ class AddViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    class Factory @Inject constructor(
+        private val resProvider: ResourcesProvider,
+        private val storage: StorageRepository,
+        private val database: DatabaseRepository
+    ) :
+        ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(AddViewModel::class.java))
+                return AddViewModel(resProvider, storage, database) as T
+
+            throw IllegalArgumentException("Unknown ViewModel class")
         }
     }
 }

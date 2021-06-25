@@ -23,10 +23,7 @@ class AdminPanelFragment : Fragment(R.layout.fragment_admin_panel) {
         administratorsBtnCV.setOnClickListener {
             val administratorsDialog = AdministratorsDialog()
 
-            administratorsDialog.show(
-                childFragmentManager,
-                administratorsDialog.tag
-            )
+            administratorsDialog.show(childFragmentManager, administratorsDialog.tag)
         }
     }
 }

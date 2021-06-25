@@ -7,21 +7,18 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.model.UserSingleton
 import com.github.caioreigot.girafadoces.ui.base.BaseActivity
 import com.github.caioreigot.girafadoces.ui.main.MainActivity
-import com.github.caioreigot.girafadoces.ui.main.admin.administrators.AdministratorsViewModel
 import com.github.caioreigot.girafadoces.ui.signup.SignUpActivity
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginActivity : BaseActivity() {
 
-    private val mViewModel: LoginViewModel by viewModels()
+    private val loginViewModel: LoginViewModel by viewModels()
 
     private lateinit var rootView: RelativeLayout
 
@@ -43,7 +40,7 @@ class LoginActivity : BaseActivity() {
         setTheme(R.style.Theme_GirafaDoces)
         setContentView(R.layout.activity_login)
 
-        mViewModel.searchRememberedAccount()
+        loginViewModel.searchRememberedAccount()
 
         //region Assignments
         rootView = findViewById(R.id.login_root_view)
@@ -63,7 +60,7 @@ class LoginActivity : BaseActivity() {
 
         //region Listeners
         loginBtn.setOnClickListener {
-            mViewModel.loginUser(
+            loginViewModel.loginUser(
                 emailET.text.toString().trimEnd(),
                 passwordET.text.toString()
             )
@@ -104,13 +101,13 @@ class LoginActivity : BaseActivity() {
         //endregion
 
         //region Observers
-        mViewModel.loggedUserInformationLD.observe(this, { loggedUserAndPassword ->
+        loginViewModel.loggedUserInformationLD.observe(this, { loggedUserAndPassword ->
             loggedUserAndPassword?.let { (loggedUser, password) ->
                 loggedUser?.let {
                     UserSingleton.set(loggedUser)
 
                     if (keepConnectedCB.isChecked)
-                        mViewModel.rememberAccount(loggedUser.email, password)
+                        loginViewModel.rememberAccount(loggedUser.email, password)
 
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
@@ -119,13 +116,13 @@ class LoginActivity : BaseActivity() {
             }
         })
 
-        mViewModel.loginBtnViewFlipperLD.observe(this, {
+        loginViewModel.loginBtnViewFlipperLD.observe(this, {
             it?.let { childToDisplay ->
                 viewFlipper.displayedChild = childToDisplay
             }
         })
 
-        mViewModel.errorMessageLD.observe(this, { errorMessage ->
+        loginViewModel.errorMessageLD.observe(this, { errorMessage ->
             createMessageDialog(
                 this,
                 MessageType.ERROR,
@@ -135,7 +132,7 @@ class LoginActivity : BaseActivity() {
             ).show()
         })
 
-        mViewModel.resetPasswordMessageLD.observe(this, { (messageType, message) ->
+        loginViewModel.resetPasswordMessageLD.observe(this, { (messageType, message) ->
             createMessageDialog(
                 this,
                 messageType,

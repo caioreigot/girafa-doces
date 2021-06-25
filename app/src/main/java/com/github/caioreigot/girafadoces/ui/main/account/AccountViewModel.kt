@@ -2,6 +2,7 @@ package com.github.caioreigot.girafadoces.ui.main.account
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.helper.ErrorMessageHandler
 import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
@@ -61,4 +62,18 @@ class AccountViewModel @Inject constructor(
     }
 
     fun reloadInformation() = reloadInformationLD.call()
+
+    @Suppress("UNCHECKED_CAST")
+    class Factory @Inject constructor(
+        private val resProvider: ResourcesProvider,
+        private val database: DatabaseRepository
+    ) :
+        ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(AccountViewModel::class.java))
+                return AccountViewModel(resProvider, database) as T
+
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
+    }
 }
