@@ -34,8 +34,8 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
         //endregion
 
         /* Passing an empty list to adapter
-        while the asynchronous call to return
-        items is not called */
+        while the asynchronous call to fetch
+        items are not returned */
         menuAdapter.setup(listOf())
         menuRecyclerView.adapter = menuAdapter
 

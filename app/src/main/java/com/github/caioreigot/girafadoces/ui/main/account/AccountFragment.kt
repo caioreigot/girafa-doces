@@ -1,10 +1,13 @@
 package com.github.caioreigot.girafadoces.ui.main.account
 
+import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.ViewFlipper
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -13,7 +16,7 @@ import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.model.Singleton
 import com.github.caioreigot.girafadoces.data.model.UserAccountField
 import com.github.caioreigot.girafadoces.data.model.UserSingleton
-import com.github.caioreigot.girafadoces.ui.main.MainActivity
+import com.github.caioreigot.girafadoces.ui.main.BottomNavActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -42,6 +45,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
     private lateinit var editAccountPhone: ViewGroup
 
     private lateinit var signOutBtn: FloatingActionButton
+    private var mConfirmSignOutDialog: Dialog? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -66,14 +70,16 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 
         //region Listeners
         signOutBtn.setOnClickListener {
-            val mainActivity = (activity as MainActivity)
+            val bottomNavActivity = (activity as BottomNavActivity)
 
-            mainActivity.showMessageDialog(
+            mConfirmSignOutDialog = bottomNavActivity.showMessageDialog(
                 MessageType.CONFIRMATION,
                 R.string.dialog_confirmation_title,
                 R.string.account_sign_out_dialog_message,
                 { Singleton.mAuth.signOut() }
             )
+
+            mConfirmSignOutDialog?.show()
         }
 
         editAccountName
@@ -127,11 +133,16 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
     class ChangeAccountFieldListener(
         private val fragmentManager: FragmentManager,
         private val fieldToChange: UserAccountField
-    ) : View.OnClickListener
-    {
+    ) : View.OnClickListener {
         override fun onClick(v: View?) {
             val changeInfoDialog = ChangeInfoDialog(fieldToChange)
             changeInfoDialog.show(fragmentManager, changeInfoDialog.tag)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        mConfirmSignOutDialog?.dismiss()
     }
 }

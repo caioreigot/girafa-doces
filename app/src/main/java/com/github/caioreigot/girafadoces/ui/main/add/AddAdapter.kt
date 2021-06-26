@@ -16,7 +16,7 @@ import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.model.ServiceResult
 import com.github.caioreigot.girafadoces.data.repository.DatabaseRepository
 import com.github.caioreigot.girafadoces.data.repository.StorageRepository
-import com.github.caioreigot.girafadoces.ui.main.MainActivity
+import com.github.caioreigot.girafadoces.ui.main.BottomNavActivity
 import javax.inject.Inject
 
 class AddAdapter @Inject constructor(
@@ -26,12 +26,12 @@ class AddAdapter @Inject constructor(
 ) : RecyclerView.Adapter<AddAdapter.MenuViewHolder>() {
 
     lateinit var items: MutableList<MenuItem>
-    lateinit var mainActivity: MainActivity
+    lateinit var bottomNavActivity: BottomNavActivity
 
     /* It is vital to call this function to use this adapter */
-    fun setup(items: MutableList<MenuItem>, mainActivity: MainActivity) {
+    fun setup(items: MutableList<MenuItem>, bottomNavActivity: BottomNavActivity) {
         this.items = items
-        this.mainActivity = mainActivity
+        this.bottomNavActivity = bottomNavActivity
     }
 
     inner class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -54,7 +54,7 @@ class AddAdapter @Inject constructor(
             bottomButtonTV.text = resProvider.getString(R.string.menu_item_remove_text)
 
             bottomButtonCV.setOnClickListener {
-                mainActivity.showMessageDialog(
+                bottomNavActivity.showMessageDialog(
                     MessageType.CONFIRMATION,
                     R.string.dialog_confirmation_title,
                     resProvider.getString(R.string.remove_menu_item_info),
@@ -66,7 +66,7 @@ class AddAdapter @Inject constructor(
                             true -> removeItem(items.indexOf(item))
                         }
                     }
-                )
+                ).show()
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -104,14 +104,13 @@ class AddAdapter @Inject constructor(
                             resProvider.getString(R.string.unexpected_error_message)
                     }
 
-                    mainActivity.showMessageDialog(
+                    bottomNavActivity.showMessageDialog(
                         MessageType.ERROR,
                         R.string.dialog_error_title,
                         errorMessage
-                    )
+                    ).show()
                 }
             }
         }
     }
-
 }

@@ -1,5 +1,6 @@
 package com.github.caioreigot.girafadoces.ui.main.add
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -7,7 +8,6 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +17,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.model.MessageType
-import com.github.caioreigot.girafadoces.ui.main.MainActivity
+import com.github.caioreigot.girafadoces.ui.main.BottomNavActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
@@ -61,6 +61,7 @@ class AddMenuItemDialog(
         return inflater.inflate(R.layout.add_menu_item_dialog, container)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -86,7 +87,7 @@ class AddMenuItemDialog(
 
         addDialogBtnCV.setOnClickListener {
             if (imageView.drawable == null) {
-                (activity as MainActivity).showMessageDialog(
+                (activity as BottomNavActivity).showMessageDialog(
                     MessageType.ERROR,
                     R.string.dialog_error_title,
                     "Nenhuma imagem selecionada",

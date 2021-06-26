@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,7 @@ import com.github.caioreigot.girafadoces.data.helper.PhoneNumberWatcher
 import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.model.UserAccountField
-import com.github.caioreigot.girafadoces.ui.main.MainActivity
+import com.github.caioreigot.girafadoces.ui.main.BottomNavActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -131,7 +130,7 @@ class ChangeInfoDialog(
             it?.let {
                 dialog?.dismiss()
 
-                (activity as MainActivity).showMessageDialog(
+                (activity as BottomNavActivity).showMessageDialog(
                     MessageType.SUCCESSFUL,
                     R.string.dialog_successful_title,
                     resProvider.getString(R.string.change_made_successfully),

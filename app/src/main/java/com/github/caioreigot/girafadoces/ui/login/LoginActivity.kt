@@ -11,7 +11,7 @@ import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.data.model.UserSingleton
 import com.github.caioreigot.girafadoces.ui.base.BaseActivity
-import com.github.caioreigot.girafadoces.ui.main.MainActivity
+import com.github.caioreigot.girafadoces.ui.main.BottomNavActivity
 import com.github.caioreigot.girafadoces.ui.signup.SignUpActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -109,7 +109,7 @@ class LoginActivity : BaseActivity() {
                     if (keepConnectedCB.isChecked)
                         loginViewModel.rememberAccount(loggedUser.email, password)
 
-                    val intent = Intent(this, MainActivity::class.java)
+                    val intent = Intent(this, BottomNavActivity::class.java)
                     startActivity(intent)
                     finish()
                 }

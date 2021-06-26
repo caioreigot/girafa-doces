@@ -25,7 +25,7 @@
     <!-- Login Activity -->
     <string name="keep_me_connected">Mantenha-me conectado</string>
     <string name="forgot_your_password">Esqueceu sua senha?</string>
-    <string name="login">LOGIN</string>
+    <string name="login">ENTRAR</string>
     <string name="register">CADASTRE-SE</string>
     <string name="sign_up">CADASTRAR</string>
 

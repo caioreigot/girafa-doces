@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.model.MenuItem
-import com.github.caioreigot.girafadoces.ui.main.MainActivity
 import javax.inject.Inject
 
 class MenuAdapter @Inject constructor(
@@ -61,5 +60,4 @@ class MenuAdapter @Inject constructor(
     override fun getItemCount(): Int {
         return items.size
     }
-
 }
