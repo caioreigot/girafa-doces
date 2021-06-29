@@ -1,6 +1,7 @@
 package com.github.caioreigot.girafadoces.data.remote
 
 import android.text.TextUtils
+import android.util.Log
 import com.github.caioreigot.girafadoces.data.helper.Utils
 import com.github.caioreigot.girafadoces.data.helper.Utils.Companion.toBitmap
 import com.github.caioreigot.girafadoces.data.model.*

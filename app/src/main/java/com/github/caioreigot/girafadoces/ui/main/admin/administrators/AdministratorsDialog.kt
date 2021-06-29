@@ -85,7 +85,7 @@ class AdministratorsDialog : DialogFragment(R.layout.administrators_dialog) {
                 adapter = AdministratorsAdapter(
                     administratorsViewModel,
                     ResourcesProvider(requireContext()),
-                    adminUsersItems.asReversed()
+                    adminUsersItems
                 )
 
                 administratorsRecyclerView.adapter = adapter
@@ -100,11 +100,16 @@ class AdministratorsDialog : DialogFragment(R.layout.administrators_dialog) {
             }
         })
 
-        administratorsViewModel.adminAddedLD.observe(viewLifecycleOwner, { adminAdded ->
-            addAdminDialog?.dismiss()
+        administratorsViewModel.adminAddedLD.observe(viewLifecycleOwner, {
+            it?.let { adminAdded ->
+                addAdminDialog?.dismiss()
 
-            adapter.items.add(adminAdded)
-            adapter.notifyItemInserted(adapter.items.size)
+                if (adapter.items.contains(adminAdded))
+                    return@observe
+
+                adapter.items.add(adminAdded)
+                adapter.notifyItemInserted(adapter.items.size)
+            }
         })
         //endregion
     }

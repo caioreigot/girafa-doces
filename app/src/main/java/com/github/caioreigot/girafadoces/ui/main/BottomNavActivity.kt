@@ -86,16 +86,19 @@ class BottomNavActivity : BaseActivity() {
                     activeFragment = menuFragment
                     true
                 }
+
                 R.id.user_profile -> {
                     fragmentManager.beginTransaction().hide(activeFragment).show(accountFragment).commit()
                     activeFragment = accountFragment
                     true
                 }
+
                 R.id.add_menu_item -> {
                     fragmentManager.beginTransaction().hide(activeFragment).show(addFragment).commit()
                     activeFragment = addFragment
                     true
                 }
+
                 R.id.admin_panel -> {
                     fragmentManager.beginTransaction().hide(activeFragment).show(adminPanelFragment).commit()
                     activeFragment = adminPanelFragment

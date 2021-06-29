@@ -28,40 +28,26 @@
         android:indeterminateDrawable="@drawable/progress_bar_pink"
         tools:visibility="gone" />
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:background="@color/primaryPink"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/primaryPink"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/administrators"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/administrators_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/administrators_item" />
 
-            <ViewFlipper
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/administrators_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:listitem="@layout/administrators_item" />
-
-            </ViewFlipper>
-
-        </LinearLayout>
-
-    </ScrollView>
+    </LinearLayout>
 
 </RelativeLayout>
