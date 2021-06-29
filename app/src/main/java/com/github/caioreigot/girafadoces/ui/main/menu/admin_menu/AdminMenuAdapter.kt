@@ -1,4 +1,4 @@
-package com.github.caioreigot.girafadoces.ui.main.add
+package com.github.caioreigot.girafadoces.ui.main.menu.admin_menu
 
 import android.os.Build
 import android.view.LayoutInflater
@@ -19,11 +19,11 @@ import com.github.caioreigot.girafadoces.data.repository.StorageRepository
 import com.github.caioreigot.girafadoces.ui.main.BottomNavActivity
 import javax.inject.Inject
 
-class AddAdapter @Inject constructor(
+class AdminMenuAdapter @Inject constructor(
     private val resProvider: ResourcesProvider,
     private val database: DatabaseRepository,
     private val storage: StorageRepository
-) : RecyclerView.Adapter<AddAdapter.MenuViewHolder>() {
+) : RecyclerView.Adapter<AdminMenuAdapter.MenuViewHolder>() {
 
     lateinit var items: MutableList<MenuItem>
     lateinit var bottomNavActivity: BottomNavActivity

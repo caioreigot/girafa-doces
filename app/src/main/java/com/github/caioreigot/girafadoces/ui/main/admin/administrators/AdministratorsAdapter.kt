@@ -1,20 +1,36 @@
 package com.github.caioreigot.girafadoces.ui.main.admin.administrators
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.model.*
+import javax.inject.Inject
 
-class AdministratorsAdapter(
-    private val administratorsViewModel: AdministratorsViewModel,
-    private val resProvider: ResourcesProvider,
-    val items: MutableList<User>
+class AdministratorsAdapter @Inject constructor(
+    private val resProvider: ResourcesProvider
 ) : RecyclerView.Adapter<AdministratorsAdapter.AdministratorsViewHolder>() {
+
+    lateinit var items: MutableList<User>
+    lateinit var fragmentManager: FragmentManager
+    lateinit var removeAdmin: (adminEmail: String, position: Int) -> Unit
+
+    /* It is vital to call this function to use this adapter */
+    fun setup(
+        items: MutableList<User>,
+        fragmentManager: FragmentManager,
+        removeAdmin: (adminEmail: String, position: Int) -> Unit
+    ) {
+        this.items = items
+        this.fragmentManager = fragmentManager
+        this.removeAdmin = removeAdmin
+    }
 
     inner class AdministratorsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -33,8 +49,13 @@ class AdministratorsAdapter(
 
             adminFullNameTV.text = admin.fullName
 
+            informationAdminBtn.setOnClickListener {
+                val adminInfoDialog = AdminInfoDialog(admin)
+                adminInfoDialog.show(fragmentManager, adminInfoDialog.tag)
+            }
+
             removeAdminBtn.setOnClickListener {
-                administratorsViewModel.removeAdmin(admin.email, position)
+                removeAdmin(admin.email, position)
             }
         }
     }

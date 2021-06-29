@@ -18,10 +18,12 @@ class MenuAdapter @Inject constructor(
 ) : RecyclerView.Adapter<MenuAdapter.MenuViewHolder>() {
 
     private lateinit var items: List<MenuItem>
+    private lateinit var openOrderDialog: () -> Unit
 
     /* It is vital to call this function to use this adapter */
-    fun setup(items: List<MenuItem>) {
+    fun setup(items: List<MenuItem>, openOrderDialog: () -> Unit) {
         this.items = items
+        this.openOrderDialog = openOrderDialog
     }
 
     inner class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -43,7 +45,7 @@ class MenuAdapter @Inject constructor(
                 headerTV.letterSpacing = 0.05F
 
             bottomButtonCV.setOnClickListener {
-                // TODO: usar o UserSingleton pra mandar o pedido pros administradores
+                openOrderDialog()
             }
         }
     }

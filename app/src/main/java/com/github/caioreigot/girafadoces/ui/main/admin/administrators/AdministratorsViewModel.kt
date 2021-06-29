@@ -1,15 +1,14 @@
 package com.github.caioreigot.girafadoces.ui.main.admin.administrators
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.github.caioreigot.girafadoces.data.helper.ErrorMessageHandler
 import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.helper.SingleLiveEvent
-import com.github.caioreigot.girafadoces.data.model.ErrorType
-import com.github.caioreigot.girafadoces.data.model.ServiceResult
-import com.github.caioreigot.girafadoces.data.model.Singleton
-import com.github.caioreigot.girafadoces.data.model.User
+import com.github.caioreigot.girafadoces.data.helper.Utils.Companion.userForBeginning
+import com.github.caioreigot.girafadoces.data.model.*
 import com.github.caioreigot.girafadoces.data.repository.DatabaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -31,7 +30,10 @@ class AdministratorsViewModel @Inject constructor(
     fun getAdministratorsUsers() {
         database.getAdministratorsUsers { adminUsers, result ->
             when (result) {
-                is ServiceResult.Success -> adminUsersItemsLD.value = adminUsers
+                is ServiceResult.Success -> {
+                    adminUsers?.userForBeginning(UserSingleton.email)
+                    adminUsersItemsLD.value = adminUsers
+                }
 
                 is ServiceResult.Error ->
                     errorMessageLD.value =

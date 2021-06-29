@@ -1,4 +1,4 @@
-package com.github.caioreigot.girafadoces.ui.main.add
+package com.github.caioreigot.girafadoces.ui.main.menu.admin_menu
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -8,9 +8,7 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.DialogFragment
@@ -23,16 +21,16 @@ import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AddMenuItemDialog(
+class AdminMenuItemDialog(
     private val clearRecyclerView: () -> Unit
-) : DialogFragment() {
+) : DialogFragment(R.layout.add_menu_item_dialog) {
 
     @Inject
-    lateinit var addVMFactory: AddViewModel.Factory
+    lateinit var adminMenuVMFactory: AdminMenuViewModel.Factory
 
-    private val addViewModel: AddViewModel by viewModels(
+    private val adminMenuViewModel: AdminMenuViewModel by viewModels(
         { requireParentFragment() },
-        { addVMFactory }
+        { adminMenuVMFactory }
     )
 
     private lateinit var contentET: EditText
@@ -51,14 +49,6 @@ class AddMenuItemDialog(
 
         private const val VIEW_FLIPPER_BUTTON = 0
         private const val VIEW_FLIPPER_PROGRESS_BAR = 1
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.add_menu_item_dialog, container)
     }
 
     @SuppressLint("SetTextI18n")
@@ -97,7 +87,7 @@ class AddMenuItemDialog(
                 val imageBitmap = (imageView.drawable as BitmapDrawable).bitmap
                 val imageInByte = convertBitmapToArrayBite(imageBitmap)
 
-                addViewModel.saveMenuItemDatabase(
+                adminMenuViewModel.saveMenuItemDatabase(
                     titleET.text.toString(),
                     contentET.text.toString(),
                     imageInByte
@@ -106,7 +96,7 @@ class AddMenuItemDialog(
                         // Clear and update RecyclerView
                         true -> {
                             clearRecyclerView()
-                            addViewModel.getMenuItems()
+                            adminMenuViewModel.getMenuItems()
                             dismiss()
                         }
 
@@ -119,7 +109,7 @@ class AddMenuItemDialog(
             }
         }
 
-        addViewModel.uploadProgressLD.observe(viewLifecycleOwner, {
+        adminMenuViewModel.uploadProgressLD.observe(viewLifecycleOwner, {
             it?.let { percentageProgress ->
                 percentageProgressTV.text = "${percentageProgress}%"
                 progressBar.progress = percentageProgress

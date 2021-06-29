@@ -1,12 +1,10 @@
-package com.github.caioreigot.girafadoces.ui.main.add
+package com.github.caioreigot.girafadoces.ui.main.menu.admin_menu
 
 import android.os.Bundle
-import android.os.Parcelable
-import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.ProgressBar
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -18,22 +16,21 @@ import com.github.caioreigot.girafadoces.data.model.MessageType
 import com.github.caioreigot.girafadoces.ui.main.BottomNavActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.ArrayList
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AddFragment : Fragment(R.layout.fragment_add) {
+class AdminMenuDialog : DialogFragment(R.layout.fragment_add) {
 
     @Inject
-    lateinit var addVMFactory: AddViewModel.Factory
+    lateinit var adminMenuVMFactory: AdminMenuViewModel.Factory
 
-    private val addViewModel: AddViewModel by viewModels(
+    private val adminMenuViewModel: AdminMenuViewModel by viewModels(
         { this },
-        { addVMFactory }
+        { adminMenuVMFactory }
     )
 
     @Inject
-    lateinit var addAdapter: AddAdapter
+    lateinit var adminMenuAdapter: AdminMenuAdapter
 
     lateinit var progressBar: ProgressBar
 
@@ -49,6 +46,12 @@ class AddFragment : Fragment(R.layout.fragment_add) {
         private const val RECYCLER_VIEW_SAVED_LIST_ID = "recycler_view_saved_list"
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setStyle(STYLE_NO_TITLE, R.style.FullScreenDialog)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -58,11 +61,16 @@ class AddFragment : Fragment(R.layout.fragment_add) {
         addItemBtn = view.findViewById(R.id.floating_btn_add_item)
         //endregion
 
+        dialog?.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+
         /* Passing an empty list to adapter
         while the asynchronous call to fetch
         items are not returned */
-        addAdapter.setup(mutableListOf(), (activity as BottomNavActivity))
-        addRecyclerView.adapter = addAdapter
+        adminMenuAdapter.setup(mutableListOf(), (activity as BottomNavActivity))
+        addRecyclerView.adapter = adminMenuAdapter
 
         addRecyclerView.layoutManager = LinearLayoutManager(
             activity, LinearLayoutManager.HORIZONTAL, false)
@@ -78,14 +86,14 @@ class AddFragment : Fragment(R.layout.fragment_add) {
 
             mListItems = savedListItems
 
-            addAdapter.setup(savedListItems, (activity as BottomNavActivity))
-            addRecyclerView.adapter = addAdapter
+            adminMenuAdapter.setup(savedListItems, (activity as BottomNavActivity))
+            addRecyclerView.adapter = adminMenuAdapter
         }
-            ?: addViewModel.getMenuItems()
+            ?: adminMenuViewModel.getMenuItems()
 
         //region Listeners
         addItemBtn.setOnClickListener {
-            mAddMenuItemDialog = AddMenuItemDialog(::clearRecyclerView)
+            mAddMenuItemDialog = AdminMenuItemDialog(::clearRecyclerView)
             mAddMenuItemDialog?.let { dialog ->
                 dialog.show(childFragmentManager, dialog.tag)
             }
@@ -93,18 +101,18 @@ class AddFragment : Fragment(R.layout.fragment_add) {
         //endregion
 
         //region Observers
-        addViewModel.menuItemsLD.observe(viewLifecycleOwner, {
+        adminMenuViewModel.menuItemsLD.observe(viewLifecycleOwner, {
             it?.let { menuItems ->
                 progressBar.visibility = View.GONE
 
                 mListItems = menuItems
 
-                addAdapter.setup(menuItems, (activity as BottomNavActivity))
-                addRecyclerView.adapter = addAdapter
+                adminMenuAdapter.setup(menuItems, (activity as BottomNavActivity))
+                addRecyclerView.adapter = adminMenuAdapter
             }
         })
 
-        addViewModel.errorMessageLD.observe(viewLifecycleOwner, { errorMessage ->
+        adminMenuViewModel.errorMessageLD.observe(viewLifecycleOwner, { errorMessage ->
             val mainActivity = (activity as BottomNavActivity)
 
             mainActivity.showMessageDialog(
@@ -114,7 +122,7 @@ class AddFragment : Fragment(R.layout.fragment_add) {
             )
         })
 
-        addViewModel.successMessageLD.observe(viewLifecycleOwner, { message ->
+        adminMenuViewModel.successMessageLD.observe(viewLifecycleOwner, { message ->
             (activity as BottomNavActivity).showMessageDialog(
                 MessageType.SUCCESSFUL,
                 R.string.dialog_successful_title,
@@ -125,23 +133,8 @@ class AddFragment : Fragment(R.layout.fragment_add) {
         //endregion
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        mListItems?.let { listItems ->
-            val parcelableArrayList: ArrayList<Parcelable> = ArrayList()
-
-            for (i in listItems.indices)
-                parcelableArrayList.add(listItems[i])
-
-            outState.putParcelableArrayList(RECYCLER_VIEW_SAVED_LIST_ID, parcelableArrayList)
-        }
-    }
-
     private fun clearRecyclerView() {
         progressBar.visibility = View.VISIBLE
         addRecyclerView.adapter = null
-
-        Log.d("MY_DEBUG", "clearRecyclerView() called!")
     }
 }

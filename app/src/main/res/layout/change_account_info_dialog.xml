@@ -71,6 +71,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="25dp"
+            app:cardElevation="0dp"
             app:contentPaddingBottom="10dp"
             app:contentPaddingLeft="30dp"
             app:contentPaddingRight="30dp"

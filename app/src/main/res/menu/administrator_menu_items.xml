@@ -3,18 +3,18 @@
 
     <item android:id="@+id/menu"
         android:icon="@drawable/ic_baseline_menu_24"
-        android:title="Menu"/>
+        android:title="@string/bottom_nav_menu"/>
 
     <item android:id="@+id/user_profile"
         android:icon="@drawable/ic_baseline_profile_outline_24"
-        android:title="Perfil"/>
+        android:title="@string/bottom_nav_account"/>
 
-    <item android:id="@+id/add_menu_item"
-        android:icon="@drawable/ic_baseline_add_circle_24"
-        android:title="Add"/>
+<!--    <item android:id="@+id/add_menu_item"-->
+<!--        android:icon="@drawable/ic_baseline_add_circle_24"-->
+<!--        android:title="@string/bottom_nav_add"/>-->
 
     <item android:id="@+id/admin_panel"
         android:icon="@drawable/ic_baseline_admin_panel_settings_24"
-        android:title="Admin"/>
+        android:title="@string/bottom_nav_admin"/>
 
 </menu>

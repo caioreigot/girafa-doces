@@ -20,7 +20,7 @@
     <string name="unexpected_error_message">Erro inesperado</string>
     <string name="server_error_message">Erro no servidor</string>
     <string name="empty_field_error_message">Por favor, preencha todos os campos</string>
-    <string name="account_not_found_error_message">Conta não encontrada</string>
+    <string name="account_not_found_error_message">Conta não encontrada ou há problemas de conexão</string>
 
     <!-- Login Activity -->
     <string name="keep_me_connected">Mantenha-me conectado</string>
@@ -61,11 +61,17 @@
     <string name="password_confirm_dont_match_error_message">Senhas não correspondem</string>
 
     <!-- Bottom Navigation Titles -->
-    <string name="menu">Menu</string>
-    <string name="account">Conta</string>
+    <string name="bottom_nav_menu">Menu</string>
+    <string name="bottom_nav_account">Conta</string>
+    <string name="bottom_nav_add">Add</string>
+    <string name="bottom_nav_admin">Admin</string>
 
     <!-- Menu Fragment -->
     <string name="drag_sideways">&lt; ARRASTE PARA OS LADOS &gt;</string>
+
+    <!-- Order Dialog -->
+    <string name="enter_quantity_order">Por favor, insira a quantidade que deseja encomendar:</string>
+    <string name="confirm_order">CONFIRMAR PEDIDO</string>
 
     <!-- Account Fragment -->
     <string name="account_screen_title">SUA CONTA</string>

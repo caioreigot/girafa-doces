@@ -3,11 +3,8 @@ package com.github.caioreigot.girafadoces.ui.main
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.annotation.StringRes
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.local.Preferences
 import com.github.caioreigot.girafadoces.data.model.MessageType
@@ -15,37 +12,27 @@ import com.github.caioreigot.girafadoces.data.model.Singleton
 import com.github.caioreigot.girafadoces.data.model.UserSingleton
 import com.github.caioreigot.girafadoces.ui.base.BaseActivity
 import com.github.caioreigot.girafadoces.ui.login.LoginActivity
-import com.github.caioreigot.girafadoces.ui.main.add.AddFragment
+import com.github.caioreigot.girafadoces.ui.main.menu.admin_menu.AdminMenuDialog
 import com.github.caioreigot.girafadoces.ui.main.menu.MenuFragment
 import com.github.caioreigot.girafadoces.ui.main.account.AccountFragment
 import com.github.caioreigot.girafadoces.ui.main.admin.AdminPanelFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.selects.select
 
 @AndroidEntryPoint
 class BottomNavActivity : BaseActivity() {
-
-    private var mSelectedFragment: Fragment? = null
 
     private lateinit var bottomNavigation: BottomNavigationView
     private val fragmentManager = supportFragmentManager
 
     private val menuFragment = MenuFragment()
     private val accountFragment = AccountFragment()
-    private val addFragment = AddFragment()
+    private val addFragment = AdminMenuDialog()
     private val adminPanelFragment = AdminPanelFragment()
 
     private var activeFragment: Fragment = menuFragment
 
     companion object {
-        private const val SELECTED_FRAGMENT_SAVED_ID = "fragment_saved"
-
-        private const val MENU_FRAGMENT = 0
-        private const val ACCOUNT_FRAGMENT = 1
-        private const val ADD_FRAGMENT = 2
-        private const val ADMIN_PANEL = 3
-
         private const val MENU_FRAGMENT_TAG = "menu_fragment"
         private const val ACCOUNT_FRAGMENT_TAG = "account_fragment"
         private const val ADD_FRAGMENT_TAG = "add_fragment"
@@ -93,11 +80,11 @@ class BottomNavActivity : BaseActivity() {
                     true
                 }
 
-                R.id.add_menu_item -> {
-                    fragmentManager.beginTransaction().hide(activeFragment).show(addFragment).commit()
-                    activeFragment = addFragment
-                    true
-                }
+//                R.id.add_menu_item -> {
+//                    fragmentManager.beginTransaction().hide(activeFragment).show(addFragment).commit()
+//                    activeFragment = addFragment
+//                    true
+//                }
 
                 R.id.admin_panel -> {
                     fragmentManager.beginTransaction().hide(activeFragment).show(adminPanelFragment).commit()
@@ -120,17 +107,6 @@ class BottomNavActivity : BaseActivity() {
             }
         }
         //endregion
-    }
-
-    private fun getSelectedFragmentTag(): String? {
-        return when (mSelectedFragment) {
-            is MenuFragment -> MENU_FRAGMENT_TAG
-            is AccountFragment -> ACCOUNT_FRAGMENT_TAG
-            is AddFragment -> ADD_FRAGMENT_TAG
-            is AdminPanelFragment -> ADMIN_PANEL_TAG
-
-            else -> null
-        }
     }
 
     fun showMessageDialog(

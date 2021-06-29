@@ -31,8 +31,10 @@ class ForgotPasswordDialog : DialogFragment(R.layout.forgot_password_dialog) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //region Assignments
         forgotPasswordViewFlipper = dialog!!.findViewById(R.id.forgot_password_dialog_view_flipper)
         forgotPasswordBackBtn = dialog!!.findViewById(R.id.forgot_password_dialog_back_btn)
+        //endregion
 
         dialog?.window?.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,

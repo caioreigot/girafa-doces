@@ -1,4 +1,4 @@
-package com.github.caioreigot.girafadoces.ui.main.add
+package com.github.caioreigot.girafadoces.ui.main.menu.admin_menu
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,7 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class AddViewModel @Inject constructor(
+class AdminMenuViewModel @Inject constructor(
     private val resProvider: ResourcesProvider,
     private val storage: StorageRepository,
     private val database: DatabaseRepository
@@ -102,8 +102,8 @@ class AddViewModel @Inject constructor(
     ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(AddViewModel::class.java))
-                return AddViewModel(resProvider, storage, database) as T
+            if (modelClass.isAssignableFrom(AdminMenuViewModel::class.java))
+                return AdminMenuViewModel(resProvider, storage, database) as T
 
             throw IllegalArgumentException("Unknown ViewModel class")
         }

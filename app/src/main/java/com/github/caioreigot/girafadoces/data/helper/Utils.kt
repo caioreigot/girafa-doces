@@ -5,24 +5,24 @@ import android.graphics.BitmapFactory
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.util.Patterns
 import android.widget.EditText
 import com.github.caioreigot.girafadoces.data.model.ErrorType
 import com.github.caioreigot.girafadoces.data.model.Global
+import com.github.caioreigot.girafadoces.data.model.User
 
 class Utils {
 
     companion object {
-        fun isValidEmail(target: CharSequence?): Boolean {
-            return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target!!).matches()
-        }
+        fun isValidEmail(target: CharSequence?): Boolean =
+            !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target!!).matches()
+
 
         fun isValidPhoneNumber(target: CharSequence?, template: CharSequence): Boolean {
 
-            /*
-             Regex for template (XX) XXXXX-XXXX
-             ^[(][0-9]{2}[)][ ][0-9]{5}[-]([0-9]{4})$
-             */
+            /*Regex for template (XX) XXXXX-XXXX
+             ^[(][0-9]{2}[)][ ][0-9]{5}[-]([0-9]{4})$*/
 
             val OPEN_PARENTHESES_INDEX = 0
             val CLOSED_PARENTHESES_INDEX = 1
@@ -111,9 +111,8 @@ class Utils {
             return Pair(true, null)
         }
 
-        fun ByteArray.toBitmap(): Bitmap {
-            return BitmapFactory.decodeByteArray(this, 0, this.size)
-        }
+        fun ByteArray.toBitmap(): Bitmap =
+            BitmapFactory.decodeByteArray(this, 0, this.size)
 
         fun EditText.putCharSequenceBefore(cs: CharSequence) {
             var newText = ""
@@ -140,6 +139,24 @@ class Utils {
             }
 
             this.setText(newText)
+        }
+
+        fun MutableList<User>.userForBeginning(email: String) {
+            var targetUser: User? = null
+            val iterator = this.iterator()
+
+            while (iterator.hasNext()) {
+                val user = iterator.next()
+
+                if (user.email == email) {
+                    targetUser = user
+                    iterator.remove()
+                }
+            }
+
+            targetUser?.let { itTargetUser ->
+                this.add(0, itTargetUser)
+            }
         }
     }
 }

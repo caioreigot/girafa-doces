@@ -1,20 +1,17 @@
 package com.github.caioreigot.girafadoces.ui.main.admin.administrators
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ProgressBar
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.caioreigot.girafadoces.R
-import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -22,6 +19,9 @@ class AdministratorsDialog : DialogFragment(R.layout.administrators_dialog) {
 
     @Inject
     lateinit var administratorsVMFactory: AdministratorsViewModel.Factory
+
+    @Inject
+    lateinit var adapter: AdministratorsAdapter
 
     private val administratorsViewModel: AdministratorsViewModel by viewModels(
         { this },
@@ -35,7 +35,6 @@ class AdministratorsDialog : DialogFragment(R.layout.administrators_dialog) {
 
     private lateinit var adminProgressBar: ProgressBar
     private lateinit var administratorsRecyclerView: RecyclerView
-    private lateinit var adapter: AdministratorsAdapter
 
     private lateinit var addAdminFloatingButton: FloatingActionButton
     private var addAdminDialog: DialogFragment? = null
@@ -60,6 +59,9 @@ class AdministratorsDialog : DialogFragment(R.layout.administrators_dialog) {
         addAdminFloatingButton = view.findViewById(R.id.add_admin_floating_btn)
         //endregion
 
+        adapter.setup(mutableListOf(), childFragmentManager, ::removeAdmin)
+        administratorsRecyclerView.adapter = adapter
+
         administratorsRecyclerView.layoutManager = LinearLayoutManager(
             activity, LinearLayoutManager.VERTICAL, false
         )
@@ -82,12 +84,7 @@ class AdministratorsDialog : DialogFragment(R.layout.administrators_dialog) {
             it?.let { adminUsersItems ->
                 adminProgressBar.visibility = View.GONE
 
-                adapter = AdministratorsAdapter(
-                    administratorsViewModel,
-                    ResourcesProvider(requireContext()),
-                    adminUsersItems
-                )
-
+                adapter.setup(adminUsersItems, childFragmentManager, ::removeAdmin)
                 administratorsRecyclerView.adapter = adapter
             }
         })
@@ -113,5 +110,8 @@ class AdministratorsDialog : DialogFragment(R.layout.administrators_dialog) {
         })
         //endregion
     }
+
+    private fun removeAdmin(adminEmail: String, position: Int) =
+        administratorsViewModel.removeAdmin(adminEmail, position)
 
 }
