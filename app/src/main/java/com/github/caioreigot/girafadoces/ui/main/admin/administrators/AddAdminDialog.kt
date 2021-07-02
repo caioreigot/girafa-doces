@@ -1,9 +1,7 @@
 package com.github.caioreigot.girafadoces.ui.main.admin.administrators
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.ViewFlipper
@@ -15,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AddAdminDialog : DialogFragment(R.layout.add_admin_dialog) {
+class AddAdminDialog : DialogFragment(R.layout.dialog_add_admin) {
 
     @Inject
     lateinit var administratorsVMFactory: AdministratorsViewModel.Factory

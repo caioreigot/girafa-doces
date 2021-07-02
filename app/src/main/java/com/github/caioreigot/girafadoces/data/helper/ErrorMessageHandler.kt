@@ -2,6 +2,7 @@ package com.github.caioreigot.girafadoces.data.helper
 
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.model.ErrorType
+import com.github.caioreigot.girafadoces.data.model.Global
 
 object ErrorMessageHandler {
     fun getErrorMessage(resProvider: ResourcesProvider, errorType: ErrorType): String {
@@ -13,7 +14,9 @@ object ErrorMessageHandler {
             ErrorType.INVALID_EMAIL -> resProvider.getString(R.string.invalid_email_message)
             ErrorType.INVALID_PHONE -> resProvider.getString(R.string.invalid_phone_message)
             ErrorType.EMAIL_ALREADY_REGISTERED -> resProvider.getString(R.string.email_already_registered_error_message)
-            ErrorType.WEAK_PASSWORD -> resProvider.getString(R.string.weak_password_error_message)
+            ErrorType.WEAK_PASSWORD -> resProvider.getString(
+                R.string.weak_password_error_message,
+                Global.PASSWORD_MINIMUM_LENGTH)
             ErrorType.PASSWORD_CONFIRM_DONT_MATCH -> resProvider.getString(R.string.password_confirm_dont_match_error_message)
         }
     }

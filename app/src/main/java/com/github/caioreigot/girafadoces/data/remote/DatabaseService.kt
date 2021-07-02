@@ -138,7 +138,7 @@ class DatabaseService @Inject constructor() : DatabaseRepository {
         newValue: Any,
         callback: (serviceResult: ServiceResult) -> Unit
     ) {
-        var databaseUserKeyName: String?
+        val databaseUserKeyName: String?
         var errorType = ErrorType.UNEXPECTED_ERROR
         var isValid = true
 

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import com.github.caioreigot.girafadoces.R
+import com.github.caioreigot.girafadoces.data.model.UserSingleton
 import com.github.caioreigot.girafadoces.ui.main.menu.admin_menu.AdminMenuDialog
 import com.github.caioreigot.girafadoces.ui.main.menu.order.OrderDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -48,10 +49,14 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
         )
 
         menuRecyclerView.setHasFixedSize(true)
+        
+        if (UserSingleton.isAdmin) {
+            menuAdminFab.visibility = View.VISIBLE
 
-        menuAdminFab.setOnClickListener {
-            val adminMenuDialog = AdminMenuDialog()
-            adminMenuDialog.show(childFragmentManager, adminMenuDialog.tag)
+            menuAdminFab.setOnClickListener {
+                val adminMenuDialog = AdminMenuDialog()
+                adminMenuDialog.show(childFragmentManager, adminMenuDialog.tag)
+            }
         }
 
         val helper: SnapHelper = LinearSnapHelper()

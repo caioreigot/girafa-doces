@@ -22,11 +22,12 @@ class AuthService : AuthRepository {
         }
 
         Singleton.mAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                when (task.isSuccessful) {
-                    true -> callback(ServiceResult.Success)
-                    false -> callback(ServiceResult.Error(ErrorType.ACCOUNT_NOT_FOUND))
-                }
+            .addOnSuccessListener {
+                callback(ServiceResult.Success)
+            }
+
+            .addOnFailureListener {
+                callback(ServiceResult.Error(ErrorType.ACCOUNT_NOT_FOUND))
             }
     }
 

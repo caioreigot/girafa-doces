@@ -113,8 +113,8 @@ class BottomNavActivity : BaseActivity() {
         messageType: MessageType,
         @StringRes header: Int,
         @StringRes content: Int,
-        positiveOnClickListener: (() -> Unit)? = null,
-        negativeOnClickListener: (() -> Unit)? = null,
+        positiveOnClickCallback: (() -> Unit)? = null,
+        negativeOnClickCallback: (() -> Unit)? = null,
         callback: ((choice: Boolean) -> Unit)? = null
     ): Dialog {
         return createMessageDialog(
@@ -122,8 +122,8 @@ class BottomNavActivity : BaseActivity() {
             messageType,
             getString(header),
             getString(content),
-            positiveOnClickListener,
-            negativeOnClickListener,
+            positiveOnClickCallback,
+            negativeOnClickCallback,
             callback
         )
     }
@@ -132,8 +132,8 @@ class BottomNavActivity : BaseActivity() {
         messageType: MessageType,
         @StringRes header: Int,
         content: String,
-        positiveOnClickListener: (() -> Unit)? = null,
-        negativeOnClickListener: (() -> Unit)? = null,
+        positiveOnClickCallback: (() -> Unit)? = null,
+        negativeOnClickCallback: (() -> Unit)? = null,
         callback: ((choice: Boolean) -> Unit)? = null
     ): Dialog {
         return createMessageDialog(
@@ -141,8 +141,8 @@ class BottomNavActivity : BaseActivity() {
             messageType,
             getString(header),
             content,
-            positiveOnClickListener,
-            negativeOnClickListener,
+            positiveOnClickCallback,
+            negativeOnClickCallback,
             callback
         )
     }

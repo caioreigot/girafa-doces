@@ -34,7 +34,7 @@ open class BaseActivity : AppCompatActivity() {
         callback: ((choice: Boolean) -> Unit)? = null
     ): Dialog {
         val dialog = Dialog(context)
-        dialog.setContentView(R.layout.message_dialog)
+        dialog.setContentView(R.layout.dialog_message)
 
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 

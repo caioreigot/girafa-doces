@@ -1,6 +1,5 @@
 package com.github.caioreigot.girafadoces.ui.main.admin.administrators
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,7 +62,7 @@ class AdministratorsAdapter @Inject constructor(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdministratorsViewHolder {
         val view = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.administrators_item, parent, false)
+            .inflate(R.layout.item_administrators, parent, false)
 
         return AdministratorsViewHolder(view)
     }
@@ -72,8 +71,6 @@ class AdministratorsAdapter @Inject constructor(
         holder.bind(items[position], position)
     }
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
-
+    override fun getItemCount(): Int =
+        items.size
 }

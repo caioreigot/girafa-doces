@@ -39,6 +39,7 @@
             android:background="@color/primaryPink"
             android:gravity="center"
             android:padding="10dp"
+            android:text="@string/administrators"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
@@ -46,7 +47,7 @@
             android:id="@+id/administrators_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/administrators_item" />
+            tools:listitem="@layout/item_administrators" />
 
     </LinearLayout>
 

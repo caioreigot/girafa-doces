@@ -1,21 +1,18 @@
 package com.github.caioreigot.girafadoces.ui.login
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ViewFlipper
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.github.caioreigot.girafadoces.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ForgotPasswordDialog : DialogFragment(R.layout.forgot_password_dialog) {
+class ForgotPasswordDialog : DialogFragment(R.layout.dialog_forgot_password) {
 
     private val loginViewModel: LoginViewModel by activityViewModels()
 

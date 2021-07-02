@@ -7,7 +7,7 @@ import androidx.fragment.app.DialogFragment
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.model.User
 
-class AdminInfoDialog(private val admin: User) : DialogFragment(R.layout.admin_info_dialog) {
+class AdminInfoDialog(private val admin: User) : DialogFragment(R.layout.dialog_admin_info) {
 
     lateinit var nameTV: TextView
     lateinit var emailTV: TextView

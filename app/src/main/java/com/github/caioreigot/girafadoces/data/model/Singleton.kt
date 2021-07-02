@@ -32,7 +32,7 @@ object Singleton {
     // Database Menu Itens Reference
     private fun getDatabaseMenuItensReference(): DatabaseReference = mDatabase
         .reference
-        .child(Global.DatabaseNames.MENU_ITENS_PARENT)
+        .child(Global.DatabaseNames.MENU_ITEMS_PARENT)
 
     val mDatabaseMenuItensReference: DatabaseReference = getDatabaseMenuItensReference()
 

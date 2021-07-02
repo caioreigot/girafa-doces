@@ -20,7 +20,7 @@
     <string name="unexpected_error_message">Erro inesperado</string>
     <string name="server_error_message">Erro no servidor</string>
     <string name="empty_field_error_message">Por favor, preencha todos os campos</string>
-    <string name="account_not_found_error_message">Conta não encontrada ou há problemas de conexão</string>
+    <string name="account_not_found_error_message">Conta não encontrada</string>
 
     <!-- Login Activity -->
     <string name="keep_me_connected">Mantenha-me conectado</string>
@@ -57,7 +57,7 @@
     <string name="invalid_email_message">Formato de e-mail fornecido não é válido</string>
     <string name="invalid_phone_message">Número de telefone fornecido não é valido</string>
     <string name="email_already_registered_error_message">E-mail já cadastrado</string>
-    <string name="weak_password_error_message">A senha precisa ter 6 ou mais dígitos</string>
+    <string name="weak_password_error_message">A senha precisa ter %1$d ou mais dígitos</string>
     <string name="password_confirm_dont_match_error_message">Senhas não correspondem</string>
 
     <!-- Bottom Navigation Titles -->

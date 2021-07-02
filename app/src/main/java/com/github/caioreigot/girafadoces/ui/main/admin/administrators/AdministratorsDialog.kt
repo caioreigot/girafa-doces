@@ -15,7 +15,7 @@ import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AdministratorsDialog : DialogFragment(R.layout.administrators_dialog) {
+class AdministratorsDialog : DialogFragment(R.layout.dialog_administrators) {
 
     @Inject
     lateinit var administratorsVMFactory: AdministratorsViewModel.Factory

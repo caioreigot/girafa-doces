@@ -23,7 +23,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class AdminMenuItemDialog(
     private val clearRecyclerView: () -> Unit
-) : DialogFragment(R.layout.add_menu_item_dialog) {
+) : DialogFragment(R.layout.dialog_add_menu_item) {
 
     @Inject
     lateinit var adminMenuVMFactory: AdminMenuViewModel.Factory

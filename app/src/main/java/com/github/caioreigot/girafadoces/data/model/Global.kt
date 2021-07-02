@@ -1,6 +1,7 @@
 package com.github.caioreigot.girafadoces.data.model
 
 object Global {
+
     const val PASSWORD_MINIMUM_LENGTH = 6
 
     object DatabaseNames {
@@ -13,7 +14,7 @@ object Global {
         //endregion
 
         //region menu_itens
-        const val MENU_ITENS_PARENT = "menu_itens"
+        const val MENU_ITEMS_PARENT = "menu_itens"
         const val MENU_ITEM_HEADER = "header"
         const val MENU_ITEM_CONTENT = "content"
         //endregion

@@ -11,7 +11,7 @@ import com.github.caioreigot.girafadoces.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class OrderDialog : DialogFragment(R.layout.order_dialog) {
+class OrderDialog : DialogFragment(R.layout.dialog_order) {
 
     private val orderViewModel: OrderViewModel by viewModels()
 

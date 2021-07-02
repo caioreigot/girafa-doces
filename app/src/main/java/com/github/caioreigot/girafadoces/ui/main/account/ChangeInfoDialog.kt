@@ -56,7 +56,7 @@ class ChangeInfoDialog(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.change_account_info_dialog, container)
+        return inflater.inflate(R.layout.dialog_change_account_info, container)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -135,7 +135,7 @@ class ChangeInfoDialog(
                     R.string.dialog_successful_title,
                     resProvider.getString(R.string.change_made_successfully),
                     { accountViewModel.reloadInformation() }
-                )
+                ).show()
             }
         })
 
