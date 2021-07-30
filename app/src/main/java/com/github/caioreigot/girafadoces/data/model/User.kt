@@ -29,13 +29,11 @@ class Builder {
     var deliveryAddress: String = ""
     var isAdmin: Boolean = false
 
-    fun build(): User {
-        return User(fullName, email, phoneNumber, deliveryAddress, isAdmin)
-    }
+    fun build(): User =
+        User(fullName, email, phoneNumber, deliveryAddress, isAdmin)
 }
 
-fun user(block: Builder.() -> Unit): User {
-    return Builder().apply(block).build()
-}
+fun user(block: Builder.() -> Unit): User =
+    Builder().apply(block).build()
 
 

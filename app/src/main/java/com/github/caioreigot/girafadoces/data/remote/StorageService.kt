@@ -40,9 +40,9 @@ class StorageService : StorageRepository {
         uid: String,
         callback: (data: ByteArray?, serviceResult: ServiceResult) -> Unit
     ) {
-        val TEN_MEGABYTES: Long = (1024 * 1024) * 10
+        val tenMegabytes: Long = (1024 * 1024) * 10
 
-        Singleton.STORAGE_MENU_ITEMS_REF.child(uid).getBytes(TEN_MEGABYTES)
+        Singleton.STORAGE_MENU_ITEMS_REF.child(uid).getBytes(tenMegabytes)
             .addOnSuccessListener { byteArray ->
                 callback(byteArray, ServiceResult.Success)
             }

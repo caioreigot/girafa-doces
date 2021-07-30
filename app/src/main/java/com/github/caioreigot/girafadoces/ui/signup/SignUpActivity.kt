@@ -96,36 +96,37 @@ class SignUpActivity : BaseActivity() {
         }
         //endregion
 
-        //region Observers
-        signUpViewModel.registrationMadeLD.observe(this, {
-            it?.let {
+        // Observers
+        with (signUpViewModel) {
+            val thisActivity = this@SignUpActivity
+
+            registrationMade.observe(thisActivity, {
                 createMessageDialog(
-                    this,
+                    thisActivity,
                     MessageType.SUCCESSFUL,
                     getString(R.string.dialog_successful_title),
                     getString(R.string.signup_success_message)
                 ) { finish() }.show()
-            }
-        })
+            })
 
-        signUpViewModel.registerBtnViewFlipperLD.observe(this, {
-            it?.let { childToDisplay ->
-                viewFlipper.displayedChild = childToDisplay
-            }
-        })
+            registerBtnViewFlipper.observe(thisActivity, {
+                it?.let { childToDisplay ->
+                    viewFlipper.displayedChild = childToDisplay
+                }
+            })
 
-        signUpViewModel.errorMessageLD.observe(this, {
-            it?.let { errorMessage ->
-                createMessageDialog(
-                    this,
-                    MessageType.ERROR,
-                    getString(R.string.dialog_error_title),
-                    errorMessage,
-                    null
-                ).show()
-            }
-        })
-        //endregion
+            errorMessage.observe(thisActivity, {
+                it?.let { errorMessage ->
+                    createMessageDialog(
+                        thisActivity,
+                        MessageType.ERROR,
+                        getString(R.string.dialog_error_title),
+                        errorMessage,
+                        null
+                    ).show()
+                }
+            })
+        }
     }
 
     class PasswordVisibilityButtonListener(var editText: EditText) : View.OnClickListener {

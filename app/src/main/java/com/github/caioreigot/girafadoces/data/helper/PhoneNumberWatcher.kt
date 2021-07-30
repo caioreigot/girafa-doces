@@ -2,7 +2,6 @@ package com.github.caioreigot.girafadoces.data.helper
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.widget.EditText
 import com.github.caioreigot.girafadoces.data.helper.Utils.Companion.putCharSequenceBefore
 import com.github.caioreigot.girafadoces.data.helper.Utils.Companion.removeLastWord

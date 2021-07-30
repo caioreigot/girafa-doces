@@ -1,5 +1,6 @@
 package com.github.caioreigot.girafadoces.ui.signup
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.caioreigot.girafadoces.data.helper.ErrorMessageHandler
@@ -16,11 +17,15 @@ class SignUpViewModel @Inject constructor(
     private val resProvider: ResourcesProvider
 ) : ViewModel() {
 
-    val registrationMadeLD: SingleLiveEvent<Boolean> = SingleLiveEvent<Boolean>()
+    private val _registrationMade: SingleLiveEvent<Unit> = SingleLiveEvent<Unit>()
+    val registrationMade: LiveData<Unit>
+        get() = _registrationMade
 
-    val registerBtnViewFlipperLD: MutableLiveData<Int> = MutableLiveData()
+    private val _registerBtnViewFlipper: MutableLiveData<Int> = MutableLiveData()
+    val registerBtnViewFlipper: LiveData<Int>
+        get() = _registerBtnViewFlipper
 
-    val errorMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
+    val errorMessage: SingleLiveEvent<String> = SingleLiveEvent<String>()
 
     companion object {
         private const val VIEW_FLIPPER_REGISTER_BUTTON = 0
@@ -37,7 +42,7 @@ class SignUpViewModel @Inject constructor(
         passwordConfirm: String,
     ) {
         // Show Progress Bar
-        registerBtnViewFlipperLD.value = VIEW_FLIPPER_PROGRESS_BAR
+        _registerBtnViewFlipper.value = VIEW_FLIPPER_PROGRESS_BAR
 
         auth.registerUser(
             fullName = fullName,
@@ -49,15 +54,14 @@ class SignUpViewModel @Inject constructor(
             passwordConfirm = passwordConfirm
         ) { result ->
 
-            registerBtnViewFlipperLD.value = VIEW_FLIPPER_REGISTER_BUTTON
+            _registerBtnViewFlipper.value = VIEW_FLIPPER_REGISTER_BUTTON
 
             when (result) {
-                is ServiceResult.Success -> registrationMadeLD.value = true
+                is ServiceResult.Success -> _registrationMade.call()
 
-                is ServiceResult.Error -> {
-                    errorMessageLD.value =
+                is ServiceResult.Error ->
+                    errorMessage.value =
                         ErrorMessageHandler.getErrorMessage(resProvider, result.errorType)
-                }
             }
         }
     }
