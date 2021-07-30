@@ -1,6 +1,5 @@
 package com.github.caioreigot.girafadoces.ui.main.admin.administrators
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -82,7 +81,7 @@ class AdministratorsViewModel @Inject constructor(
     }
 
     private fun addAdminToDatabase(uid: String, callback: (ServiceResult) -> Unit) =
-        Singleton.mDatabaseAdminsReference.child(uid).setValue(true)
+        Singleton.DATABASE_ADMINS_REF.child(uid).setValue(true)
             .addOnSuccessListener { callback(ServiceResult.Success) }
             .addOnFailureListener { callback(ServiceResult.Error(ErrorType.SERVER_ERROR)) }
 
@@ -106,7 +105,7 @@ class AdministratorsViewModel @Inject constructor(
     }
 
     private fun removeAdminOfDatabase(uid: String, callback: (ServiceResult) -> Unit) =
-        Singleton.mDatabaseAdminsReference.child(uid).removeValue()
+        Singleton.DATABASE_ADMINS_REF.child(uid).removeValue()
             .addOnSuccessListener { callback(ServiceResult.Success) }
             .addOnFailureListener { callback(ServiceResult.Error(ErrorType.SERVER_ERROR)) }
 

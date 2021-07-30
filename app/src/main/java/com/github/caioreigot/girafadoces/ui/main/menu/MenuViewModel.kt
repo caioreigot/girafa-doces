@@ -1,8 +1,8 @@
 package com.github.caioreigot.girafadoces.ui.main.menu
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.helper.ErrorMessageHandler
 import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
@@ -12,7 +12,6 @@ import com.github.caioreigot.girafadoces.data.model.ServiceResult
 import com.github.caioreigot.girafadoces.data.repository.DatabaseRepository
 import com.github.caioreigot.girafadoces.data.repository.StorageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,23 +21,28 @@ class MenuViewModel @Inject constructor(
     private val storage: StorageRepository
 ) : ViewModel() {
 
-    val errorMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
-    val menuItemsLD: MutableLiveData<MutableList<MenuItem>> = MutableLiveData()
+    private val _errorMessage: SingleLiveEvent<String> = SingleLiveEvent<String>()
+    val errorMessage: LiveData<String>
+        get() = _errorMessage
+
+    private val _menuItems: MutableLiveData<MutableList<MenuItem>> = MutableLiveData()
+    val menuItems: LiveData<MutableList<MenuItem>>
+        get() = _menuItems
 
     fun getMenuItems() {
         database.getMenuItems(storage) { items, result ->
             when (result) {
                 is ServiceResult.Success -> {
                     if (items == null)
-                        errorMessageLD.value = resProvider.getString(R.string.unexpected_error_message)
+                        _errorMessage.value =
+                            resProvider.getString(R.string.unexpected_error_message)
 
-                    menuItemsLD.value = items
+                    _menuItems.value = items
                 }
 
-                is ServiceResult.Error -> {
-                    errorMessageLD.value =
+                is ServiceResult.Error ->
+                    _errorMessage.value =
                         ErrorMessageHandler.getErrorMessage(resProvider, result.errorType)
-                }
             }
         }
     }

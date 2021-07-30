@@ -12,35 +12,34 @@ class OrderViewModel @Inject constructor(
     private val database: DatabaseRepository
 ) : ViewModel() {
 
-    private val MIN_AMOUNT: Int = 1
-    private val MAX_AMOUNT: Int = 999
+    private val minAmount: Int = 1
+    private val maxAmount: Int = 999
 
-    private var amountValue: Int = 1
+    private var amountDefaultValue: Int = 1
 
     private val _amount = MutableLiveData<String>()
     val amount: LiveData<String>
         get() = _amount
 
     init {
-        _amount.value = amountValue.toString()
+        _amount.value = amountDefaultValue.toString()
     }
 
     fun increaseAmount() {
-        if (amountValue >= MAX_AMOUNT)
+        if (amountDefaultValue >= maxAmount)
             return
 
-        _amount.value = (++amountValue).toString()
+        _amount.value = (++amountDefaultValue).toString()
     }
 
     fun decreaseAmount() {
-        if (amountValue <= MIN_AMOUNT)
+        if (amountDefaultValue <= minAmount)
             return
 
-        _amount.value = (--amountValue).toString()
+        _amount.value = (--amountDefaultValue).toString()
     }
 
     fun confirmOrder() {
         // TODO
     }
-
 }

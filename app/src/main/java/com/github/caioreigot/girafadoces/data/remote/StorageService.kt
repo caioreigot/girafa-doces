@@ -1,6 +1,5 @@
 package com.github.caioreigot.girafadoces.data.remote
 
-import android.util.Log
 import com.github.caioreigot.girafadoces.data.model.ServiceResult
 import com.github.caioreigot.girafadoces.data.model.ErrorType
 import com.github.caioreigot.girafadoces.data.model.Singleton
@@ -13,7 +12,7 @@ class StorageService : StorageRepository {
     ) {
         val mutableListImages = mutableListOf<Pair<String, ByteArray>>()
 
-        Singleton.mStorageMenuImagesReference.listAll()
+        Singleton.STORAGE_MENU_ITEMS_REF.listAll()
             .addOnSuccessListener { listResult ->
                 for (item in listResult.items) {
                     downloadImage(item.name) { byteArray, result ->
@@ -43,7 +42,7 @@ class StorageService : StorageRepository {
     ) {
         val TEN_MEGABYTES: Long = (1024 * 1024) * 10
 
-        Singleton.mStorageMenuImagesReference.child(uid).getBytes(TEN_MEGABYTES)
+        Singleton.STORAGE_MENU_ITEMS_REF.child(uid).getBytes(TEN_MEGABYTES)
             .addOnSuccessListener { byteArray ->
                 callback(byteArray, ServiceResult.Success)
             }
@@ -59,7 +58,7 @@ class StorageService : StorageRepository {
         progressCallback: (progress: Int) -> Unit,
         callback: (serviceResult: ServiceResult) -> Unit
     ) {
-        Singleton.mStorageMenuImagesReference.child(uid).putBytes(imageInByte)
+        Singleton.STORAGE_MENU_ITEMS_REF.child(uid).putBytes(imageInByte)
             .addOnProgressListener { uploadTask ->
                 val percentage = ((uploadTask.bytesTransferred / imageInByte.size) * 100).toInt()
                 progressCallback(percentage)
@@ -77,7 +76,7 @@ class StorageService : StorageRepository {
         uid: String,
         callback: (serviceResult: ServiceResult) -> Unit
     ) {
-        Singleton.mStorageMenuImagesReference.child(uid).delete()
+        Singleton.STORAGE_MENU_ITEMS_REF.child(uid).delete()
             .addOnSuccessListener { callback(ServiceResult.Success) }
             .addOnFailureListener { callback(ServiceResult.Error(ErrorType.SERVER_ERROR)) }
     }

@@ -87,5 +87,4 @@ open class BaseActivity : AppCompatActivity() {
 
         return dialog
     }
-
 }

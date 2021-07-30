@@ -3,10 +3,16 @@ package com.github.caioreigot.girafadoces.data.remote
 import com.github.caioreigot.girafadoces.data.helper.Utils
 import com.github.caioreigot.girafadoces.data.model.*
 import com.github.caioreigot.girafadoces.data.repository.AuthRepository
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.tasks.await
 
 class AuthService : AuthRepository {
 
-    override fun loginUser(
+    override suspend fun loginUser(
         email: String,
         password: String,
         callback: (serviceResult: ServiceResult) -> Unit
@@ -21,14 +27,32 @@ class AuthService : AuthRepository {
             return
         }
 
-        Singleton.mAuth.signInWithEmailAndPassword(email, password)
-            .addOnSuccessListener {
-                callback(ServiceResult.Success)
-            }
+        withTimeout(Global.AUTH_TIME_OUT_IN_MILLIS) {
+            try {
+                Singleton.AUTH
+                    .signInWithEmailAndPassword(email, password)
+                    .await()
 
-            .addOnFailureListener {
-                callback(ServiceResult.Error(ErrorType.ACCOUNT_NOT_FOUND))
+                callback(ServiceResult.Success)
+            } catch (e: Exception) {
+                when (e) {
+                    is TimeoutCancellationException ->
+                        callback(ServiceResult.Error(ErrorType.LOGIN_TIME_OUT))
+
+                    is FirebaseNetworkException ->
+                        callback(ServiceResult.Error(ErrorType.NETWORK_EXCEPTION))
+
+                    is FirebaseAuthInvalidUserException ->
+                        callback(ServiceResult.Error(ErrorType.AUTH_INVALID_USER))
+
+                    is FirebaseAuthInvalidCredentialsException ->
+                        callback(ServiceResult.Error(ErrorType.AUTH_INVALID_USER))
+
+                    else ->
+                        callback(ServiceResult.Error(ErrorType.UNEXPECTED_ERROR))
+                }
             }
+        }
     }
 
     override fun registerUser(
@@ -59,14 +83,14 @@ class AuthService : AuthRepository {
         // Adding postal number with the address
         val fullDeliveryAddress = "$deliveryAddress - nº $postalNumber"
 
-        Singleton.mAuth
+        Singleton.AUTH
             .createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                 when (task.isSuccessful) {
                     true -> {
-                        val userID = Singleton.mAuth.currentUser?.uid
+                        val userID = Singleton.AUTH.currentUser?.uid
 
                         userID?.let { uid ->
-                            val currentUserDB = Singleton.mDatabaseUsersReference.child(uid)
+                            val currentUserDB = Singleton.DATABASE_USERS_REF.child(uid)
 
                             with (currentUserDB) {
                                 child(Global.DatabaseNames.USER_FULL_NAME).setValue(fullName)
@@ -98,7 +122,7 @@ class AuthService : AuthRepository {
             return
         }
 
-        Singleton.mAuth.sendPasswordResetEmail(email)
+        Singleton.AUTH.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful)
                     callback(ServiceResult.Success)

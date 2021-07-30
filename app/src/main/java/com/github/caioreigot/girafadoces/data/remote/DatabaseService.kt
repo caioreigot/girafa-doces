@@ -1,7 +1,6 @@
 package com.github.caioreigot.girafadoces.data.remote
 
 import android.text.TextUtils
-import android.util.Log
 import com.github.caioreigot.girafadoces.data.helper.Utils
 import com.github.caioreigot.girafadoces.data.helper.Utils.Companion.toBitmap
 import com.github.caioreigot.girafadoces.data.model.*
@@ -15,10 +14,10 @@ import javax.inject.Inject
 class DatabaseService @Inject constructor() : DatabaseRepository {
 
     override fun getLoggedUserInformation(callback: (User?, ServiceResult) -> Unit) {
-        Singleton.mAuth.currentUser?.let { currentUser ->
-            val loggedUserReference = Singleton.mDatabaseUsersReference.child(currentUser.uid)
+        Singleton.AUTH.currentUser?.let { currentUser ->
+            val loggedUserReference = Singleton.DATABASE_USERS_REF.child(currentUser.uid)
 
-            Singleton.mDatabaseAdminsReference
+            Singleton.DATABASE_ADMINS_REF
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(adminsSnapshot: DataSnapshot) {
                         val isUserAdmin = adminsSnapshot.child(currentUser.uid).exists()
@@ -51,7 +50,7 @@ class DatabaseService @Inject constructor() : DatabaseRepository {
     }
 
     override fun getUserByUid(uid: String, callback: (User?, serviceResult: ServiceResult) -> Unit) {
-        Singleton.mDatabaseUsersReference.child(uid)
+        Singleton.DATABASE_USERS_REF.child(uid)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(userSnapshot: DataSnapshot) {
                     val user: User? = userSnapshot.getValue(User::class.java)
@@ -71,7 +70,7 @@ class DatabaseService @Inject constructor() : DatabaseRepository {
         val allAdminsUID = mutableListOf<String>()
         val adminUsers = mutableListOf<User>()
 
-        Singleton.mDatabaseAdminsReference
+        Singleton.DATABASE_ADMINS_REF
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
 
@@ -80,7 +79,7 @@ class DatabaseService @Inject constructor() : DatabaseRepository {
                         uidSnapshot.key?.let { key -> allAdminsUID.add(key) }
 
                     if (allAdminsUID.size == snapshot.childrenCount.toInt()) {
-                        Singleton.mDatabaseUsersReference
+                        Singleton.DATABASE_USERS_REF
                             .addListenerForSingleValueEvent(object : ValueEventListener {
                                 override fun onDataChange(snapshot: DataSnapshot) {
 
@@ -113,7 +112,7 @@ class DatabaseService @Inject constructor() : DatabaseRepository {
         email: String,
         callback: (uid: String?, serviceResult: ServiceResult) -> Unit
     ) {
-        Singleton.mDatabaseUsersReference
+        Singleton.DATABASE_USERS_REF
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     for (user in snapshot.children) {
@@ -181,14 +180,14 @@ class DatabaseService @Inject constructor() : DatabaseRepository {
             return
         }
 
-        if (Singleton.mAuth.currentUser == null || databaseUserKeyName == null) {
+        if (Singleton.AUTH.currentUser == null || databaseUserKeyName == null) {
             callback(ServiceResult.Error(ErrorType.SERVER_ERROR))
             return
         }
 
-        val currentUserUid = Singleton.mAuth.currentUser!!.uid
+        val currentUserUid = Singleton.AUTH.currentUser!!.uid
 
-        Singleton.mDatabaseUsersReference
+        Singleton.DATABASE_USERS_REF
             .child(currentUserUid)
             .child(databaseUserKeyName)
             .setValue(newValue.toString().trimEnd())
@@ -246,7 +245,7 @@ class DatabaseService @Inject constructor() : DatabaseRepository {
     }
 
     private fun fetchDatabaseMenuItemsInformation(callback: (MutableList<MenuItem>?) -> Unit) {
-        Singleton.mDatabaseMenuItensReference.addListenerForSingleValueEvent(object :
+        Singleton.DATABASE_MENU_ITEMS_REF.addListenerForSingleValueEvent(object :
             ValueEventListener {
 
             val itemsList = mutableListOf<MenuItem>()
@@ -277,10 +276,10 @@ class DatabaseService @Inject constructor() : DatabaseRepository {
         itemContent: String,
         callback: (uid: String?, ServiceResult) -> Unit
     ) {
-        val key: String? = Singleton.mDatabaseMenuItensReference.push().key
+        val key: String? = Singleton.DATABASE_MENU_ITEMS_REF.push().key
 
         key?.let { uid ->
-            with(Singleton.mDatabaseMenuItensReference.child(uid)) {
+            with(Singleton.DATABASE_MENU_ITEMS_REF.child(uid)) {
                 child(Global.DatabaseNames.MENU_ITEM_HEADER).setValue(itemHeader)
                 child(Global.DatabaseNames.MENU_ITEM_CONTENT).setValue(itemContent)
             }
@@ -302,7 +301,7 @@ class DatabaseService @Inject constructor() : DatabaseRepository {
         storage.deleteImage(uid) { result ->
             when (result) {
                 is ServiceResult.Success -> {
-                    Singleton.mDatabaseMenuItensReference.child(uid).removeValue()
+                    Singleton.DATABASE_MENU_ITEMS_REF.child(uid).removeValue()
                         .addOnSuccessListener { callback(ServiceResult.Success) }
                         .addOnFailureListener { callback(ServiceResult.Error(ErrorType.SERVER_ERROR)) }
                 }

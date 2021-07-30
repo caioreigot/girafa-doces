@@ -1,5 +1,6 @@
 package com.github.caioreigot.girafadoces.ui.main.account
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -20,16 +21,27 @@ class AccountViewModel @Inject constructor(
     private val database: DatabaseRepository
 ) : ViewModel() {
 
-    val loadingViewFlipperLD: MutableLiveData<Int> = MutableLiveData()
-    val reloadInformationLD: SingleLiveEvent<Unit> = SingleLiveEvent()
+    private val _loadingViewFlipper: MutableLiveData<Int> = MutableLiveData()
+    val loadingViewFlipper: LiveData<Int>
+        get() = _loadingViewFlipper
 
-    val successMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
-    val errorMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
+    private val _reloadInformation: SingleLiveEvent<Unit> = SingleLiveEvent()
+    val reloadInformation: LiveData<Unit>
+        get() = _reloadInformation
 
-    val userAccountInformationLD: SingleLiveEvent<User> = SingleLiveEvent<User>()
+    private val _successMessage: SingleLiveEvent<String> = SingleLiveEvent<String>()
+    val successMessage: LiveData<String>
+        get() = _successMessage
+
+    private val _errorMessage: SingleLiveEvent<String> = SingleLiveEvent<String>()
+    val errorMessage: LiveData<String>
+        get() = _errorMessage
+
+    private val _userAccountInformation: SingleLiveEvent<User> = SingleLiveEvent<User>()
+    val userAccountInformation: LiveData<User>
+        get() = _userAccountInformation
 
     companion object {
-        /*private const val VIEW_FLIPPER_PROGRESS_BAR = 0*/
         private const val VIEW_FLIPPER_ACCOUNT_IMAGE = 1
     }
 
@@ -37,10 +49,10 @@ class AccountViewModel @Inject constructor(
         database.changeAccountField(accountField, newValue) { result ->
             when (result) {
                 is ServiceResult.Success ->
-                    successMessageLD.value = resProvider.getString(R.string.change_made_successfully)
+                    _successMessage.value = resProvider.getString(R.string.change_made_successfully)
 
                 is ServiceResult.Error ->
-                    errorMessageLD.value =
+                    _errorMessage.value =
                         ErrorMessageHandler.getErrorMessage(resProvider, result.errorType)
             }
         }
@@ -50,18 +62,18 @@ class AccountViewModel @Inject constructor(
         database.getLoggedUserInformation { user, result ->
             when (result) {
                 is ServiceResult.Success -> {
-                    userAccountInformationLD.value = user
-                    loadingViewFlipperLD.value = VIEW_FLIPPER_ACCOUNT_IMAGE
+                    _userAccountInformation.value = user
+                    _loadingViewFlipper.value = VIEW_FLIPPER_ACCOUNT_IMAGE
                 }
 
                 is ServiceResult.Error ->
-                    errorMessageLD.value =
+                    _errorMessage.value =
                         ErrorMessageHandler.getErrorMessage(resProvider, result.errorType)
             }
         }
     }
 
-    fun reloadInformation() = reloadInformationLD.call()
+    fun reloadInformation() = _reloadInformation.call()
 
     @Suppress("UNCHECKED_CAST")
     class Factory @Inject constructor(

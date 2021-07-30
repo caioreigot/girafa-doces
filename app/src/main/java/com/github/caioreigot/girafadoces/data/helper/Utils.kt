@@ -2,10 +2,7 @@ package com.github.caioreigot.girafadoces.data.helper
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
-import android.util.Log
 import android.util.Patterns
 import android.widget.EditText
 import com.github.caioreigot.girafadoces.data.model.ErrorType
@@ -89,7 +86,7 @@ class Utils {
                 return Pair(false, ErrorType.WEAK_PASSWORD)
 
             if (passwordConfirm != null && password != passwordConfirm)
-                return Pair(false, ErrorType.PASSWORD_CONFIRM_DONT_MATCH)
+                return Pair(false, ErrorType.PASSWORD_CONFIRM_MATCH_ERROR)
 
             return Pair(true, null)
         }

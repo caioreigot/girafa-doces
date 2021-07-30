@@ -1,5 +1,6 @@
 package com.github.caioreigot.girafadoces.ui.main.menu.admin_menu
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -22,21 +23,30 @@ class AdminMenuViewModel @Inject constructor(
     private val database: DatabaseRepository
 ) : ViewModel() {
 
-    val errorMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
-    val successMessageLD: SingleLiveEvent<String> = SingleLiveEvent<String>()
+    private val _errorMessage: SingleLiveEvent<String> = SingleLiveEvent<String>()
+    val errorMessage: LiveData<String>
+        get() = _errorMessage
 
-    val menuItemsLD: MutableLiveData<MutableList<MenuItem>> = MutableLiveData()
-    val uploadProgressLD: MutableLiveData<Int> = MutableLiveData()
+    private val _successMessage: SingleLiveEvent<String> = SingleLiveEvent<String>()
+    val successMessage: LiveData<String>
+        get() = _successMessage
+
+    private val _menuItems: MutableLiveData<MutableList<MenuItem>> = MutableLiveData()
+    val menuItems: LiveData<MutableList<MenuItem>>
+        get() = _menuItems
+
+    private val _uploadProgress: MutableLiveData<Int> = MutableLiveData()
+    val uploadProgress: LiveData<Int>
+        get() = _uploadProgress
 
     fun getMenuItems() {
         database.getMenuItems(storage) { menuItems, result ->
             when (result) {
-                is ServiceResult.Success -> menuItemsLD.value = menuItems
+                is ServiceResult.Success -> _menuItems.value = menuItems
 
-                is ServiceResult.Error -> {
-                    errorMessageLD.value =
+                is ServiceResult.Error ->
+                    _errorMessage.value =
                         ErrorMessageHandler.getErrorMessage(resProvider, result.errorType)
-                }
             }
         }
     }
@@ -53,21 +63,21 @@ class AdminMenuViewModel @Inject constructor(
 
                     // Callback for track progress of image upload
                     { percentageProgress ->
-                        uploadProgressLD.value = percentageProgress
+                        _uploadProgress.value = percentageProgress
                     },
 
                     // Callback for result
                     { _result ->
                         when (_result) {
                             is ServiceResult.Success -> {
-                                successMessageLD.value =
+                                _successMessage.value =
                                     resProvider.getString(R.string.menu_item_save_successful)
 
                                 callback(true)
                             }
 
                             is ServiceResult.Error -> {
-                                errorMessageLD.value =
+                                _errorMessage.value =
                                     ErrorMessageHandler.getErrorMessage(
                                         resProvider,
                                         _result.errorType
@@ -83,7 +93,7 @@ class AdminMenuViewModel @Inject constructor(
                 is ServiceResult.Success -> return@saveMenuItem
 
                 is ServiceResult.Error -> {
-                    errorMessageLD.value = when (result.errorType) {
+                    _errorMessage.value = when (result.errorType) {
                         ErrorType.SERVER_ERROR ->
                             resProvider.getString(R.string.server_error_message)
                         else ->

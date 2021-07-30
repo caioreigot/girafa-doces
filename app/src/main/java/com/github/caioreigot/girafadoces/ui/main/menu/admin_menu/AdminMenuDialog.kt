@@ -101,7 +101,7 @@ class AdminMenuDialog : DialogFragment(R.layout.fragment_add) {
         //endregion
 
         //region Observers
-        adminMenuViewModel.menuItemsLD.observe(viewLifecycleOwner, {
+        adminMenuViewModel.menuItems.observe(viewLifecycleOwner, {
             it?.let { menuItems ->
                 progressBar.visibility = View.GONE
 
@@ -112,7 +112,7 @@ class AdminMenuDialog : DialogFragment(R.layout.fragment_add) {
             }
         })
 
-        adminMenuViewModel.errorMessageLD.observe(viewLifecycleOwner, { errorMessage ->
+        adminMenuViewModel.errorMessage.observe(viewLifecycleOwner, { errorMessage ->
             val mainActivity = (activity as BottomNavActivity)
 
             mainActivity.showMessageDialog(
@@ -122,7 +122,7 @@ class AdminMenuDialog : DialogFragment(R.layout.fragment_add) {
             )
         })
 
-        adminMenuViewModel.successMessageLD.observe(viewLifecycleOwner, { message ->
+        adminMenuViewModel.successMessage.observe(viewLifecycleOwner, { message ->
             (activity as BottomNavActivity).showMessageDialog(
                 MessageType.SUCCESSFUL,
                 R.string.dialog_successful_title,

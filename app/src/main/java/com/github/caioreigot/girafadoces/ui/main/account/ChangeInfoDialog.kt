@@ -126,7 +126,7 @@ class ChangeInfoDialog(
             }
         }
 
-        accountViewModel.successMessageLD.observe(viewLifecycleOwner, {
+        accountViewModel.successMessage.observe(viewLifecycleOwner, {
             it?.let {
                 dialog?.dismiss()
 
@@ -139,7 +139,7 @@ class ChangeInfoDialog(
             }
         })
 
-        accountViewModel.errorMessageLD.observe(viewLifecycleOwner, {
+        accountViewModel.errorMessage.observe(viewLifecycleOwner, {
             it?.let { message ->
                 validationStatus.text = message
                 validationStatus.visibility = View.VISIBLE

@@ -14,15 +14,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="20dp"
         android:paddingStart="20dp"
+        android:paddingTop="20dp"
         android:paddingEnd="20dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:text="@string/enter_quantity_order"
+            android:text="@string/enter_order_quantity"
             android:textColor="@color/white"
             android:textSize="22sp"
             android:textStyle="bold" />
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="22dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -40,8 +40,8 @@
                 android:layout_height="match_parent"
                 android:clickable="true"
                 android:focusable="true"
-                android:scaleX="1.5"
-                android:scaleY="1.5"
+                android:scaleX="1.7"
+                android:scaleY="1.7"
                 android:src="@drawable/ic_baseline_arrow_left_24"
                 app:tint="@color/white" />
 
@@ -52,10 +52,10 @@
                 android:background="@color/white"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                tools:text="1"
                 android:textColor="@color/primaryPink"
                 android:textSize="34sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:text="1" />
 
             <ImageView
                 android:id="@+id/order_dialog_right_arrow_iv"
@@ -63,10 +63,41 @@
                 android:layout_height="match_parent"
                 android:clickable="true"
                 android:focusable="true"
-                android:scaleX="1.5"
-                android:scaleY="1.5"
+                android:scaleX="1.7"
+                android:scaleY="1.7"
                 android:src="@drawable/ic_baseline_arrow_right_24"
                 app:tint="@color/white" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:ellipsize="end"
+            android:text="@string/enter_order_observation"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:padding="12dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@color/transparent"
+                android:gravity="start"
+                android:hint="@string/type_here_hint"
+                android:inputType="textMultiLine|textCapSentences"
+                android:maxLines="4"
+                android:textColor="@color/primaryPink"
+                android:textColorHint="@color/pinkHintColor" />
 
         </LinearLayout>
 
@@ -91,9 +122,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="@string/confirm_order"
             android:textColor="@color/primaryPink"
-            android:layout_gravity="center"
             android:textSize="20sp" />
 
     </androidx.cardview.widget.CardView>

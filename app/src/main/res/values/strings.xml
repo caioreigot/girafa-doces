@@ -15,12 +15,19 @@
     <string name="dialog_successful_title">SUCESSO</string>
     <string name="dialog_error_title">ERRO</string>
     <string name="dialog_confirmation_title">CONFIRMAR</string>
+    <string name="type_here_hint">Escreva aqui</string>
 
     <!-- Common Error Messages -->
-    <string name="unexpected_error_message">Erro inesperado</string>
+    <string name="unexpected_error_message">Ocorreu um erro inesperado. Por favor, tente denovo ou reinicie o aplicativo</string>
     <string name="server_error_message">Erro no servidor</string>
     <string name="empty_field_error_message">Por favor, preencha todos os campos</string>
     <string name="account_not_found_error_message">Conta não encontrada</string>
+
+    <!-- General Result Messages -->
+    <string name="permission_denied_message">Permissão negada</string>
+    <string name="network_exception_message">Erro no processo devido a problemas de conexão</string>
+    <string name="login_time_out_message">Não foi possível logar na conta por problemas de conexão</string>
+    <string name="auth_invalid_user_message">Usuário e/ou senha inválidos</string>
 
     <!-- Login Activity -->
     <string name="keep_me_connected">Mantenha-me conectado</string>
@@ -58,7 +65,7 @@
     <string name="invalid_phone_message">Número de telefone fornecido não é valido</string>
     <string name="email_already_registered_error_message">E-mail já cadastrado</string>
     <string name="weak_password_error_message">A senha precisa ter %1$d ou mais dígitos</string>
-    <string name="password_confirm_dont_match_error_message">Senhas não correspondem</string>
+    <string name="password_confirm_match_error_message">Senhas não correspondem</string>
 
     <!-- Bottom Navigation Titles -->
     <string name="bottom_nav_menu">Menu</string>
@@ -70,7 +77,8 @@
     <string name="drag_sideways">&lt; ARRASTE PARA OS LADOS &gt;</string>
 
     <!-- Order Dialog -->
-    <string name="enter_quantity_order">Por favor, insira a quantidade que deseja encomendar:</string>
+    <string name="enter_order_quantity">Deseja pedir quantos deste?</string>
+    <string name="enter_order_observation">Se você tiver alguma observação, por favor, escreva abaixo:</string>
     <string name="confirm_order">CONFIRMAR PEDIDO</string>
 
     <!-- Account Fragment -->

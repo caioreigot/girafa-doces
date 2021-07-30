@@ -109,7 +109,7 @@ class AdminMenuItemDialog(
             }
         }
 
-        adminMenuViewModel.uploadProgressLD.observe(viewLifecycleOwner, {
+        adminMenuViewModel.uploadProgress.observe(viewLifecycleOwner, {
             it?.let { percentageProgress ->
                 percentageProgressTV.text = "${percentageProgress}%"
                 progressBar.progress = percentageProgress

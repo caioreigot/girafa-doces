@@ -7,43 +7,34 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
 object Singleton {
-    // FirebaseAuth
+
     private fun getAuthInstance(): FirebaseAuth = FirebaseAuth.getInstance()
-    val mAuth: FirebaseAuth = getAuthInstance()
 
-    // Database Instance
     private fun getDatabaseInstance(): FirebaseDatabase = FirebaseDatabase.getInstance()
-    val mDatabase: FirebaseDatabase = getDatabaseInstance()
 
-    // Database Users Reference
-    private fun getDatabaseUsersReference(): DatabaseReference = mDatabase
+    private fun getDatabaseUsersReference(): DatabaseReference = DATABASE_INSTANCE
         .reference
         .child(Global.DatabaseNames.USERS_PARENT)
 
-    val mDatabaseUsersReference: DatabaseReference = getDatabaseUsersReference()
-
-    // Database Admins Reference
-    private fun getDatabaseAdminsReference(): DatabaseReference = mDatabase
+    private fun getDatabaseAdminsReference(): DatabaseReference = DATABASE_INSTANCE
         .reference
         .child(Global.DatabaseNames.ADMINS_PARENT)
 
-    val mDatabaseAdminsReference: DatabaseReference = getDatabaseAdminsReference()
-
-    // Database Menu Itens Reference
-    private fun getDatabaseMenuItensReference(): DatabaseReference = mDatabase
+    private fun getDatabaseMenuItemsReference(): DatabaseReference = DATABASE_INSTANCE
         .reference
         .child(Global.DatabaseNames.MENU_ITEMS_PARENT)
 
-    val mDatabaseMenuItensReference: DatabaseReference = getDatabaseMenuItensReference()
-
-    // Storage Instance
     private fun getStorageInstance() = FirebaseStorage.getInstance()
-    val mFirebaseStorage = getStorageInstance()
 
-    // Storage Reference
-    private fun getMenuItensStorageReference(): StorageReference = mFirebaseStorage
+    private fun getMenuItemsStorageReference(): StorageReference = FIREBASE_STORAGE_INSTANCE
         .reference
-        .child("menu_images")
+        .child(Global.StorageNames.MENU_IMAGES)
 
-    val mStorageMenuImagesReference = getMenuItensStorageReference()
+    val AUTH: FirebaseAuth = getAuthInstance()
+    val DATABASE_INSTANCE: FirebaseDatabase = getDatabaseInstance()
+    val DATABASE_USERS_REF: DatabaseReference = getDatabaseUsersReference()
+    val DATABASE_ADMINS_REF: DatabaseReference = getDatabaseAdminsReference()
+    val DATABASE_MENU_ITEMS_REF: DatabaseReference = getDatabaseMenuItemsReference()
+    val FIREBASE_STORAGE_INSTANCE = getStorageInstance()
+    val STORAGE_MENU_ITEMS_REF = getMenuItemsStorageReference()
 }

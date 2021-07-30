@@ -80,12 +80,6 @@ class BottomNavActivity : BaseActivity() {
                     true
                 }
 
-//                R.id.add_menu_item -> {
-//                    fragmentManager.beginTransaction().hide(activeFragment).show(addFragment).commit()
-//                    activeFragment = addFragment
-//                    true
-//                }
-
                 R.id.admin_panel -> {
                     fragmentManager.beginTransaction().hide(activeFragment).show(adminPanelFragment).commit()
                     activeFragment = adminPanelFragment
@@ -97,7 +91,7 @@ class BottomNavActivity : BaseActivity() {
         }
 
         // Responsible for logging out the player and taking it to the login screen
-        Singleton.mAuth.addAuthStateListener { firebaseAuth ->
+        Singleton.AUTH.addAuthStateListener { firebaseAuth ->
             if (firebaseAuth.currentUser == null) {
                 val intent = Intent(this, LoginActivity::class.java)
                 Preferences(this).clearPreferences()

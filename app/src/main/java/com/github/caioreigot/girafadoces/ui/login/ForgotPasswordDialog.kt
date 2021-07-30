@@ -21,7 +21,6 @@ class ForgotPasswordDialog : DialogFragment(R.layout.dialog_forgot_password) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setStyle(STYLE_NO_TITLE, R.style.FullScreenDialog)
     }
 

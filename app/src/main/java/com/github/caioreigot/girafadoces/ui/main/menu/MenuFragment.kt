@@ -65,7 +65,7 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
         menuViewModel.getMenuItems()
 
         //region Observers
-        menuViewModel.menuItemsLD.observe(viewLifecycleOwner, {
+        menuViewModel.menuItems.observe(viewLifecycleOwner, {
             it?.let { menuItems ->
                 progressBar.visibility = View.GONE
 

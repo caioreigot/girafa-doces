@@ -100,48 +100,51 @@ class LoginActivity : BaseActivity() {
         }
         //endregion
 
-        //region Observers
-        loginViewModel.loggedUserInformationLD.observe(this, { loggedUserAndPassword ->
-            loggedUserAndPassword?.let { (loggedUser, password) ->
-                loggedUser?.let {
-                    UserSingleton.set(loggedUser)
+        // Observers
+        with (loginViewModel) {
+            val thisActivity = this@LoginActivity
 
-                    if (keepConnectedCB.isChecked)
-                        loginViewModel.rememberAccount(loggedUser.email, password)
+            loggedUserInformationLD.observe(thisActivity, { loggedUserAndPassword ->
+                loggedUserAndPassword?.let { (loggedUser, password) ->
+                    loggedUser?.let {
+                        UserSingleton.set(loggedUser)
 
-                    val intent = Intent(this, BottomNavActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                        if (keepConnectedCB.isChecked)
+                            rememberAccount(loggedUser.email, password)
+
+                        val intent = Intent(thisActivity, BottomNavActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
                 }
-            }
-        })
+            })
 
-        loginViewModel.loginBtnViewFlipperLD.observe(this, {
-            it?.let { childToDisplay ->
-                viewFlipper.displayedChild = childToDisplay
-            }
-        })
+            loginBtnViewFlipperLD.observe(thisActivity, {
+                it?.let { childToDisplay ->
+                    viewFlipper.displayedChild = childToDisplay
+                }
+            })
 
-        loginViewModel.errorMessageLD.observe(this, { errorMessage ->
-            createMessageDialog(
-                this,
-                MessageType.ERROR,
-                getString(R.string.dialog_error_title),
-                errorMessage,
-                null
-            ).show()
-        })
+            errorMessageLD.observe(thisActivity, { errorMessage ->
+                createMessageDialog(
+                    thisActivity,
+                    MessageType.ERROR,
+                    getString(R.string.dialog_error_title),
+                    errorMessage,
+                    null
+                ).show()
+            })
 
-        loginViewModel.resetPasswordMessageLD.observe(this, { (messageType, message) ->
-            createMessageDialog(
-                this,
-                messageType,
-                if (messageType == MessageType.ERROR) getString(R.string.dialog_error_title)
-                else getString(R.string.dialog_successful_title),
-                message,
-                null
-            ).show()
-        })
-        //endregion
+            resetPasswordMessageLD.observe(thisActivity, { (messageType, message) ->
+                createMessageDialog(
+                    thisActivity,
+                    messageType,
+                    if (messageType == MessageType.ERROR) getString(R.string.dialog_error_title)
+                    else getString(R.string.dialog_successful_title),
+                    message,
+                    null
+                ).show()
+            })
+        }
     }
 }

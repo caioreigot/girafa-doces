@@ -2,6 +2,7 @@ package com.github.caioreigot.girafadoces.data.model
 
 object Global {
 
+    const val AUTH_TIME_OUT_IN_MILLIS = 10000L
     const val PASSWORD_MINIMUM_LENGTH = 6
 
     object DatabaseNames {
@@ -22,5 +23,9 @@ object Global {
         //region admins
         const val ADMINS_PARENT = "admins"
         //endregion
+    }
+
+    object StorageNames {
+        const val MENU_IMAGES = "menu_images"
     }
 }

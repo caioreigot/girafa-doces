@@ -2,12 +2,10 @@ package com.github.caioreigot.girafadoces.ui.main.account
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.ViewFlipper
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -76,7 +74,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
                 MessageType.CONFIRMATION,
                 R.string.dialog_confirmation_title,
                 R.string.account_sign_out_dialog_message,
-                { Singleton.mAuth.signOut() }
+                { Singleton.AUTH.signOut() }
             )
 
             mConfirmSignOutDialog?.show()
@@ -105,7 +103,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         //endregion
 
         //region Observers
-        accountViewModel.userAccountInformationLD.observe(viewLifecycleOwner, {
+        accountViewModel.userAccountInformation.observe(viewLifecycleOwner, {
             it?.let { user ->
                 UserSingleton.set(user)
 
@@ -118,13 +116,13 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             }
         })
 
-        accountViewModel.loadingViewFlipperLD.observe(viewLifecycleOwner, {
+        accountViewModel.loadingViewFlipper.observe(viewLifecycleOwner, {
             it?.let { childToDisplay ->
                 loadingViewFlipper.displayedChild = childToDisplay
             }
         })
 
-        accountViewModel.reloadInformationLD.observe(viewLifecycleOwner, {
+        accountViewModel.reloadInformation.observe(viewLifecycleOwner, {
             accountViewModel.fetchUserAccountInformation()
         })
         //endregion
