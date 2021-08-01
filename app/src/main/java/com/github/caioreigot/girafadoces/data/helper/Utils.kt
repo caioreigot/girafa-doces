@@ -8,13 +8,25 @@ import android.widget.EditText
 import com.github.caioreigot.girafadoces.data.model.ErrorType
 import com.github.caioreigot.girafadoces.data.model.Global
 import com.github.caioreigot.girafadoces.data.model.User
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
 
 class Utils {
 
     companion object {
+        fun parseUserToJson(user: User): String =
+            Gson().toJson(user)
+
+        fun parseJsonToUser(json: String): User {
+            val gson = Gson()
+            val type: Type = object : TypeToken<User>() {}.type
+
+            return gson.fromJson(json, type)
+        }
+
         fun isValidEmail(target: CharSequence?): Boolean =
             !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target!!).matches()
-
 
         fun isValidPhoneNumber(target: CharSequence?, template: CharSequence): Boolean {
 

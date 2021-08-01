@@ -2,32 +2,48 @@ package com.github.caioreigot.girafadoces.ui.main.menu.order
 
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.ViewFlipper
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.github.caioreigot.girafadoces.R
+import com.github.caioreigot.girafadoces.data.model.Order
+import com.github.caioreigot.girafadoces.data.model.Product
+import com.github.caioreigot.girafadoces.data.model.ServiceResult
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
-class OrderDialog : DialogFragment(R.layout.dialog_order) {
+class OrderDialog(
+    private val product: Product,
+    private val handleOrderCallback: (ServiceResult) -> Unit
+) : DialogFragment(R.layout.dialog_order) {
 
     private val orderViewModel: OrderViewModel by viewModels()
 
     private lateinit var amountTV: TextView
     private lateinit var leftArrowBtnIV: ImageView
     private lateinit var rightArrowBtnIV: ImageView
+    private lateinit var userObservationET: EditText
     private lateinit var confirmOrderBtnCV: CardView
+    private lateinit var viewFlipper: ViewFlipper
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         //region Assignments
-        amountTV = view.findViewById(R.id.order_dialog_amount_tv)
-        leftArrowBtnIV = view.findViewById(R.id.order_dialog_left_arrow_iv)
-        rightArrowBtnIV = view.findViewById(R.id.order_dialog_right_arrow_iv)
-        confirmOrderBtnCV = view.findViewById(R.id.confirm_order_btn_cv)
+        with (view) {
+            amountTV = findViewById(R.id.order_dialog_amount_tv)
+            leftArrowBtnIV = findViewById(R.id.order_dialog_left_arrow_iv)
+            rightArrowBtnIV = findViewById(R.id.order_dialog_right_arrow_iv)
+            userObservationET = findViewById(R.id.observation_et)
+            confirmOrderBtnCV = findViewById(R.id.confirm_order_btn_cv)
+            viewFlipper = findViewById(R.id.confirm_order_view_flipper)
+        }
         //endregion
 
         //region Listeners
@@ -40,16 +56,46 @@ class OrderDialog : DialogFragment(R.layout.dialog_order) {
         }
 
         confirmOrderBtnCV.setOnClickListener {
-            orderViewModel.confirmOrder()
+            dialog?.setCancelable(false)
+            dialog?.setCanceledOnTouchOutside(false)
+
+            val formatter = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ROOT)
+            val date = formatter.format(Date())
+            val dateFormatted = date.replace(" ", " as ")
+
+            val order = Order(
+                quantity = Integer.parseInt(amountTV.text.toString()),
+                userObservation = userObservationET.text.toString(),
+                product = product.header
+            )
+
+            orderViewModel.confirmOrder(order, product, dateFormatted)
         }
         //endregion
 
         //region Observers
-        orderViewModel.amount.observe(viewLifecycleOwner, {
-            it?.let { amount ->
-                amountTV.text = amount
-            }
-        })
+        with (orderViewModel) {
+            val thisActivity = this@OrderDialog
+
+            amount.observe(viewLifecycleOwner, {
+                it?.let { amount ->
+                    amountTV.text = amount
+                }
+            })
+
+            viewFlipper.observe(viewLifecycleOwner, {
+                it?.let { childToDisplay ->
+                    thisActivity.viewFlipper.displayedChild = childToDisplay
+                }
+            })
+
+            orderResult.observe(viewLifecycleOwner, {
+                it?.let { result ->
+                    handleOrderCallback(result)
+                    dialog?.dismiss()
+                }
+            })
+        }
         //endregion
     }
 }

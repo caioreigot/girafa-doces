@@ -18,6 +18,15 @@ object UserSingleton {
         }
     }
 
+    fun getUserObject(): User =
+        user {
+            fullName = UserSingleton.fullName
+            email = UserSingleton.email
+            phoneNumber = UserSingleton.phoneNumber
+            deliveryAddress = UserSingleton.deliveryAddress
+            isAdmin = UserSingleton.isAdmin
+        }
+
     fun clear() {
         fullName = ""
         email = ""

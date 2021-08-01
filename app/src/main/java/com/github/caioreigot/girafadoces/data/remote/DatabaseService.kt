@@ -253,7 +253,7 @@ class DatabaseService @Inject constructor() : DatabaseRepository {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (menuItem in snapshot.children) {
                     menuItem.key?.let { key ->
-                        val item: MenuItem? = menuItem.getValue(MenuItem::class.java)
+                        val item = menuItem.getValue(MenuItem::class.java)
 
                         if (item != null) {
                             item.uid = key
@@ -279,18 +279,48 @@ class DatabaseService @Inject constructor() : DatabaseRepository {
         val key: String? = Singleton.DATABASE_MENU_ITEMS_REF.push().key
 
         key?.let { uid ->
-            with(Singleton.DATABASE_MENU_ITEMS_REF.child(uid)) {
+            with (Singleton.DATABASE_MENU_ITEMS_REF.child(uid)) {
                 child(Global.DatabaseNames.MENU_ITEM_HEADER).setValue(itemHeader)
                 child(Global.DatabaseNames.MENU_ITEM_CONTENT).setValue(itemContent)
             }
 
-                .addOnCompleteListener { task ->
-                    when (task.isSuccessful) {
-                        true -> callback(uid, ServiceResult.Success)
-                        false -> callback(null, ServiceResult.Error(ErrorType.SERVER_ERROR))
-                    }
+            .addOnCompleteListener { task ->
+                when (task.isSuccessful) {
+                    true -> callback(uid, ServiceResult.Success)
+                    false -> callback(null, ServiceResult.Error(ErrorType.SERVER_ERROR))
                 }
+            }
         } ?: callback(null, ServiceResult.Error(ErrorType.SERVER_ERROR))
+    }
+
+    override fun sendUserOrder(
+        userJson: String,
+        userUid: String,
+        timeOrdered: String,
+        order: Order,
+        product: Product,
+        callback: (ServiceResult) -> Unit
+    ) {
+        val uid: String? = Singleton.AUTH.currentUser?.uid
+
+        uid?.let {
+            val orderReference = Singleton.DATABASE_ORDERS_REF.child(it).child(product.header)
+
+            with (orderReference) {
+                child(Global.DatabaseNames.ORDER_USER_JSON).setValue(userJson)
+                child(Global.DatabaseNames.ORDER_TIME_ORDERED).setValue(timeOrdered)
+                child(Global.DatabaseNames.ORDER_USER_UID).setValue(userUid)
+                child(Global.DatabaseNames.ORDER_MENU_ITEM_UID).setValue(product.uid)
+                child(Global.DatabaseNames.ORDER_PRODUCT_HEADER).setValue(product.header)
+                child(Global.DatabaseNames.ORDER_QUANTITY).setValue(order.quantity)
+                child(Global.DatabaseNames.ORDER_USER_OBSERVATION).setValue(order.userObservation)
+                child(Global.DatabaseNames.ORDER_USER_CONFIRMED_DELIVERY).setValue(false)
+            }
+
+            .addOnSuccessListener { callback(ServiceResult.Success) }
+            .addOnFailureListener { callback(ServiceResult.Error(ErrorType.SERVER_ERROR)) }
+        }
+            ?: callback(ServiceResult.Error(ErrorType.UNEXPECTED_ERROR))
     }
 
     override fun removeMenuItem(

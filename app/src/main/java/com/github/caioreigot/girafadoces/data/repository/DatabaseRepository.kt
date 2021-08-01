@@ -1,9 +1,6 @@
 package com.github.caioreigot.girafadoces.data.repository
 
-import com.github.caioreigot.girafadoces.data.model.ServiceResult
-import com.github.caioreigot.girafadoces.data.model.MenuItem
-import com.github.caioreigot.girafadoces.data.model.User
-import com.github.caioreigot.girafadoces.data.model.UserAccountField
+import com.github.caioreigot.girafadoces.data.model.*
 
 interface DatabaseRepository {
     fun getLoggedUserInformation(
@@ -39,6 +36,15 @@ interface DatabaseRepository {
         itemHeader: String,
         itemContent: String,
         callback: (uid: String?, serviceResult: ServiceResult) -> Unit
+    )
+
+    fun sendUserOrder(
+        userJson: String,
+        userUid: String,
+        timeOrdered: String,
+        order: Order,
+        product: Product,
+        callback: (ServiceResult) -> Unit
     )
 
     fun removeMenuItem(

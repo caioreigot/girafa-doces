@@ -126,8 +126,7 @@ class AdminMenuDialog : DialogFragment(R.layout.fragment_add) {
             (activity as BottomNavActivity).showMessageDialog(
                 MessageType.SUCCESSFUL,
                 R.string.dialog_successful_title,
-                message,
-                null
+                message
             )
         })
         //endregion

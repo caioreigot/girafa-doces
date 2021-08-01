@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.caioreigot.girafadoces.R
 import com.github.caioreigot.girafadoces.data.helper.ResourcesProvider
 import com.github.caioreigot.girafadoces.data.model.MenuItem
+import com.github.caioreigot.girafadoces.data.model.Product
 import javax.inject.Inject
 
 class MenuAdapter @Inject constructor(
@@ -18,10 +19,10 @@ class MenuAdapter @Inject constructor(
 ) : RecyclerView.Adapter<MenuAdapter.MenuViewHolder>() {
 
     private lateinit var items: List<MenuItem>
-    private lateinit var openOrderDialog: () -> Unit
+    private lateinit var openOrderDialog: (product: Product) -> Unit
 
     /* It is vital to call this function to use this adapter */
-    fun setup(items: List<MenuItem>, openOrderDialog: () -> Unit) {
+    fun setup(items: List<MenuItem>, openOrderDialog: (product: Product) -> Unit) {
         this.items = items
         this.openOrderDialog = openOrderDialog
     }
@@ -45,13 +46,18 @@ class MenuAdapter @Inject constructor(
                 headerTV.letterSpacing = 0.05F
 
             bottomButtonCV.setOnClickListener {
-                openOrderDialog()
+                openOrderDialog(Product(
+                    uid = item.uid,
+                    header = item.header,
+                    content = item.content
+                ))
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_menu, parent, false)
+        val inflater = LayoutInflater.from(parent.context)
+        val view = inflater.inflate(R.layout.item_menu, parent, false)
         return MenuViewHolder(view)
     }
 
@@ -59,7 +65,5 @@ class MenuAdapter @Inject constructor(
         holder.bind(items[position])
     }
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
+    override fun getItemCount(): Int = items.size
 }

@@ -23,6 +23,7 @@ data class User (
 )
 
 class Builder {
+
     var fullName: String = ""
     var email: String = ""
     var phoneNumber: String = ""

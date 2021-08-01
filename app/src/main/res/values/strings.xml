@@ -75,6 +75,7 @@
 
     <!-- Menu Fragment -->
     <string name="drag_sideways">&lt; ARRASTE PARA OS LADOS &gt;</string>
+    <string name="order_confirmed_message">Pedido confirmado com sucesso!</string>
 
     <!-- Order Dialog -->
     <string name="enter_order_quantity">Deseja pedir quantos deste?</string>

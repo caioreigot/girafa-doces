@@ -12,6 +12,8 @@ object Singleton {
 
     private fun getDatabaseInstance(): FirebaseDatabase = FirebaseDatabase.getInstance()
 
+    private fun getStorageInstance() = FirebaseStorage.getInstance()
+
     private fun getDatabaseUsersReference(): DatabaseReference = DATABASE_INSTANCE
         .reference
         .child(Global.DatabaseNames.USERS_PARENT)
@@ -24,17 +26,20 @@ object Singleton {
         .reference
         .child(Global.DatabaseNames.MENU_ITEMS_PARENT)
 
-    private fun getStorageInstance() = FirebaseStorage.getInstance()
+    private fun getDatabaseOrdersReference(): DatabaseReference = DATABASE_INSTANCE
+        .reference
+        .child(Global.DatabaseNames.ORDERS_PARENT)
 
     private fun getMenuItemsStorageReference(): StorageReference = FIREBASE_STORAGE_INSTANCE
         .reference
         .child(Global.StorageNames.MENU_IMAGES)
 
     val AUTH: FirebaseAuth = getAuthInstance()
-    val DATABASE_INSTANCE: FirebaseDatabase = getDatabaseInstance()
+    private val DATABASE_INSTANCE: FirebaseDatabase = getDatabaseInstance()
+    private val FIREBASE_STORAGE_INSTANCE = getStorageInstance()
     val DATABASE_USERS_REF: DatabaseReference = getDatabaseUsersReference()
     val DATABASE_ADMINS_REF: DatabaseReference = getDatabaseAdminsReference()
     val DATABASE_MENU_ITEMS_REF: DatabaseReference = getDatabaseMenuItemsReference()
-    val FIREBASE_STORAGE_INSTANCE = getStorageInstance()
+    val DATABASE_ORDERS_REF: DatabaseReference = getDatabaseOrdersReference()
     val STORAGE_MENU_ITEMS_REF = getMenuItemsStorageReference()
 }

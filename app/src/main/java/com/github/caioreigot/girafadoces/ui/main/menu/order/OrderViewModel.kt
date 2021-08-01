@@ -3,6 +3,9 @@ package com.github.caioreigot.girafadoces.ui.main.menu.order
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.github.caioreigot.girafadoces.data.helper.SingleLiveEvent
+import com.github.caioreigot.girafadoces.data.helper.Utils.Companion.parseUserToJson
+import com.github.caioreigot.girafadoces.data.model.*
 import com.github.caioreigot.girafadoces.data.repository.DatabaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -11,6 +14,19 @@ import javax.inject.Inject
 class OrderViewModel @Inject constructor(
     private val database: DatabaseRepository
 ) : ViewModel() {
+
+    companion object {
+        private const val VIEW_FLIPPER_BUTTON = 0
+        private const val VIEW_FLIPPER_PROGRESS_BAR = 1
+    }
+
+    private val _viewFlipper: MutableLiveData<Int> = MutableLiveData()
+    val viewFlipper: LiveData<Int>
+        get() = _viewFlipper
+
+    private val _orderResult: SingleLiveEvent<ServiceResult> = SingleLiveEvent()
+    val orderResult: LiveData<ServiceResult>
+        get() = _orderResult
 
     private val minAmount: Int = 1
     private val maxAmount: Int = 999
@@ -39,7 +55,25 @@ class OrderViewModel @Inject constructor(
         _amount.value = (--amountDefaultValue).toString()
     }
 
-    fun confirmOrder() {
-        // TODO
+    fun confirmOrder(
+        order: Order,
+        product: Product,
+        timeOrdered: String,
+    ) {
+        _viewFlipper.value = VIEW_FLIPPER_PROGRESS_BAR
+
+        val userJson = parseUserToJson(UserSingleton.getUserObject())
+        val userUid = Singleton.AUTH.currentUser?.uid ?: ""
+
+        database.sendUserOrder(
+            userJson,
+            userUid,
+            timeOrdered,
+            order,
+            product
+        ) { result ->
+            _viewFlipper.value = VIEW_FLIPPER_BUTTON
+            _orderResult.value = result
+        }
     }
 }

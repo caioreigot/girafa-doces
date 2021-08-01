@@ -67,7 +67,7 @@ class StorageService : StorageRepository {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful)
                     callback(ServiceResult.Success)
-                else if (task.isCanceled)
+                else
                     callback(ServiceResult.Error(ErrorType.UNEXPECTED_ERROR))
             }
     }
