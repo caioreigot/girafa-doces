@@ -61,7 +61,7 @@
                     android:layout_gravity="center"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="@string/informations"
+                    android:text="@string/information"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     app:autoSizeMaxTextSize="15sp"

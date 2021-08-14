@@ -113,5 +113,4 @@ class AdministratorsDialog : DialogFragment(R.layout.dialog_administrators) {
 
     private fun removeAdmin(adminEmail: String, position: Int) =
         administratorsViewModel.removeAdmin(adminEmail, position)
-
 }

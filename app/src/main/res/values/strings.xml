@@ -8,7 +8,7 @@
     <string name="save">SALVAR</string>
     <string name="add_button">ADICIONAR</string>
     <string name="remove">REMOVER</string>
-    <string name="informations">INFORMAÇÕES</string>
+    <string name="information">INFORMAÇÕES</string>
     <string name="dialog_ok_button">Ok</string>
     <string name="dialog_cancel_button">Cancelar</string>
     <string name="dialog_yes_button">Sim</string>
@@ -35,6 +35,9 @@
     <string name="login">ENTRAR</string>
     <string name="register">CADASTRE-SE</string>
     <string name="sign_up">CADASTRAR</string>
+
+    <!-- Orders Activity -->
+    <string name="orders">PEDIDOS</string>
 
     <!-- Login Activity Result Messages -->
     <string name="login_error">Erro ao logar</string>

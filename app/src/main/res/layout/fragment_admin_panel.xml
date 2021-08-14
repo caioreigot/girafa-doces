@@ -26,7 +26,7 @@
             <ImageView
                 android:layout_width="180dp"
                 android:layout_height="180dp"
-                android:src="@drawable/ic_baseline_menu_24"
+                app:srcCompat="@drawable/ic_baseline_menu_24"
                 app:tint="@color/primaryPink" />
 
             <TextView
@@ -75,7 +75,7 @@
             <ImageView
                 android:layout_width="180dp"
                 android:layout_height="180dp"
-                android:src="@drawable/ic_baseline_admin_panel_settings_24"
+                app:srcCompat="@drawable/ic_baseline_admin_panel_settings_24"
                 app:tint="@color/primaryPink" />
 
             <TextView
