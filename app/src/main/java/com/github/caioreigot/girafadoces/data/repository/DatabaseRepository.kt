@@ -1,5 +1,6 @@
 package com.github.caioreigot.girafadoces.data.repository
 
+import android.app.Service
 import com.github.caioreigot.girafadoces.data.model.*
 
 interface DatabaseRepository {
@@ -39,12 +40,13 @@ interface DatabaseRepository {
     )
 
     fun sendUserOrder(
-        userJson: String,
-        userUid: String,
-        timeOrdered: String,
         order: Order,
-        product: Product,
+        userJson: String,
         callback: (ServiceResult) -> Unit
+    )
+
+    fun getAllUsersOrders(
+        callback: (orders: MutableList<Order>?, result: ServiceResult) -> Unit
     )
 
     fun removeMenuItem(

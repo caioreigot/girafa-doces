@@ -43,6 +43,7 @@ object Global {
         const val ORDER_USER_UID = "user_uid"
         const val ORDER_MENU_ITEM_UID = "menu_item_uid"
         const val ORDER_PRODUCT_HEADER = "product_header"
+        const val ORDER_PRODUCT_CONTENT = "product_content"
         const val ORDER_QUANTITY = "quantity"
         const val ORDER_USER_OBSERVATION = "user_observation"
         const val ORDER_USER_CONFIRMED_DELIVERY = "user_confirmed_delivery"

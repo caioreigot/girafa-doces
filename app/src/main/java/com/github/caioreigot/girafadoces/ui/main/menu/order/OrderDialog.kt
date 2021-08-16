@@ -10,9 +10,8 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.github.caioreigot.girafadoces.R
-import com.github.caioreigot.girafadoces.data.model.Order
-import com.github.caioreigot.girafadoces.data.model.Product
-import com.github.caioreigot.girafadoces.data.model.ServiceResult
+import com.github.caioreigot.girafadoces.data.helper.Utils
+import com.github.caioreigot.girafadoces.data.model.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
@@ -59,17 +58,23 @@ class OrderDialog(
             dialog?.setCancelable(false)
             dialog?.setCanceledOnTouchOutside(false)
 
+            val userJson = Utils.parseUserToJson(UserSingleton.getUserObject())
+            val userUid = Singleton.AUTH.currentUser?.uid ?: ""
+
             val formatter = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ROOT)
             val date = formatter.format(Date())
             val dateFormatted = date.replace(" ", " as ")
 
             val order = Order(
-                quantity = Integer.parseInt(amountTV.text.toString()),
+                userUid = userUid,
+                user = user {},
+                product = product,
+                timeOrdered = dateFormatted,
+                quantity = amountTV.text.toString(),
                 userObservation = userObservationET.text.toString(),
-                product = product.header
             )
 
-            orderViewModel.confirmOrder(order, product, dateFormatted)
+            orderViewModel.confirmOrder(order, userJson)
         }
         //endregion
 

@@ -57,21 +57,11 @@ class OrderViewModel @Inject constructor(
 
     fun confirmOrder(
         order: Order,
-        product: Product,
-        timeOrdered: String,
+        userJson: String
     ) {
         _viewFlipper.value = VIEW_FLIPPER_PROGRESS_BAR
 
-        val userJson = parseUserToJson(UserSingleton.getUserObject())
-        val userUid = Singleton.AUTH.currentUser?.uid ?: ""
-
-        database.sendUserOrder(
-            userJson,
-            userUid,
-            timeOrdered,
-            order,
-            product
-        ) { result ->
+        database.sendUserOrder(order, userJson) { result ->
             _viewFlipper.value = VIEW_FLIPPER_BUTTON
             _orderResult.value = result
         }

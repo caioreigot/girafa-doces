@@ -47,7 +47,7 @@ class MenuAdapter @Inject constructor(
 
             bottomButtonCV.setOnClickListener {
                 openOrderDialog(Product(
-                    uid = item.uid,
+                    storageUid = item.uid,
                     header = item.header,
                     content = item.content
                 ))

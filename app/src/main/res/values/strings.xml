@@ -36,8 +36,14 @@
     <string name="register">CADASTRE-SE</string>
     <string name="sign_up">CADASTRAR</string>
 
-    <!-- Orders Activity -->
+    <!-- Orders Dialog -->
     <string name="orders">PEDIDOS</string>
+    <string name="ordered_product">Produto pedido:</string>
+    <string name="order_quantity">Quantidade:</string>
+    <string name="order_address">Endereço:</string>
+    <string name="client_details">DETALHES DO CLIENTE</string>
+    <string name="client_observation">OBSERVAÇÃO DO CLIENTE</string>
+    <string name="remove_order">REMOVER PEDIDO</string>
 
     <!-- Login Activity Result Messages -->
     <string name="login_error">Erro ao logar</string>

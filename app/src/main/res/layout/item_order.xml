@@ -11,9 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/primaryPink"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
         <TextView
+            android:id="@+id/time_ordered_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/primaryPink"
@@ -46,12 +48,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:text="@string/ordered_product"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                tools:text="Produto pedido: " />
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/ordered_product_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -62,12 +65,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:text="@string/order_quantity"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                tools:text="Quantidade: " />
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/order_quantity_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -78,17 +82,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:text="@string/order_address"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                tools:text="Endereço: " />
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/order_address_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="10"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                tools:text="Rua Aleatória nº 99" />
+                tools:text="Rua Aleatória nº 198" />
 
         </LinearLayout>
 
@@ -100,11 +107,36 @@
             android:paddingEnd="1dp"
             android:paddingBottom="1dp">
 
+            <LinearLayout
+                android:id="@+id/observation_button_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/client_observation_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:text="@string/client_observation"
+                    android:textColor="@color/primaryPink" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/primaryPink"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp" />
+
+            </LinearLayout>
+
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/client_details_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:text="DETALHES DO CLIENTE"
+                android:text="@string/client_details"
                 android:textColor="@color/primaryPink" />
 
             <View
@@ -115,10 +147,11 @@
                 android:paddingEnd="10dp" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/remove_order_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:text="REMOVER PEDIDO"
+                android:text="@string/remove_order"
                 android:textColor="@color/primaryPink" />
 
         </LinearLayout>

@@ -294,24 +294,24 @@ class DatabaseService @Inject constructor() : DatabaseRepository {
     }
 
     override fun sendUserOrder(
-        userJson: String,
-        userUid: String,
-        timeOrdered: String,
         order: Order,
-        product: Product,
+        userJson: String,
         callback: (ServiceResult) -> Unit
     ) {
         val uid: String? = Singleton.AUTH.currentUser?.uid
 
         uid?.let {
-            val orderReference = Singleton.DATABASE_ORDERS_REF.child(it).child(product.header)
+            val orderReference = Singleton.DATABASE_ORDERS_REF
+                .child(it)
+                .child(order.product.header)
 
             with (orderReference) {
                 child(Global.DatabaseNames.ORDER_USER_JSON).setValue(userJson)
-                child(Global.DatabaseNames.ORDER_TIME_ORDERED).setValue(timeOrdered)
-                child(Global.DatabaseNames.ORDER_USER_UID).setValue(userUid)
-                child(Global.DatabaseNames.ORDER_MENU_ITEM_UID).setValue(product.uid)
-                child(Global.DatabaseNames.ORDER_PRODUCT_HEADER).setValue(product.header)
+                child(Global.DatabaseNames.ORDER_TIME_ORDERED).setValue(order.timeOrdered)
+                child(Global.DatabaseNames.ORDER_USER_UID).setValue(order.userUid)
+                child(Global.DatabaseNames.ORDER_MENU_ITEM_UID).setValue(order.product.storageUid)
+                child(Global.DatabaseNames.ORDER_PRODUCT_HEADER).setValue(order.product.header)
+                child(Global.DatabaseNames.ORDER_PRODUCT_CONTENT).setValue(order.product.content)
                 child(Global.DatabaseNames.ORDER_QUANTITY).setValue(order.quantity)
                 child(Global.DatabaseNames.ORDER_USER_OBSERVATION).setValue(order.userObservation)
                 child(Global.DatabaseNames.ORDER_USER_CONFIRMED_DELIVERY).setValue(false)
@@ -321,6 +321,62 @@ class DatabaseService @Inject constructor() : DatabaseRepository {
             .addOnFailureListener { callback(ServiceResult.Error(ErrorType.SERVER_ERROR)) }
         }
             ?: callback(ServiceResult.Error(ErrorType.UNEXPECTED_ERROR))
+    }
+
+    override fun getAllUsersOrders(
+        callback: (orders: MutableList<Order>?, result: ServiceResult) -> Unit
+    ) {
+        Singleton.DATABASE_ORDERS_REF.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                val mOrders: MutableList<Order> = mutableListOf()
+
+                for (userUid in snapshot.children) {
+                    val mUserUid = userUid.key.toString()
+
+                    for (order in userUid.children) {
+                        val mUser = Utils.parseJsonToUser(
+                            order.child(Global.DatabaseNames.ORDER_USER_JSON).value.toString()
+                        )
+
+                        val mProduct = Product(
+                            storageUid = order.child(Global.DatabaseNames.ORDER_MENU_ITEM_UID)
+                                .value.toString(),
+                            header = order.child(Global.DatabaseNames.ORDER_PRODUCT_HEADER)
+                                .value.toString(),
+                            content = order.child(Global.DatabaseNames.ORDER_PRODUCT_CONTENT)
+                                .value.toString()
+                        )
+
+                        val mTimeOrdered = order.child(Global.DatabaseNames.ORDER_TIME_ORDERED)
+                            .value.toString()
+
+                        val mQuantity = order.child(Global.DatabaseNames.ORDER_QUANTITY)
+                            .value.toString()
+
+                        val mUserObservation = order.child(Global.DatabaseNames.ORDER_USER_OBSERVATION)
+                            .value.toString()
+
+                        val mOrder = Order(
+                            userUid = mUserUid,
+                            user = mUser,
+                            product = mProduct,
+                            timeOrdered = mTimeOrdered,
+                            quantity = mQuantity,
+                            userObservation = mUserObservation
+                        )
+
+                        mOrders.add(mOrder)
+                    }
+                }
+
+                callback(mOrders, ServiceResult.Success)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                callback(null, ServiceResult.Error(ErrorType.SERVER_ERROR))
+            }
+        })
     }
 
     override fun removeMenuItem(
