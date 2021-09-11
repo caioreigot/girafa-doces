@@ -101,58 +101,51 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="55dp"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
             android:paddingStart="1dp"
             android:paddingEnd="1dp"
-            android:paddingBottom="1dp">
+            android:paddingBottom="1dp"
+            android:weightSum="1">
 
-            <LinearLayout
-                android:id="@+id/observation_button_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/client_observation_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:text="@string/client_observation"
-                    android:textColor="@color/primaryPink" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/primaryPink"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp" />
-
-            </LinearLayout>
-
-            <androidx.appcompat.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/client_details_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.33"
                 android:background="@color/white"
-                android:text="@string/client_details"
-                android:textColor="@color/primaryPink" />
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:scaleX="1.4"
+                android:scaleY="1.4"
+                android:tint="@color/primaryPink"
+                app:srcCompat="@drawable/ic_baseline_profile_outline_24" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/primaryPink"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp" />
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/client_observation_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.33"
+                android:background="@color/white"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:scaleX="1.4"
+                android:scaleY="1.4"
+                android:tint="@color/primaryPink"
+                app:srcCompat="@drawable/ic_baseline_event_note_24" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/remove_order_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.33"
                 android:background="@color/white"
-                android:text="@string/remove_order"
-                android:textColor="@color/primaryPink" />
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:scaleX="1.4"
+                android:scaleY="1.4"
+                app:srcCompat="@drawable/ic_baseline_close_24" />
 
         </LinearLayout>
 
